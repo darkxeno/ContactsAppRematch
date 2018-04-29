@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { select } from "@rematch/select";
 import ContactCard from "../../components/ContactCard";
 import { EDIT_PATHNAME } from "../../globals/pathNames";
+import { makeSelectContactById } from "../../models/contacts/selectors";
 
 class ContactPage extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ ContactPage.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  contact: select.contacts.makeSelectContact(state)(props.match.params.id),
+  contact: makeSelectContactById(props.match.params.id)(state),
   transitionToEditContact: id => props.history.push(`${EDIT_PATHNAME}/${id}`)
 });
 

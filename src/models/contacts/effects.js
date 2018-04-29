@@ -10,6 +10,7 @@ import {
 export default {
   async createContact(contact) {
     try {
+      await dispatch.groups.requestGroupList();
       const payload = await postContactService(contact);
       this.addContact(payload);
       dispatch.snackbar.setMessage("Contact created successfully");
@@ -37,6 +38,7 @@ export default {
   },
   async requestContactList() {
     try {
+      await dispatch.groups.requestGroupList();
       const payload = await getContactsService();
       this.listContacts(payload);
     } catch (error) {
@@ -45,6 +47,7 @@ export default {
   },
   async requestContact(id) {
     try {
+      await dispatch.groups.requestGroupList();
       const payload = await getContactService(id);
       this.updateContact(payload);
     } catch (error) {

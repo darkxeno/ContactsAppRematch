@@ -1,60 +1,60 @@
 import firebase from './index';
 
-const BASE_URL = "/jony";
+const BASE_URL = "/groups";
 
-export function getContactsService() {
+export function getGroupsService() {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.once(
       "value",
-      contactsDB => {
-        const contactsDBValue = contactsDB.val();
-        const contacts = [];
-        Object.keys(contactsDBValue).map((id) =>
-          contacts.push({
+      groupsDB => {
+        const groupsDBValue = groupsDB.val();
+        const groups = [];
+        Object.keys(groupsDBValue).map((id) =>
+          groups.push({
             id,
-            ...contactsDBValue[id]
+            ...groupsDBValue[id]
           })
         );
-        return resolve(contacts);
+        return resolve(groups);
       },
       err => reject(err)
     );
   });
 }
 
-export function getContactService(id) {
+export function getGroupService(id) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}/${id}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.once(
       "value",
-      contactDB => {
-        const contactDBValue = contactDB.val();
-        contactDBValue.id = id;
-        return resolve(contactDBValue);
+      groupDB => {
+        const groupDBValue = groupDB.val();
+        groupDBValue.id = id;
+        return resolve(groupDBValue);
       },
       err => reject(err)
     );
   });
 }
 
-export function postContactService(contact) {
+export function postGroupService(group) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}`);
   return new Promise((resolve, reject) => {
     const post = firebaseConnection.push();
-    post.set(contact, err => {
+    post.set(group, err => {
       if (err) {
         return reject(err);
       }
       return resolve({
         id: post.key,
-        ...contact,
+        ...group,
       });
     });
   });
 }
 
-export function updateContactService({ id, ...others }) {
+export function updateGroupService({ id, ...others }) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}/${id}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.set({ ...others }, err => {
@@ -69,7 +69,7 @@ export function updateContactService({ id, ...others }) {
   });
 }
 
-export function deleteContactService(id) {
+export function deleteGroupService(id) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}/${id}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.set(null, err => {

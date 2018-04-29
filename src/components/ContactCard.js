@@ -8,7 +8,7 @@ import FlatButton from "material-ui/FlatButton";
 
 // https://imgur.com/mbZIBzc
 const ContactCard = ({ contact, onEditClick, onDeleteClick, big }) => {
-  const { name, imgUrl, email, phoneNumber } = contact;
+  const { name, imgUrl, email, groups } = contact;
   return (
     <Card style={{ width: big ? "auto" : "300px", margin: "1em 0 0 0" }}>
       <CardMedia
@@ -30,7 +30,7 @@ const ContactCard = ({ contact, onEditClick, onDeleteClick, big }) => {
       <CardTitle
         titleStyle={{ fontSize: "12pt" }}
         title={email}
-        subtitle={phoneNumber || "Without phone"}
+        subtitle={groups || "Without group"}
       />
       <CardActions>
         <FlatButton onClick={onEditClick} label="Edit" />

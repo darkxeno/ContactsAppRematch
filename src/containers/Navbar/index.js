@@ -10,13 +10,15 @@ import IconElementList from "../../components/IconElementList";
 import {
   HOME_PATHNAME,
   LIST_PATHNAME,
-  ADD_PATHNAME
+  ADD_PATHNAME,
+  ADD_GROUP_PATHNAME
 } from "../../globals/pathNames";
 
 const textToRouter = {
   List: LIST_PATHNAME,
   About: HOME_PATHNAME,
-  "Add Contact": ADD_PATHNAME
+  "Add Contact": ADD_PATHNAME,
+  "Add Group": ADD_GROUP_PATHNAME
 };
 
 function renderIconElementRight(pathname, changeListMode) {
@@ -57,6 +59,9 @@ function Navbar({
         </MenuItem>
         <MenuItem onClick={handleClose} value={ADD_PATHNAME}>
           Add Contact
+        </MenuItem>
+        <MenuItem onClick={handleClose} value={ADD_GROUP_PATHNAME}>
+          Add Group
         </MenuItem>
       </Drawer>
     </React.Fragment>
