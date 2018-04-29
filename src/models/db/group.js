@@ -1,4 +1,4 @@
-import {fk, many, attr, Model} from 'redux-orm';
+import {attr, Model} from 'redux-orm';
 
 class Group extends Model {
     toString() {
@@ -9,8 +9,7 @@ Group.modelName = 'Group';
 
 Group.fields = {
     id: attr(),
-    name: attr(),
-    //contacts: many('Contact', 'groups')
+    name: attr()
 };
 
 export default Group;

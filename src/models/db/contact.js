@@ -1,4 +1,4 @@
-import {fk, many, attr, Model} from 'redux-orm';
+import {many, attr, Model} from 'redux-orm';
 
 class Contact extends Model {
     toString() {
