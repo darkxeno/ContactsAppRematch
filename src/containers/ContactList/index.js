@@ -105,8 +105,8 @@ ListContactPage.propTypes = {};
 
 const mapStateToProps = (state, props) => {
   return {
-    list: state.contacts.ids,
-    contacts: state.contacts.data,
+    list: state.contacts.Contact.items,
+    contacts: state.contacts.Contact.itemsById,
     settings: state.contactList,
     transitionToEditContact: id => props.history.push(`${EDIT_PATHNAME}/${id}`),
     transitionToContactDetail: id =>
