@@ -21,13 +21,8 @@ export default {
   },
   listContacts(dbState, payload) {    
     const session = orm.session(dbState);
-    const { Contact, Group } = session;
-    payload.forEach(contact => {
-      if( contact.groups && contact.groups.length ) {
-        contact.groups.map(group => Group.create({id: group}));
-      }
-      Contact.create(contact);
-    });
+    const { Contact } = session;
+    Contact.createOrUpdateAll(payload);
     return session.state;
   }
 };

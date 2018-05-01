@@ -4,7 +4,8 @@ import {
   ADD_PATHNAME,
   LIST_PATHNAME,
   EDIT_PATHNAME,
-  DETAIL_PATHNAME
+  DETAIL_PATHNAME,
+  ADD_GROUP_PATHNAME
 } from "./globals/pathNames";
 import About from "./containers/About";
 import ContactForm from "./containers/ContactForm";
@@ -13,6 +14,7 @@ import ContactDetail from "./containers/ContactDetail";
 import Navbar from "./containers/Navbar";
 import Loader from "./containers/Loader";
 import Snackbar from "./containers/Snackbar";
+import GroupForm from "./containers/GroupForm";
 
 class App extends Component {
   render() {
@@ -30,6 +32,7 @@ class App extends Component {
             path={`${DETAIL_PATHNAME}/:id`}
             component={ContactDetail}
           />
+          <Route exact path={ADD_GROUP_PATHNAME} component={GroupForm} />
           <Route component={About} />
         </Switch>
         <Snackbar />

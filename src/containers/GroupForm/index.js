@@ -4,12 +4,10 @@ import { connect } from "react-redux";
 import { Field, reduxForm, getFormValues } from "redux-form";
 import RaisedButton from "material-ui/RaisedButton";
 import FormTextField from "../../components/FormTextField";
-import FormMultiSelectField from "../../components/FormMultiSelectField";
 import validate from "./form-validations";
-import { makeSelectFormOptions } from "../../models/groups/selectors";
-import { makeSelectContactById } from "../../models/contacts/selectors";
+import { makeSelectGroupById } from "../../models/groups/selectors";
 
-const FORM_NAME = "contact";
+const FORM_NAME = "group";
 const styles = {
   formContainer: {
     display: "flex",
@@ -22,7 +20,7 @@ const styles = {
   }
 };
 
-class CreateOrEditContactPage extends Component {
+class CreateOrEditGroupPage extends Component {
   componentDidMount() {
     this.props.initializeView(this.props.match.params);
   }
@@ -41,45 +39,20 @@ class CreateOrEditContactPage extends Component {
       submitting,
       invalid,
       reset,
-      saveContact,
-      groupOptions
+      saveGroup
     } = this.props;
     return (
-      <form style={styles.formContainer} onSubmit={handleSubmit(saveContact)}>
+      <form style={styles.formContainer} onSubmit={handleSubmit(saveGroup)}>
         <Field
           name="name"
           label="Name"
           placeholder="Name"
           component={FormTextField}
         />
-        <Field
-          name="email"
-          label="Email"
-          placeholder="Email"
-          component={FormTextField}
-        />
-        <Field
-          name="phoneNumber"
-          label="Phone number"
-          placeholder="Phone number"
-          component={FormTextField}
-        />
-        <Field
-          name="imgUrl"
-          label="Profile image url"
-          placeholder="Profile image url"
-          component={FormTextField}
-        />
-        <Field
-          name="groups"
-          component={FormMultiSelectField}
-          label="Groups"
-          options={groupOptions}
-        />
         <div>
           <RaisedButton
             style={styles.buttonStyle}
-            label="Save contact"
+            label="Save group"
             primary
             type="submit"
             disabled={pristine || submitting || invalid}
@@ -97,28 +70,26 @@ class CreateOrEditContactPage extends Component {
   }
 }
 
-CreateOrEditContactPage.propTypes = {
-  contact: PropTypes.object
+CreateOrEditGroupPage.propTypes = {
+  group: PropTypes.object
 };
 
 const mapStateToProps = (store, props) => ({
-  initialValues: makeSelectContactById(props.match.params.id)(store),
-  groupOptions: makeSelectFormOptions()(store),
+  initialValues: makeSelectGroupById(props.match.params.id)(store),
   formValues: getFormValues(FORM_NAME)
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
   initializeView: params => {
-    dispatch.groups.requestGroupList();
     if (params && params.id) {
-      dispatch.contacts.requestContact(props.match.params.id);
+      dispatch.groups.requestGroup(props.match.params.id);
     }
   },
-  saveContact: contact => {
-    if (contact.id) {
-      dispatch.contacts.updateContactRequest(contact);
+  saveGroup: group => {
+    if (group.id) {
+      dispatch.groups.updateGroupRequest(group);
     } else {
-      dispatch.contacts.createContact(contact);
+      dispatch.groups.createGroup(group);
     }
     props.history.goBack();
   }
@@ -129,5 +100,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(
     form: FORM_NAME,
     enableReinitialize: true,
     validate
-  })(CreateOrEditContactPage)
+  })(CreateOrEditGroupPage)
 );
