@@ -1,7 +1,10 @@
+import { ORM } from 'redux-orm';
 //import reducers from "./reducer";
-import reducers from "./orm-reducer";
 import effects from "./effects";
-import orm from '../db/orm';
+import { Contact, Group } from '../db/index';
+
+const orm = new ORM();
+orm.register(Contact, Group);
 
 export default {
   /*state: {
@@ -9,6 +12,31 @@ export default {
     data: {}
   },*/
   state: orm.getEmptyState(),
-  reducers,
   effects,
+  reducers:{
+	  addContact(dbState, payload) {
+	    const session = orm.session(dbState);
+	    const { Contact } = session;
+	    Contact.create(payload);
+	    return session.state;
+	  },
+	  updateContact(dbState, payload) {
+	    const session = orm.session(dbState);
+	    const { Contact } = session;
+	    Contact.update(payload);
+	    return session.state;
+	  },
+	  deleteContact(dbState, payload) {
+	    const session = orm.session(dbState);
+	    const { Contact } = session;
+	    Contact.withId(payload.id).delete();
+	    return session.state;
+	  },
+	  listContacts(dbState, payload) {    
+	    const session = orm.session(dbState);
+	    const { Contact } = session;
+	    Contact.createOrUpdateAll(payload);
+	    return session.state;
+	  }
+	}
 };
