@@ -22,9 +22,10 @@ const contactsSelector = createORMSelector(
     dbStateSelector,
     session => {
       return session.Contact.all().toModelArray().map(contact=>{
-          return Object.assign({}, contact.ref, {
-            groups: contact.groupsRel.toRefArray().map(g=>g.name).join(', '),
-          });
+          return { 
+            ...contact.ref, 
+            groups: contact.groupsRel.toRefArray().map(g=>g.name).join(', ')
+          };
         });
     }
 );
