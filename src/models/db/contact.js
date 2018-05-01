@@ -7,37 +7,19 @@ class Contact extends Model {
     }  
 
     static createOrUpdateAll(contactsPayload){
-      const { Group } = this.session;
       contactsPayload.forEach(contact => {
-        // Only needed for maintaining the groups as inmutable models
-        if( contact.groups && contact.groups.length ) {
-          
-          contact.groupsRel=contact.groups.map(group => {
-            if(Group.hasId(group)){
-              return Group.withId(group)
-            } else {
-              return Group.create({id: group})
-            }
-          });
-        }
-        if(this.hasId(contact.id)){
-          this.withId(contact.id).update(contact);
-        } else {
-          this.create(contact);
-        }
-        
+        contact.groupsRel=contact.groups;
+        this.upsert(contact);
       });        
     }
 
     toString() {
         return `Contact: ${this.name}`;
     }
-    // Declare any static or instance methods you need.
 }
 
-// Declare your related fields.
 Contact.fields = {
-    id: attr(), // non-relational field for any value; optional but highly recommended
+    id: attr(),
     name: attr(),
     email: attr(),
     imgUrl: attr(),
