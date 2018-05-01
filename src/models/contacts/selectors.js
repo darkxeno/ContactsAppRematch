@@ -1,5 +1,8 @@
 import { createSelector } from "reselect";
+import { createSelector as createORMSelector } from 'redux-orm';
+import { orm } from './index';
 import { makeSelectGroupsData } from "../groups/selectors";
+
 
 const selectContactsDomain = () => state => state.contacts.Contact;
 
@@ -11,6 +14,26 @@ const makeSelectContactsData = () =>
 
 const makeSelectContactById = id =>
   createSelector(makeSelectContactsData(), contacts => contacts[id] || {});
+
+const dbStateSelector = state => state.contacts;
+
+const contactsSelector = createORMSelector(
+    orm,
+    dbStateSelector,
+    session => {
+      return session.Contact.all().toModelArray().map(contact=>{
+          return Object.assign({}, contact.ref, {
+            groups: contact.groupsRel.toRefArray().map(g=>g.name).join(', '),
+          });
+        });
+    }
+);
+
+const makeSelectContactListPopulated = () =>
+  createSelector(
+    contactsSelector,
+    contacts => contacts
+  );
 
 const makeSelectContactByIdPopulated = id =>
   createSelector(
@@ -27,18 +50,7 @@ const makeSelectContactByIdPopulated = id =>
     }
   );
 
-const makeSelectContactListPopulated = () =>
-  createSelector(
-    makeSelectContactsIds(),
-    makeSelectContactsData(),
-    makeSelectGroupsData(),
-    (ids, data, groups) => {
-      return ids.map(id => ({
-        ...data[id],
-        groups: (data[id].groups || []).map(groupId => groups[groupId].name).join(', ')
-      }));
-    }
-  );
+
 
 export {
   selectContactsDomain,

@@ -53,5 +53,5 @@ export default {
     } catch (error) {
       dispatch.snackbar.displayError(error);
     }
-  }
+  } 
 };

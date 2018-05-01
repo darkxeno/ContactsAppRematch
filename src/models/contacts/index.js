@@ -3,14 +3,14 @@ import { ORM } from 'redux-orm';
 import effects from "./effects";
 import { Contact, Group } from '../db/index';
 
-const orm = new ORM();
+export const orm = new ORM();
 orm.register(Contact, Group);
 
 export default {
   /*state: {
     ids: [],
     data: {}
-  },*/
+  },*/  
   state: orm.getEmptyState(),
   effects,
   reducers:{
@@ -37,6 +37,12 @@ export default {
 	    const { Contact } = session;
 	    Contact.createOrUpdateAll(payload);
 	    return session.state;
-	  }
+	  },
+	  updateGroups(dbState, payload) {
+	    const session = orm.session(dbState);
+	    const { Group } = session;
+	    Group.createOrUpdateAll(payload);
+	    return session.state;
+	  } 	  
 	}
 };

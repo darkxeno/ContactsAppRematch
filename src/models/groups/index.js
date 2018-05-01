@@ -14,7 +14,7 @@ export default {
   state: orm.getEmptyState(),
   effects,
 	reducers: {
-		
+
 	  addGroup(dbState, payload) {
 	    const session = orm.session(dbState);
 	    const { Group } = session;
