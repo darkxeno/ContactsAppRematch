@@ -4,11 +4,7 @@ class Group extends Model {
 
     static createOrUpdateAll(groupsPayload){
       groupsPayload.forEach(group => {
-        if(this.hasId(group.id)){
-          this.withId(group.id).update(group);
-        } else {
-          this.create(group);
-        }
+        this.upsert(group);
       });        
     }
 
