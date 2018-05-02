@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Route, Switch } from "react-router-dom";
 import {
   ADD_PATHNAME,
@@ -16,7 +16,7 @@ import Loader from "./containers/Loader";
 import Snackbar from "./containers/Snackbar";
 import GroupForm from "./containers/GroupForm";
 
-class App extends Component {
+class App extends PureComponent {
   render() {
     const { location, history } = this.props;
     return (

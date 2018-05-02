@@ -83,6 +83,7 @@ export default compose(
   }),
   withHandlers({
     renderContactList: props => () => {
+      console.log(props.settings.mode);
       if (props.settings.mode === LIST_MODE) {
         return (
           <List>

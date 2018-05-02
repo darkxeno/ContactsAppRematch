@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ContactCard from "../../components/ContactCard";
 import { EDIT_PATHNAME } from "../../globals/pathNames";
 import { makeSelectContactById } from "../../models/contacts/selectors";
 
-class ContactPage extends Component {
+class ContactPage extends PureComponent {
   constructor(props) {
     super(props);
     this.onEditClick = this.onEditClick.bind(this);

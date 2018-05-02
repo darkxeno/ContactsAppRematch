@@ -6,10 +6,13 @@ export default {
   },
   reducers: {
     changeMode(state, payload) {
-      return {
-        ...state,
-        mode: payload || LIST_MODE
-      };
+      if(state.mode!==payload){
+        return {
+          ...state,
+          mode: payload || LIST_MODE
+        };
+      }
+      return state;
     }
   }
 };
