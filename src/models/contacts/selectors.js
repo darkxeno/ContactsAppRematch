@@ -20,14 +20,7 @@ const dbStateSelector = state => state.contacts;
 const contactsSelector = createORMSelector(
     orm,
     dbStateSelector,
-    session => {
-      return session.Contact.all().toModelArray().map(contact=>{
-          return { 
-            ...contact.ref, 
-            groups: contact.groupsRel.toRefArray().map(g=>g.name).join(', ')
-          };
-        });
-    }
+    session => session.Contact.toRefArrayPopulated()
 );
 
 const makeSelectContactListPopulated = () =>

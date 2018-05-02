@@ -39,7 +39,7 @@ export default {
     try {
       const payload = await getGroupsService();
       this.listGroups(payload);
-      await dispatch.contacts.updateGroups(payload);
+      dispatch.contacts.updateGroups(payload);
     } catch (error) {
       dispatch.snackbar.displayError(error);
     }

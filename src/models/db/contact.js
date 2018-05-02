@@ -13,6 +13,15 @@ class Contact extends Model {
       });        
     }
 
+    static toRefArrayPopulated() {
+      return this.all().toModelArray().map(contact=>{
+        return { 
+          ...contact.ref, 
+          groups: contact.groupsRel.toRefArray().map(g=>g.name).join(', ')
+        };
+      });      
+    }
+
     toString() {
         return `Contact: ${this.name}`;
     }
