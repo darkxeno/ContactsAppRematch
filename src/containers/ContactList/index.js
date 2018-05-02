@@ -83,11 +83,21 @@ export default compose(
   }),
   withHandlers({
     renderContactList: props => () => {
-      console.log(props.settings.mode);
+
       if (props.settings.mode === LIST_MODE) {
         return (
           <List>
-            <Subheader>Contacts</Subheader>
+            <div style={{
+              boxSizing: "border-box",
+              color: "rgba(0, 0, 0, 0.54)",
+              fontSize: "14px",
+              fontWeight: 500,
+              lineHeight: "48px",
+              paddingLeft: "16px",
+              width: "100%"
+            }}>
+              Contacts
+            </div>
             {props.renderContactListItems()}
           </List>
         );
