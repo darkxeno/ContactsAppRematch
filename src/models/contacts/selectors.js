@@ -6,8 +6,8 @@ import { makeSelectGroupsData } from "../groups/selectors";
 
 const selectContactsDomain = () => state => state.contacts.Contact;
 
-const makeSelectContactsIds = () =>
-  createSelector(selectContactsDomain(), contacts => contacts.items);
+//const makeSelectContactsIds = () =>
+//  createSelector(selectContactsDomain(), contacts => contacts.items);
 
 const makeSelectContactsData = () =>
   createSelector(selectContactsDomain(), contacts => contacts.itemsById);

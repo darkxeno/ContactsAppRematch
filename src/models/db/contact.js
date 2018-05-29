@@ -8,9 +8,15 @@ class Contact extends Model {
 
     static createOrUpdateAll(contactsPayload){
       contactsPayload.forEach(contact => {
-        contact.groupsRel=contact.groups;
+        if(contact.groups){
+          contact.groupsRel=contact.groups;
+        }
         this.upsert(contact);
       });        
+    }
+
+    addNewField(value){
+      this.property=value;
     }
 
     static toRefArrayPopulated() {

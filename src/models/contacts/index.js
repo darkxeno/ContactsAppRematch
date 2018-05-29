@@ -17,13 +17,17 @@ export default {
 	  addContact(dbState, payload) {
 	    const session = orm.session(dbState);
 	    const { Contact } = session;
+
 	    Contact.create(payload);
+
 	    return session.state;
 	  },
 	  updateContact(dbState, payload) {
 	    const session = orm.session(dbState);
 	    const { Contact } = session;
+
 	    Contact.update(payload);
+
 	    return session.state;
 	  },
 	  deleteContact(dbState, payload) {
@@ -35,13 +39,17 @@ export default {
 	  listContacts(dbState, payload) {    
 	    const session = orm.session(dbState);
 	    const { Contact } = session;
+
 	    Contact.createOrUpdateAll(payload);
+	    
 	    return session.state;
 	  },
 	  updateGroups(dbState, payload) {
 	    const session = orm.session(dbState);
 	    const { Group } = session;
+
 	    Group.createOrUpdateAll(payload);
+
 	    return session.state;
 	  } 	  
 	}

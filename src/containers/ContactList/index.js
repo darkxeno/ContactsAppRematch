@@ -9,7 +9,6 @@ import List from "material-ui/List";
 import ListItem from "material-ui/List/ListItem";
 import Avatar from "material-ui/Avatar";
 import Divider from "material-ui/Divider";
-import Subheader from "material-ui/Subheader";
 import IconButton from "material-ui/IconButton";
 import DeleteIcon from "material-ui/svg-icons/action/delete";
 import ContactCard from "../../components/ContactCard";

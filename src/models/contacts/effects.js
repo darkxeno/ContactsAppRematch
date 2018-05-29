@@ -22,6 +22,7 @@ export default {
     try {
       const payload = await updateContactService(contact);
       this.updateContact(payload);
+      
       dispatch.snackbar.setMessage("Contact updated successfully");
     } catch (error) {
       dispatch.snackbar.displayError(error);

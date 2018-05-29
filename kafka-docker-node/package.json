@@ -1,0 +1,16 @@
+{
+  "name": "kafka-testing",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "consumer": "KAFKA_URL=kafka://127.0.0.1:9092 node --experimental-modules consumer.mjs",
+    "producer": "KAFKA_URL=kafka://127.0.0.1:9092 node --experimental-modules producer.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cuid": "^2.1.1",
+    "no-kafka": "^3.1.7"
+  }
+}
