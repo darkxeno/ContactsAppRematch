@@ -1,5 +1,5 @@
 export default {
-  state: null,
+  state: '',
   reducers: {
     setMessage(state, payload) {
       return payload;

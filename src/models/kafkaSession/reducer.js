@@ -5,10 +5,11 @@ import { Type } from './actions';
 export const INITIAL_STATE = {
   heartbeatCount: 0,
   messages: [],
-  host: '127.0.0.1:9092',
-  clientId: '',
-  user: '',
-  password: ''
+  host: 'ws://127.0.0.1:3030/api/kafka/ws',
+  clientId: 'Tino',
+  user: 'admin',
+  password: 'admin',
+  //secure: true
 };
 
 const onUpdateHost = (state, action) => Object.assign({}, state, { host: action.payload });

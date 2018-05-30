@@ -1,5 +1,6 @@
 import { ORM } from 'redux-orm';
 //import reducers from "./reducer";
+import _ from 'lodash';
 import effects from "./effects";
 import { Contact, Group } from '../db/index';
 
@@ -14,6 +15,18 @@ export default {
   state: orm.getEmptyState(),
   effects,
   reducers:{
+
+  	'@@redux-lenses-streaming/KAFKA_MESSAGE': (dbState, payload) => {
+  	 	console.log('payload',payload);
+	    const session = orm.session(dbState);
+	    const { Contact } = session;
+
+	    _.map(payload.content,(message)=>{
+	    	return Contact.create(JSON.parse(message.value));
+	    })
+	    
+	    return session.state;
+	  },
 	  addContact(dbState, payload) {
 	    const session = orm.session(dbState);
 	    const { Contact } = session;
