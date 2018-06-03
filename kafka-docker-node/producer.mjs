@@ -1,13 +1,18 @@
 import topics from './topics';
-import Kafka from 'no-kafka';
+import k from 'kafka-streams';
 import cuid from 'cuid';
+import config from './config.js';
+
+const kafkaStreams = new k.KafkaStreams(config);
+const stream = kafkaStreams.getKStream(null);
+stream.to(topics.CONTACTS);
 
 console.log(`producing on ${topics.CONTACTS}`);
 
 
 const names = ['Tino', 'Jonatan', 'Jose', 'Miguel', 'Adrian', 'Suso'];
 
-function startSending(p) {
+function startSending() {
   // unique messages
   let counter = 1;
   setInterval(() => {
@@ -24,27 +29,15 @@ function startSending(p) {
 
     console.log('Sending:', value);
 
-    p.send({
-        topic: topics.CONTACTS,
-        partition: 0, // which partition to target - only 1 in this demo
-        message: {
-          key,
-          value: JSON.stringify(value)
-        }
+    stream.writeToStream({
+        key,
+        value: JSON.stringify(value)
       })
-      .then((result) => {
-        counter++;
-        console.log(result); // array of results
-      });
   }, 1000);
 }
 
-const producer = new Kafka.Producer({
-  connectionString: process.env.KAFKA_URL
-});
-
-producer.init()
+stream.start()
   .then(() => {
     console.log('producer init success!');
-    startSending(producer);
+    startSending();
   });
