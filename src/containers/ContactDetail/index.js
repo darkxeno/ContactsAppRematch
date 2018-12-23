@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ContactCard from "../../components/ContactCard";
 import { EDIT_PATHNAME } from "../../globals/pathNames";
-import { makeSelectContactById } from "../../models/contacts/selectors";
 import ContactsState from '../../state/contacts/';
 import { Subscribe } from 'bey';
 

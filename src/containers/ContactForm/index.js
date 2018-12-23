@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Field, reduxForm, getFormValues } from "redux-form";
+
 import RaisedButton from "material-ui/RaisedButton";
 import FormTextField from "../../components/FormTextField";
 import FormMultiSelectField from "../../components/FormMultiSelectField";
@@ -10,6 +10,7 @@ import { makeSelectFormOptions } from "../../models/groups/selectors";
 import { makeSelectContactById } from "../../models/contacts/selectors";
 import { Subscribe } from 'bey';
 import ContactsState from '../../state/contacts/';
+import { Form, Field } from 'react-final-form'
 
 const FORM_NAME = "contact";
 const styles = {
@@ -40,100 +41,69 @@ class CreateOrEditContactPage extends Component {
     }
   }
   render() {
-    const {
-      handleSubmit,
-      pristine,
-      submitting,
-      invalid,
-      reset,
-      saveContact,
-      groupOptions
-    } = this.props;
     return (
       <Subscribe to={ContactsState.state}>
         {contacts => {
           console.log('contacts.current',contacts);
-          //this.props.formValues = contacts.current;
           return (
-          <form style={styles.formContainer} onSubmit={handleSubmit(ContactsState.actions.saveContact)}>
-            <Field
-              name="name"
-              label="Name"
-              placeholder="Name"
-              component={FormTextField}
-            />
-            <Field
-              name="email"
-              label="Email"
-              placeholder="Email"
-              component={FormTextField}
-            />
-            <Field
-              name="phoneNumber"
-              label="Phone number"
-              placeholder="Phone number"
-              component={FormTextField}
-            />
-            <Field
-              name="imgUrl"
-              label="Profile image url"
-              placeholder="Profile image url"
-              component={FormTextField}
-            />
-            <Field
-              name="groups"
-              component={FormMultiSelectField}
-              label="Groups"
-              options={groupOptions}
-            />
-            <div>
-              <RaisedButton
-                style={styles.buttonStyle}
-                label="Save contact"
-                primary
-                type="submit"
-                disabled={pristine || submitting || invalid}
-              />
-              <RaisedButton
-                style={styles.buttonStyle}
-                label="Reset values"
-                secondary
-                disabled={pristine || submitting}
-                onClick={reset}
-              />
-            </div>
-          </form>
+            <Form
+              onSubmit={ContactsState.actions.saveContact}
+              validate={validate}
+              initialValues={contacts.current}
+              render={({ handleSubmit, pristine, invalid, submitting, reset }) => (            
+              <form style={styles.formContainer} onSubmit={handleSubmit}>
+                <Field
+                  name="name"
+                  label="Name"
+                  placeholder="Name"
+                  component={FormTextField}
+                />
+                <Field
+                  name="email"
+                  label="Email"
+                  placeholder="Email"
+                  component={FormTextField}
+                />
+                <Field
+                  name="phoneNumber"
+                  label="Phone number"
+                  placeholder="Phone number"
+                  component={FormTextField}
+                />
+                <Field
+                  name="imgUrl"
+                  label="Profile image url"
+                  placeholder="Profile image url"
+                  component={FormTextField}
+                />
+                <Field
+                  name="groups"
+                  component={FormMultiSelectField}
+                  label="Groups"
+                  options={Object.values(contacts.groups).map(group=>group.name)}
+                />
+                <div>
+                  <RaisedButton
+                    style={styles.buttonStyle}
+                    label="Save contact"
+                    primary
+                    type="submit"
+                    disabled={pristine || submitting || invalid}
+                  />
+                  <RaisedButton
+                    style={styles.buttonStyle}
+                    label="Reset values"
+                    secondary
+                    disabled={pristine || submitting}
+                    onClick={reset}
+                  />
+                </div>
+              </form>
+            )} />
       )}}
       </Subscribe>
     );
   }
 }
 
-CreateOrEditContactPage.propTypes = {
-  contact: PropTypes.object
-};
-
-const mapStateToProps = (store, props) => ({
-  initialValues: makeSelectContactById(props.match.params.id)(store),
-  groupOptions: makeSelectFormOptions()(store),
-  formValues: getFormValues(FORM_NAME)
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  saveContact: contact => {
-    if (contact.id) {
-      dispatch.contacts.updateContactRequest(contact);
-    } else {
-      dispatch.contacts.createContact(contact);
-    }
-    props.history.goBack();
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-  reduxForm({
-    form: FORM_NAME,
-    enableReinitialize: true,
-    validate
-  })(CreateOrEditContactPage)
-);
+export default CreateOrEditContactPage;
