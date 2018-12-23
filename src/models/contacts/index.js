@@ -34,14 +34,14 @@ export default {
 	  },
 	  listContacts(dbState, payload) {    
 	    const session = orm.session(dbState);
-	    const { Contact } = session;
-	    Contact.createOrUpdateAll(payload);
+	    const { Contact, Group } = session;
+	    Contact.createOrUpdateAll(payload, Group);
 	    return session.state;
 	  },
 	  updateGroups(dbState, payload) {
 	    const session = orm.session(dbState);
 	    const { Group } = session;
-	    Group.createOrUpdateAll(payload);
+	    Group.createOrUpdateAll(payload);	    
 	    return session.state;
 	  } 	  
 	}

@@ -6,9 +6,12 @@ class Contact extends Model {
         return 'Contact';
     }  
 
-    static createOrUpdateAll(contactsPayload){
+    static createOrUpdateAll(contactsPayload, Group){
       contactsPayload.forEach(contact => {
-        contact.groupsRel=contact.groups;
+        // addded group id validations        
+        if(contact.groups && contact.groups.length > 0){
+          contact.groupsRel=contact.groups.filter((groupId)=>Group.hasId(groupId));
+        }
         this.upsert(contact);
       });        
     }
