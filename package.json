@@ -10,10 +10,11 @@
   "dependencies": {
     "@rematch/core": "^0.6.0",
     "@rematch/loading": "^0.5.0",
+    "bey": "^1.1.0",
     "firebase": "^4.13.1",
     "material-ui": "^0.20.0",
     "prop-types": "^15.6.1",
-    "react": "^16.3.2",
+    "react": "^16.7.0",
     "react-dom": "^16.3.2",
     "react-navigation": "^1.5.11",
     "react-redux": "^5.0.7",
