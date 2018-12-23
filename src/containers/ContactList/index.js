@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createStructuredSelector } from "reselect";
 import List from "material-ui/List";
 import ListItem from "material-ui/List/ListItem";
 import Avatar from "material-ui/Avatar";
@@ -12,7 +11,7 @@ import ContactCard from "../../components/ContactCard";
 import { LIST_MODE } from "../../models/contactList/constants";
 import { EDIT_PATHNAME, DETAIL_PATHNAME } from "../../globals/pathNames";
 import { Subscribe } from 'bey';
-import Contacts from '../../state/contacts/';
+import ContactsState from '../../state/contacts/';
 
 function addHandlers(props){
   return { 
@@ -68,7 +67,7 @@ export default function ContactList(props){
   
   return (
     <div style={{ margin: "0.2em 0 0 0" }}>
-      <Subscribe to={Contacts.state}>
+      <Subscribe to={ContactsState.state}>
         {contacts => {return (
           (contacts.mode===LIST_MODE)?
           <List>
@@ -83,7 +82,7 @@ export default function ContactList(props){
             }}>
               Contacts
             </div>
-            <ContactListItems {...addHandlers(props)} list={contacts.list} />
+            <ContactListItems {...addHandlers(props)} list={Object.values(contacts.list)} />
           </List>
           :    
           <div style={{
@@ -94,7 +93,7 @@ export default function ContactList(props){
               justifyContent: "space-between"
             }}
           >
-            <ContactListCards {...addHandlers(props)} list={contacts.list} />            
+            <ContactListCards {...addHandlers(props)} list={Object.values(contacts.list)} />            
           </div>
         )}}          
       </Subscribe>
@@ -102,4 +101,4 @@ export default function ContactList(props){
   );  
 }
 
-Contacts.actions.loadData();
+ContactsState.actions.loadData();

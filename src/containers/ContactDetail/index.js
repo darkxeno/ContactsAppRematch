@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import ContactCard from "../../components/ContactCard";
 import { EDIT_PATHNAME } from "../../globals/pathNames";
 import { makeSelectContactById } from "../../models/contacts/selectors";
+import ContactsState from '../../state/contacts/';
+import { Subscribe } from 'bey';
 
 class ContactPage extends PureComponent {
   constructor(props) {
@@ -13,30 +15,34 @@ class ContactPage extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.initializeView();
+    ContactsState.actions.loadData(this.props.match.params.id);
   }
 
   onEditClick() {
-    const { contact, transitionToEditContact } = this.props;
-    transitionToEditContact(contact.id);
+    const { transitionToEditContact } = this.props;
+    transitionToEditContact( this.props.match.params.id );
   }
 
   onDeleteClick() {
-    const { contact, deleteContact } = this.props;
-    deleteContact(contact.id);
+    const { deleteContact } = this.props;
+    deleteContact( this.props.match.params.id );
   }
 
   render() {
     const contact = this.props.contact;
     return (
-      <div style={{ margin: "1em" }}>
-        <ContactCard
-          big
-          contact={contact}
-          onEditClick={this.onEditClick}
-          onDeleteClick={this.onDeleteClick}
-        />
-      </div>
+      <Subscribe to={ContactsState.state}>
+      { contacts => { console.log(contacts); return (
+        <div style={{ margin: "1em" }}>
+          <ContactCard
+            big
+            contact={contacts.current}
+            onEditClick={this.onEditClick}
+            onDeleteClick={this.onDeleteClick}
+          />
+        </div>
+      )}}
+      </Subscribe>
     );
   }
 }
@@ -48,7 +54,6 @@ ContactPage.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  contact: makeSelectContactById(props.match.params.id)(state),
   transitionToEditContact: id => props.history.push(`${EDIT_PATHNAME}/${id}`)
 });
 
@@ -56,8 +61,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   deleteContact: id => {
     dispatch.contacts.deleteContactRequest(id);
     props.history.goBack();
-  },
-  initializeView: () => dispatch.contacts.requestContact(props.match.params.id)
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactPage);
