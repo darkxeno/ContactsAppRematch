@@ -5,7 +5,7 @@ import config from './config.js';
 
 const kafkaStreams = new k.KafkaStreams(config);
 const stream = kafkaStreams.getKStream(null);
-stream.to(topics.CONTACTS);
+stream.to('CONTACTWITHSTATS');//topics.CONTACTS);
 
 console.log(`producing on ${topics.CONTACTS}`);
 
@@ -17,14 +17,15 @@ function startSending() {
   let counter = 1;
   setInterval(() => {
     const randomName = names[ Math.floor(Math.random() * (names.length-1)) ];
-    const key = cuid();
+    const key = randomName;
 
     const value = {
       id: key,
-      name: randomName,
+      changes: Math.floor(Math.random() * 100)
+      /*name: randomName,
       //imgUrl: "https://raw.githubusercontent.com/rexxars/react-hexagon/master/logo/react-hexagon.png",
       email: randomName.toLowerCase() + '@mobgen.com',
-      phoneNumber: '+34' + Date.now()           
+      phoneNumber: '+34' + Date.now()           */
     }
 
     console.log('Sending:', value);
