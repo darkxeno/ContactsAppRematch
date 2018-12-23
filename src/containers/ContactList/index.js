@@ -38,7 +38,7 @@ function ContactListCards(props){
 
 
 function ContactListItems(props){
-  
+  console.log('ContactListItems props',props);
   return props.list.map(contact => 
     <div key={`contact-${contact.id}`}>
       <ListItem
@@ -70,7 +70,8 @@ export default function ContactList(props){
     <div style={{ margin: "0.2em 0 0 0" }}>
       <Subscribe to={Contacts.state}>
         {contacts => {return (
-          (true)?<List>
+          (contacts.mode===LIST_MODE)?
+          <List>
             <div style={{
               boxSizing: "border-box",
               color: "rgba(0, 0, 0, 0.54)",
