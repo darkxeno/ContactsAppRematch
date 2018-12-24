@@ -4,7 +4,7 @@ import { Subscribe } from 'bey';
 import SnackbarState from '../../state/snackbar/';
 
 
-function SB({ open, message, close }) {
+function SB() {
   return (
     <Subscribe to={SnackbarState.state}>
     { message =>

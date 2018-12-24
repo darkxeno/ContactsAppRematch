@@ -4,11 +4,9 @@ import RaisedButton from "material-ui/RaisedButton";
 import FormTextField from "../../components/FormTextField";
 import FormMultiSelectField from "../../components/FormMultiSelectField";
 import validate from "./form-validations";
-import { makeSelectFormOptions } from "../../models/groups/selectors";
-import { makeSelectContactById } from "../../models/contacts/selectors";
 import { Subscribe } from 'bey';
 import ContactsState from '../../state/contacts/';
-import { Form, Field } from 'react-final-form'
+import { Form, Field } from 'react-final-form';
 
 const FORM_NAME = "contact";
 const styles = {
@@ -41,13 +39,12 @@ class CreateOrEditContactPage extends Component {
   render() {
     return (
       <Subscribe to={ContactsState.state}>
-        {contacts => {
-          console.log('contacts.current',contacts);
+        {contacts => {          
           return (
             <Form
               onSubmit={ContactsState.actions.saveContact}
               validate={validate}
-              initialValues={contacts.current}
+              initialValues={ this.props.match.params.id ? contacts.current : {} }
               render={({ handleSubmit, pristine, invalid, submitting, reset }) => (            
               <form style={styles.formContainer} onSubmit={handleSubmit}>
                 <Field
@@ -102,7 +99,7 @@ class CreateOrEditContactPage extends Component {
                 </div>
               </form>
             )} />
-      )}}
+        )}}
       </Subscribe>
     );
   }

@@ -30,7 +30,7 @@ function ContactListCards(props){
       key={`contact-${contact.id}`}
       contact={contact}
       onEditClick={() => props.transitionToEditContact(contact.id)}
-      onDeleteClick={() => props.deleteContact(contact.id)}
+      onDeleteClick={() => ContactsState.actions.deleteContact(contact.id)}
     />
   ));
 }
@@ -54,7 +54,7 @@ function ContactListItems(props){
         onClick={() => props.transitionToContactDetail(contact.id)}
         rightIconButton={
           <IconButton>
-            <DeleteIcon onClick={() => props.deleteContact(contact.id)} />
+            <DeleteIcon onClick={() => ContactsState.actions.deleteContact(contact.id)} />
           </IconButton>
         }
       />

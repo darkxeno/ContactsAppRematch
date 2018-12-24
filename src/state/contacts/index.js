@@ -1,7 +1,14 @@
 import { state, update } from 'bey';
-import { getContactsService, getContactService, updateContactService, postContactService } from "../../services/contacts";
-import { getGroupsService } from "../../services/groups";
 import { actions as SnackbarActions } from "../snackbar/";
+import { getGroupsService } from "../../services/groups";
+import { 
+  getContactsService, 
+  getContactService, 
+  updateContactService, 
+  postContactService,
+  deleteContactService
+} from "../../services/contacts";
+
 
 const LIST_MODE = 'list';
 const CARD_MODE = 'card';
@@ -64,16 +71,30 @@ async function saveContact(contact) {
     console.log('current contact updated:',response);
     update(contacts, state => { current: contact });
     
-    SnackbarActions.setMessage("Contact created successfully");
+    SnackbarActions.setMessage(`Contact ${contact.id?"updated":"created"} successfully`);
   } catch (error) {
     SnackbarActions.displayError(error);
   }  
-
-
   //props.history.goBack();
 }
 
-export default { state: contacts, actions: { loadData, saveContact } };
+async function deleteContact(id) {  
+  try {
+    if (id) {
+      let response = await deleteContactService(id); 
+      console.log('contact deleted:', response);
+      update(contacts, state => { current: {} });
+    
+      SnackbarActions.setMessage("Contact deleted successfully"); 
+      loadData();          
+    }
+  } catch (error) {
+    SnackbarActions.displayError(error);
+  }  
+  //props.history.goBack();
+}
+
+export default { state: contacts, actions: { loadData, saveContact, deleteContact } };
 
 
 
