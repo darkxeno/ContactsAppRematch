@@ -29,7 +29,7 @@ async function loadData(id) {
   let newContacts = {};
   contactsResponse.forEach(contact => {
     if(contact.groups && contact.groups.length > 0){
-      contact.groups = contact.groups.map( groupId => {
+      contact.groupNames = contact.groups.map( groupId => {
         if(newGroups[groupId]){
           return newGroups[groupId].name;
         } else {
@@ -51,16 +51,28 @@ async function loadData(id) {
 }
 
 function updateContact(contact) {
-  update(contacts, state => { current: contact });
+  
 }
 
-async function saveContact(contact) {
-  
-  if (contacts.current.id) {
-    await updateContactService(contacts.current);
-  } else {
-    await postContactService(contacts.current);
-  }
+async function saveContact(contact) {  
+  try {
+    let response;
+
+    if (contact.id) {
+      response = await updateContactService(contact);      
+    } else {
+      response = await postContactService(contact);
+    }
+
+    console.log('current contact updated:',response);
+    update(contacts, state => { current: contact });    
+    
+    //dispatch.snackbar.setMessage("Contact created successfully");
+  } catch (error) {
+    //dispatch.snackbar.displayError(error);
+  }  
+
+
   //props.history.goBack();
 }
 

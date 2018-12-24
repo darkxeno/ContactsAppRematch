@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, default as React } from "react";
 import PropTypes from "prop-types";
 import List from "material-ui/List";
 import ListItem from "material-ui/List/ListItem";
@@ -49,7 +49,7 @@ function ContactListItems(props){
           )
         }
         primaryText={contact.name}
-        secondaryText={contact.groups || "Without group"}
+        secondaryText={contact.groupNames || "Without group"}
         secondaryTextLines={1}
         onClick={() => props.transitionToContactDetail(contact.id)}
         rightIconButton={
@@ -64,6 +64,11 @@ function ContactListItems(props){
 }
 
 export default function ContactList(props){
+
+  useEffect(() => {
+    // Load the contact list
+    ContactsState.actions.loadData();
+  });  
   
   return (
     <div style={{ margin: "0.2em 0 0 0" }}>
@@ -100,5 +105,3 @@ export default function ContactList(props){
     </div>
   );  
 }
-
-ContactsState.actions.loadData();

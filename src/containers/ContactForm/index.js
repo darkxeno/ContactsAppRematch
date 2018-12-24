@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-
 import RaisedButton from "material-ui/RaisedButton";
 import FormTextField from "../../components/FormTextField";
 import FormMultiSelectField from "../../components/FormMultiSelectField";
@@ -80,7 +78,11 @@ class CreateOrEditContactPage extends Component {
                   name="groups"
                   component={FormMultiSelectField}
                   label="Groups"
-                  options={Object.values(contacts.groups).map(group=>group.name)}
+                  options={
+                    Object.values(contacts.groups).map(
+                      group => ({ value:group.id, text:group.name })
+                    )
+                  }
                 />
                 <div>
                   <RaisedButton
