@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import compose from "recompose/compose";
 import withStateHandlers from "recompose/withStateHandlers";
 import withHandlers from "recompose/withHandlers";
@@ -13,17 +12,14 @@ import {
   ADD_PATHNAME,
   ADD_GROUP_PATHNAME
 } from "../../globals/pathNames";
+import { Subscribe } from 'bey';
+import GlobalState from '../../state/global/';
+import { actions } from '../../state/history/';
 
-const textToRouter = {
-  List: LIST_PATHNAME,
-  About: HOME_PATHNAME,
-  "Add Contact": ADD_PATHNAME,
-  "Add Group": ADD_GROUP_PATHNAME
-};
 
 function renderIconElementRight(pathname, changeListMode) {
   if (pathname === LIST_PATHNAME) {
-    return <IconElementList changeListMode={changeListMode} />;
+    return <IconElementList changeListMode={GlobalState.actions.changeMode} />;
   }
   return null;
 }
@@ -33,49 +29,45 @@ function Navbar({
   handleToggle,
   isLeftNavOpen,
   setIsLeftNavOpen,
-  changeListMode,
   location
 }) {
   return (
-    <React.Fragment>
-      <AppBar
-        title="Contacts app"
-        onLeftIconButtonClick={handleToggle}
-        iconElementRight={renderIconElementRight(
-          location.pathname,
-          changeListMode
-        )}
-      />
-      <Drawer
-        open={isLeftNavOpen}
-        docked={false}
-        onRequestChange={setIsLeftNavOpen}
-      >
-        <MenuItem onClick={handleClose} value={HOME_PATHNAME}>
-          About
-        </MenuItem>
-        <MenuItem onClick={handleClose} value={LIST_PATHNAME}>
-          List
-        </MenuItem>
-        <MenuItem onClick={handleClose} value={ADD_PATHNAME}>
-          Add Contact
-        </MenuItem>
-        <MenuItem onClick={handleClose} value={ADD_GROUP_PATHNAME}>
-          Add Group
-        </MenuItem>
-      </Drawer>
-    </React.Fragment>
+    <Subscribe to={GlobalState.state}>
+    { state =>
+        <React.Fragment>
+          <AppBar
+            title={"Contacts app: "+state.mode}
+            onLeftIconButtonClick={handleToggle}
+            iconElementRight={renderIconElementRight(
+              location.pathname,
+              GlobalState.actions.changeMode
+            )}
+          />
+          <Drawer
+            open={isLeftNavOpen}
+            docked={false}
+            onRequestChange={setIsLeftNavOpen}
+          >
+            <MenuItem onClick={handleClose} value={HOME_PATHNAME}>
+              About
+            </MenuItem>
+            <MenuItem onClick={handleClose} value={LIST_PATHNAME}>
+              List
+            </MenuItem>
+            <MenuItem onClick={handleClose} value={ADD_PATHNAME}>
+              Add Contact
+            </MenuItem>
+            <MenuItem onClick={handleClose} value={ADD_GROUP_PATHNAME}>
+              Add Group
+            </MenuItem>
+          </Drawer>
+        </React.Fragment>
+    }
+    </Subscribe>    
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    changeListMode: (mode) => dispatch.contactList.changeMode(mode),
-  };
-};
-
 export default compose(
-  connect(null, mapDispatchToProps),
   withStateHandlers(
     {
       isLeftNavOpen: false,
@@ -92,7 +84,7 @@ export default compose(
   withHandlers({
     handleClose: (props) => (e) => {
       props.setIsLeftNavOpen(false);
-      props.history.push(textToRouter[e.target.textContent]);
+      actions.transitionToMenuOption(e.target.textContent);
     }
   }),
 
