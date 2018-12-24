@@ -4,8 +4,7 @@ import {
   getGroupsService, 
   getGroupService, 
   postGroupService, 
-  updateGroupService, 
-  deleteGroupService 
+  updateGroupService
 } from "../../services/groups";
 
 let groups = state({
@@ -17,26 +16,24 @@ async function loadData(id) {
   let groupsResponse;
   if(id){
     groupsResponse = await getGroupService(id); 
-    update(groups, state => { current: groupsResponse }); 
+    update(groups, state => { state.current = groupsResponse; }); 
   } else {
     groupsResponse = await getGroupsService();
-    update(groups, state => { list: groupsResponse });
+    update(groups, state => { state.list = groupsResponse; });
   }
 }
 
 async function saveGroup(group) {  
   try {
-    let response;
-
     if (group.id) {
-      response = await updateGroupService(group); 
+      await updateGroupService(group); 
       SnackbarActions.setMessage("Group updated successfully");     
     } else {
-      response = await postGroupService(group);
+      await postGroupService(group);
       SnackbarActions.setMessage("Group created successfully");
     }
 
-    update(groups, state => { current: group });
+    update(groups, state => { state.current = group; });
         
   } catch (error) {
     SnackbarActions.displayError(error);

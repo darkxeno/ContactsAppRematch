@@ -1,6 +1,4 @@
 import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import ContactCard from "../../components/ContactCard";
 import { EDIT_PATHNAME } from "../../globals/pathNames";
 import ContactsState from '../../state/contacts/';
@@ -24,10 +22,9 @@ class ContactPage extends PureComponent {
 
   onDeleteClick() {
     ContactsState.actions.deleteContact( this.props.match.params.id );
-  }
+  } 
 
   render() {
-    const contact = this.props.contact;
     return (
       <Subscribe to={ContactsState.state}>
       { contacts => { return (

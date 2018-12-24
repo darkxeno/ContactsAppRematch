@@ -65,7 +65,7 @@ async function saveContact(contact) {
     }
 
     console.log('current contact updated:',response);
-    update(contacts, state => { current: contact });
+    update(contacts, state => { state.current = contact; });
     
     SnackbarActions.setMessage(`Contact ${contact.id?"updated":"created"} successfully`);
   } catch (error) {
@@ -79,7 +79,7 @@ async function deleteContact(id) {
     if (id) {
       let response = await deleteContactService(id); 
       console.log('contact deleted:', response);
-      update(contacts, state => { current: {} });
+      update(contacts, state => { state.current = {}; });
     
       SnackbarActions.setMessage("Contact deleted successfully"); 
       loadData();          

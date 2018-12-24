@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import FormTextField from "../../components/FormTextField";
 import validate from "./form-validations";
