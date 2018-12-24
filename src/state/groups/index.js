@@ -46,7 +46,3 @@ async function saveGroup(group) {
 }
 
 export default { state: groups, actions: { loadData, saveGroup } };
-
-
-
- 

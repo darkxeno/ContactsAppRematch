@@ -1,4 +1,4 @@
-import { useEffect, default as React } from "react";
+import { useEffect, useState, default as React } from "react";
 import PropTypes from "prop-types";
 import List from "material-ui/List";
 import ListItem from "material-ui/List/ListItem";
@@ -12,6 +12,7 @@ import { LIST_MODE } from "../../models/contactList/constants";
 import { EDIT_PATHNAME, DETAIL_PATHNAME } from "../../globals/pathNames";
 import { Subscribe } from 'bey';
 import ContactsState from '../../state/contacts/';
+import GlobalState from '../../state/global/';
 
 function addHandlers(props){
   return { 
@@ -65,43 +66,54 @@ function ContactListItems(props){
 
 export default function ContactList(props){
 
+  const [global, setGlobal] = useState(GlobalState.state.get());
+
+  function handler(){
+    setGlobal(GlobalState.state.get());
+  }
+
   useEffect(() => {
     // Load the contact list
     ContactsState.actions.loadData();
-  });  
+    GlobalState.state.on(handler);
+    return function cleanup() {
+      GlobalState.state.off(handler);
+    };    
+  });    
   
   return (
     <div style={{ margin: "0.2em 0 0 0" }}>
       <Subscribe to={ContactsState.state}>
-        {contacts => {return (
-          (contacts.mode===LIST_MODE)?
-          <List>
-            <div style={{
-              boxSizing: "border-box",
-              color: "rgba(0, 0, 0, 0.54)",
-              fontSize: "14px",
-              fontWeight: 500,
-              lineHeight: "48px",
-              paddingLeft: "16px",
-              width: "100%"
-            }}>
-              Contacts
-            </div>
-            <ContactListItems {...addHandlers(props)} list={Object.values(contacts.list)} />
-          </List>
-          :    
-          <div style={{
-              display: "flex",
-              flex: "0 0 auto",
-              flexWrap: "wrap",
-              margin: "1em",
-              justifyContent: "space-between"
-            }}
-          >
-            <ContactListCards {...addHandlers(props)} list={Object.values(contacts.list)} />            
-          </div>
-        )}}          
-      </Subscribe>
+        { contacts => {
+          return (
+                (global.mode === LIST_MODE) ?
+                <List>
+                  <div style={{
+                    boxSizing: "border-box",
+                    color: "rgba(0, 0, 0, 0.54)",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    lineHeight: "48px",
+                    paddingLeft: "16px",
+                    width: "100%"
+                  }}>
+                    Contacts
+                  </div>
+                  <ContactListItems {...addHandlers(props)} list={Object.values(contacts.list)} />
+                </List>
+                :    
+                <div style={{
+                    display: "flex",
+                    flex: "0 0 auto",
+                    flexWrap: "wrap",
+                    margin: "1em",
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <ContactListCards {...addHandlers(props)} list={Object.values(contacts.list)} />            
+                </div>                
+            )}}
+          </Subscribe>
     </div>
   );  
 }

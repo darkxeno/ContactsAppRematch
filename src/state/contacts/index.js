@@ -10,13 +10,9 @@ import {
 } from "../../services/contacts";
 
 
-const LIST_MODE = 'list';
-const CARD_MODE = 'card';
-
 let contacts = state({
   list: {},
   groups: {},
-  mode: LIST_MODE,
   current: {}
 });
 

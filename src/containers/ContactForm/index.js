@@ -8,7 +8,6 @@ import { Subscribe } from 'bey';
 import ContactsState from '../../state/contacts/';
 import { Form, Field } from 'react-final-form';
 
-const FORM_NAME = "contact";
 const styles = {
   formContainer: {
     display: "flex",

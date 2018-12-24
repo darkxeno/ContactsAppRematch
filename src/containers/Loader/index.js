@@ -1,18 +1,18 @@
 import React from "react";
-import { connect } from "react-redux";
 import LinearProgress from "material-ui/LinearProgress";
+import { Subscribe } from 'bey';
+import GlobalState from '../../state/global/';
 
-function Loader({ loading }) {
-  if (loading) {
-    return <LinearProgress mode="indeterminate" />;
-  }
-  return <span style={{ width: "4px" }} />;
+function Loader() {
+	return (
+    <Subscribe to={GlobalState.state}>
+    { state => 
+    	(state.loading) ?
+    	 <LinearProgress mode="indeterminate" /> :
+    	 <span style={{ width: "4px" }} />
+    }
+    </Subscribe>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.loading.global,
-  };
-};
-
-export default connect(mapStateToProps)(Loader);
+export default Loader;
