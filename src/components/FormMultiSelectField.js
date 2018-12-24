@@ -6,8 +6,8 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
+import { MenuItem, FormGroup } from "@blueprintjs/core";
+import { MultiSelect } from "@blueprintjs/select";
 
 function FormMultiSelectField({
   options,
@@ -16,30 +16,53 @@ function FormMultiSelectField({
   meta: { touched, error },
   ...custom
 }) {
+  console.log('value',value);
   return (
-    <SelectField
-      style={{ margin: "1.5em 0 0 0" }}
-      {...inputProps}
-      value={value}
-      hintText={label}
-      errorText={touched && error}
-      onChange={(e, index, optionValue) => {
-        if (value !== optionValue) {
-          onChange(optionValue);
-        }
-      }}
-      onBlur={() => onBlur(value)}
-      multiple
-      {...custom}
-    >
-      {options.map((opt) => (
-        <MenuItem
-          key={`option-${opt.value}`}
-          value={opt.value}
-          primaryText={opt.text}
-        />
-      ))}
-    </SelectField>
+    <FormGroup
+        helperText={error}
+        label={label}
+        intent={error ? 'danger' : undefined}
+        style={{ width: '300px' }}
+    >    
+      <MultiSelect        
+        {...inputProps}
+        noResults={<MenuItem disabled={true} text="No results." />}
+        items={options}
+        selectedItems={ value==="" ? [] : value }
+        onItemSelect={(opt) => { 
+          console.log('opt',opt);         
+          //if (value !== optionValue) {
+            onChange([...value, opt.value]);
+          //}
+        }}
+        tagInputProps={{ onRemove: (opt)=>{
+          
+          let newValues = [];
+          if( value && value.length > 0 ){
+            value.forEach(v=>{
+              if(v !== opt){
+                newValues.push(v);
+              }
+            })
+          }
+          onChange(newValues);
+        } }}
+        //onBlur={() => onBlur(value)}
+        itemRenderer={(opt, { modifiers, handleClick }) => (
+          <MenuItem
+            active={modifiers.active}
+            key={`option-${opt.value}`}
+            //label={opt.value}
+            text={opt.text}
+            onClick={handleClick}
+          />
+        )}
+        tagRenderer={opt => opt}
+        {...custom}
+      >
+        
+      </MultiSelect>
+    </FormGroup>
   );
 }
 

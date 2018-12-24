@@ -1,5 +1,7 @@
 import React from "react";
-import TextField from "material-ui/TextField";
+import { Classes, InputGroup, FormGroup } from "@blueprintjs/core";
+
+console.log('Classes',Classes);
 
 function renderTextField({
   input,
@@ -8,14 +10,24 @@ function renderTextField({
   meta: { touched, error },
   ...custom
 }) {
+  console.log('error',error);
   return (
-    <TextField
-      hintText={placeholder}
-      floatingLabelText={label}
-      errorText={touched && error}
-      {...input}
-      {...custom}
-    />
+    <FormGroup
+        helperText={error}
+        label={label}
+        //labelFor="text-input"
+        //labelInfo="(required)"
+        intent={error ? 'danger' : undefined}
+        style={{ width: '300px' }}
+    >    
+      <InputGroup
+        
+        placeholder={placeholder}
+        intent={error ? 'danger' : undefined}
+        {...input}
+        {...custom}
+      />
+    </FormGroup>
   );
 }
 

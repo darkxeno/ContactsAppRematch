@@ -8,6 +8,8 @@
     "eslint-config-airbnb-base": "10.0.1"
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.10.0",
+    "@blueprintjs/select": "^3.4.0",
     "bey": "^1.1.0",
     "final-form": "^4.11.0",
     "firebase": "^4.13.1",
