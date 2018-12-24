@@ -1,28 +1,22 @@
 import React from "react";
-import { connect } from "react-redux";
 import Snackbar from "material-ui/Snackbar";
+import { Subscribe } from 'bey';
+import SnackbarState from '../../state/snackbar/';
+
 
 function SB({ open, message, close }) {
   return (
-    <Snackbar
-      open={open}
-      message={message}
-      autoHideDuration={3000}
-      onRequestClose={close}
-    />
+    <Subscribe to={SnackbarState.state}>
+    { message =>
+      <Snackbar
+        open={message !== null}
+        message={message}
+        autoHideDuration={3000}
+        onRequestClose={SnackbarState.actions.close}
+      />
+    }
+    </Subscribe>
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    message: state.snackbar,
-    open: state.snackbar ? true : false
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    close: () => dispatch.snackbar.close()
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SB);
+export default SB;

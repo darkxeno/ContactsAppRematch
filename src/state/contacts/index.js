@@ -1,6 +1,7 @@
 import { state, update } from 'bey';
 import { getContactsService, getContactService, updateContactService, postContactService } from "../../services/contacts";
 import { getGroupsService } from "../../services/groups";
+import { actions as SnackbarActions } from "../snackbar/";
 
 const LIST_MODE = 'list';
 const CARD_MODE = 'card';
@@ -50,10 +51,6 @@ async function loadData(id) {
   });
 }
 
-function updateContact(contact) {
-  
-}
-
 async function saveContact(contact) {  
   try {
     let response;
@@ -65,18 +62,18 @@ async function saveContact(contact) {
     }
 
     console.log('current contact updated:',response);
-    update(contacts, state => { current: contact });    
+    update(contacts, state => { current: contact });
     
-    //dispatch.snackbar.setMessage("Contact created successfully");
+    SnackbarActions.setMessage("Contact created successfully");
   } catch (error) {
-    //dispatch.snackbar.displayError(error);
+    SnackbarActions.displayError(error);
   }  
 
 
   //props.history.goBack();
 }
 
-export default { state: contacts, actions: { loadData, updateContact, saveContact } };
+export default { state: contacts, actions: { loadData, saveContact } };
 
 
 
