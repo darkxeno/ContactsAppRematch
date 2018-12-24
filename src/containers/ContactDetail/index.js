@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import ContactCard from "../../components/ContactCard";
-import { EDIT_PATHNAME } from "../../globals/pathNames";
 import ContactsState from '../../state/contacts/';
+import { actions } from '../../state/history/';
 import { Subscribe } from 'bey';
 
 class ContactPage extends PureComponent {
@@ -9,7 +9,7 @@ class ContactPage extends PureComponent {
     super(props);
     this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
-    this.transitionToEditContact = id => props.history.push(`${EDIT_PATHNAME}/${id}`)
+    this.transitionToEditContact = actions.transitionToEditContact;
   }
 
   componentDidMount() {

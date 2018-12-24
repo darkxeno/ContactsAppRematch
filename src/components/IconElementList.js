@@ -4,7 +4,7 @@ import IconMenu from "material-ui/IconMenu";
 import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
-import { LIST_MODE, CARD_MODE } from "../models/contactList/constants";
+//import { LIST_MODE, CARD_MODE } from "../models/contactList/constants";
 
 const iCON_SETTINGS = { horizontal: "right", vertical: "top" };
 
@@ -18,8 +18,8 @@ const IconElementList = ({ changeListMode }) => (
     targetOrigin={iCON_SETTINGS}
     anchorOrigin={iCON_SETTINGS}
   >
-    <MenuItem primaryText="List" onClick={() => changeListMode(LIST_MODE)} />
-    <MenuItem primaryText="Card" onClick={() => changeListMode(CARD_MODE)} />
+    <MenuItem primaryText="List" onClick={() => changeListMode('list')} />
+    <MenuItem primaryText="Card" onClick={() => changeListMode('card')} />
   </IconMenu>
 );
 

@@ -8,7 +8,7 @@ import {
   postContactService,
   deleteContactService
 } from "../../services/contacts";
-
+import { history } from "../history/";
 
 let contacts = state({
   list: {},
@@ -71,7 +71,7 @@ async function saveContact(contact) {
   } catch (error) {
     SnackbarActions.displayError(error);
   }  
-  //props.history.goBack();
+  history.goBack();
 }
 
 async function deleteContact(id) {  
@@ -87,7 +87,7 @@ async function deleteContact(id) {
   } catch (error) {
     SnackbarActions.displayError(error);
   }  
-  //props.history.goBack();
+  history.goBack();
 }
 
 export default { state: contacts, actions: { loadData, saveContact, deleteContact } };

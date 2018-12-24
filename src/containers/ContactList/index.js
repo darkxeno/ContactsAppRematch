@@ -6,19 +6,15 @@ import Divider from "material-ui/Divider";
 import IconButton from "material-ui/IconButton";
 import DeleteIcon from "material-ui/svg-icons/action/delete";
 import ContactCard from "../../components/ContactCard";
-import { LIST_MODE } from "../../models/contactList/constants";
-import { EDIT_PATHNAME, DETAIL_PATHNAME } from "../../globals/pathNames";
 import { Subscribe } from 'bey';
 import ContactsState from '../../state/contacts/';
 import GlobalState from '../../state/global/';
+import { actions } from '../../state/history/';
 
 function addHandlers(props){
   return { 
     ...props, 
-    transitionToEditContact: (id) =>
-      props.history.push(`${EDIT_PATHNAME}/${id}`),
-    transitionToContactDetail: (id) =>
-      props.history.push(`${DETAIL_PATHNAME}/${id}`),
+    ...actions
   };
 }
 
@@ -84,7 +80,7 @@ export default function ContactList(props){
       <Subscribe to={ContactsState.state}>
         { contacts => {
           return (
-                (global.mode === LIST_MODE) ?
+                (global.mode === 'list') ?
                 <List>
                   <div style={{
                     boxSizing: "border-box",

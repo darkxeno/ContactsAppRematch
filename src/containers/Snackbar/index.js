@@ -10,7 +10,7 @@ function SB() {
     { message =>
       <Snackbar
         open={message !== null}
-        message={message}
+        message={message ? message : ''}
         autoHideDuration={3000}
         onRequestClose={SnackbarState.actions.close}
       />

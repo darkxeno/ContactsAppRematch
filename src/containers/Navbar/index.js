@@ -14,13 +14,8 @@ import {
 } from "../../globals/pathNames";
 import { Subscribe } from 'bey';
 import GlobalState from '../../state/global/';
+import { actions } from '../../state/history/';
 
-const textToRouter = {
-  List: LIST_PATHNAME,
-  About: HOME_PATHNAME,
-  "Add Contact": ADD_PATHNAME,
-  "Add Group": ADD_GROUP_PATHNAME
-};
 
 function renderIconElementRight(pathname, changeListMode) {
   if (pathname === LIST_PATHNAME) {
@@ -89,7 +84,7 @@ export default compose(
   withHandlers({
     handleClose: (props) => (e) => {
       props.setIsLeftNavOpen(false);
-      props.history.push(textToRouter[e.target.textContent]);
+      actions.transitionToMenuOption(e.target.textContent);
     }
   }),
 
