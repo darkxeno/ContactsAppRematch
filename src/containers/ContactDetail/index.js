@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ContactCard from "../../components/ContactCard";
@@ -11,6 +11,7 @@ class ContactPage extends PureComponent {
     super(props);
     this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
+    this.transitionToEditContact = id => props.history.push(`${EDIT_PATHNAME}/${id}`)
   }
 
   componentDidMount() {
@@ -18,20 +19,18 @@ class ContactPage extends PureComponent {
   }
 
   onEditClick() {
-    const { transitionToEditContact } = this.props;
-    transitionToEditContact( this.props.match.params.id );
+    this.transitionToEditContact( this.props.match.params.id );
   }
 
   onDeleteClick() {
-    const { deleteContact } = this.props;
-    deleteContact( this.props.match.params.id );
+    ContactsState.actions.deleteContact( this.props.match.params.id );
   }
 
   render() {
     const contact = this.props.contact;
     return (
       <Subscribe to={ContactsState.state}>
-      { contacts => { console.log(contacts); return (
+      { contacts => { return (
         <div style={{ margin: "1em" }}>
           <ContactCard
             big
@@ -46,21 +45,5 @@ class ContactPage extends PureComponent {
   }
 }
 
-ContactPage.propTypes = {
-  contact: PropTypes.object.isRequired,
-  deleteContact: PropTypes.func,
-  transitionToEditContact: PropTypes.func
-};
 
-const mapStateToProps = (state, props) => ({
-  transitionToEditContact: id => props.history.push(`${EDIT_PATHNAME}/${id}`)
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  deleteContact: id => {
-    dispatch.contacts.deleteContactRequest(id);
-    props.history.goBack();
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactPage);
+export default ContactPage;
