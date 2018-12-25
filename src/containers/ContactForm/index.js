@@ -9,6 +9,7 @@ import { Form, Field } from 'react-final-form';
 
 const styles = {
   formContainer: {
+    paddingTop: '16px',
     display: "flex",
     flex: "0 0 auto",
     alignItems: "center",

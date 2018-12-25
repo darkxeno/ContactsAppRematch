@@ -6,6 +6,7 @@ import {
   postGroupService, 
   updateGroupService
 } from "../../services/groups";
+import { history } from "../history/";
 
 let groups = state({
   list: {},
@@ -39,7 +40,7 @@ async function saveGroup(group) {
     SnackbarActions.displayError(error);
   }  
 
-  //props.history.goBack();
+  history.goBack();
 }
 
 export default { state: groups, actions: { loadData, saveGroup } };

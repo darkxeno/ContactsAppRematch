@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import RaisedButton from "material-ui/RaisedButton";
 import FormTextField from "../../components/FormTextField";
 import validate from "./form-validations";
 import { Subscribe } from 'bey';
 import GroupsState from '../../state/groups/';
 import { Form, Field } from 'react-final-form';
+import { Button } from "@blueprintjs/core";
 
 const styles = {
   formContainer: {
+    paddingTop: '16px',
     display: "flex",
     flex: "0 0 auto",
     alignItems: "center",
@@ -40,7 +41,7 @@ class CreateOrEditGroupPage extends Component {
               onSubmit={GroupsState.actions.saveGroup}
               validate={validate}
               initialValues={contacts.current}
-              render={({ handleSubmit, pristine, invalid, submitting, reset }) => (            
+              render={({ handleSubmit, pristine, invalid, submitting, form: {reset} }) => (            
               <form style={styles.formContainer} onSubmit={handleSubmit}>            
                 <Field
                   name="name"
@@ -49,20 +50,19 @@ class CreateOrEditGroupPage extends Component {
                   component={FormTextField}
                 />
                 <div>
-                  <RaisedButton
-                    style={styles.buttonStyle}
-                    label="Save group"
-                    primary
+                  <Button 
+                    style={{ marginRight: '1rem'}}
+                    icon="floppy-disk" 
+                    intent="success"
                     type="submit"
                     disabled={pristine || submitting || invalid}
-                  />
-                  <RaisedButton
-                    style={styles.buttonStyle}
-                    label="Reset values"
-                    secondary
-                    disabled={pristine || submitting}
+                    text="Save group" />                  
+                  <Button 
+                    icon="refresh" 
+                    intent="danger" 
                     onClick={reset}
-                  />
+                    disabled={pristine || submitting}
+                    text="Reset values" />
                 </div>
               </form>
             )} />
