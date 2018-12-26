@@ -43,7 +43,11 @@ function ContactListItems(props){
         <div style={{ display: 'flex' }}>
           {
             contact.imgUrl ? (
-                <img src={contact.imgUrl} alt={contact.name} />
+                <img src={contact.imgUrl} alt={contact.name} style={{            
+                  maxWidth: 50,
+                  minWidth: 50,
+                  maxHeight: 50
+                }} />
               ) : (
                 <div style={{
                   width: '50px',
