@@ -1,10 +1,5 @@
 import React from "react";
-import compose from "recompose/compose";
-import withStateHandlers from "recompose/withStateHandlers";
-import withHandlers from "recompose/withHandlers";
-import AppBar from "material-ui/AppBar";
-import Drawer from "material-ui/Drawer";
-import MenuItem from "material-ui/MenuItem";
+import { Navbar, Button, Alignment, Popover, Menu, MenuItem, Position } from "@blueprintjs/core";
 import IconElementList from "../../components/IconElementList";
 import {
   HOME_PATHNAME,
@@ -17,15 +12,11 @@ import GlobalState from '../../state/global/';
 import { actions } from '../../state/history/';
 
 
-function renderIconElementRight(pathname, changeListMode) {
-  if (pathname === LIST_PATHNAME) {
-    return <IconElementList changeListMode={GlobalState.actions.changeMode} />;
-  }
-  return null;
+function selectMenuOption(e){
+  actions.transitionToMenuOption(e.target.textContent);
 }
 
-function Navbar({
-  handleClose,
+function MyNavbar({  
   handleToggle,
   isLeftNavOpen,
   setIsLeftNavOpen,
@@ -35,57 +26,34 @@ function Navbar({
     <Subscribe to={GlobalState.state}>
     { state =>
         <React.Fragment>
-          <AppBar
-            title={"Contacts app: "+state.mode}
-            onLeftIconButtonClick={handleToggle}
-            iconElementRight={renderIconElementRight(
-              location.pathname,
-              GlobalState.actions.changeMode
-            )}
-          />
-          <Drawer
-            open={isLeftNavOpen}
-            docked={false}
-            onRequestChange={setIsLeftNavOpen}
-          >
-            <MenuItem onClick={handleClose} value={HOME_PATHNAME}>
-              About
-            </MenuItem>
-            <MenuItem onClick={handleClose} value={LIST_PATHNAME}>
-              List
-            </MenuItem>
-            <MenuItem onClick={handleClose} value={ADD_PATHNAME}>
-              Add Contact
-            </MenuItem>
-            <MenuItem onClick={handleClose} value={ADD_GROUP_PATHNAME}>
-              Add Group
-            </MenuItem>
-          </Drawer>
+
+          <Navbar>
+              <Navbar.Group align={Alignment.LEFT}>                  
+                <Popover content={
+                    <Menu>
+                      <MenuItem onClick={selectMenuOption} value={HOME_PATHNAME} text="About"/>
+                      <MenuItem onClick={selectMenuOption} value={LIST_PATHNAME} text="List"/>
+                      <MenuItem onClick={selectMenuOption} value={ADD_PATHNAME} text="Add Contact"/>
+                      <MenuItem onClick={selectMenuOption} value={ADD_GROUP_PATHNAME} text="Add Group"/>
+                    </Menu>    
+                  } position={Position.RIGHT_TOP}>
+                    <Button className="bp3-minimal" icon="menu"/>
+                  </Popover>                  
+                  <Navbar.Divider />
+                  <Navbar.Heading>Contacts app</Navbar.Heading>                  
+              </Navbar.Group>
+              <Navbar.Group align={Alignment.RIGHT}>
+              {
+                (location.pathname === LIST_PATHNAME)?
+                  <IconElementList changeListMode={GlobalState.actions.changeMode} />
+                : null
+              }
+              </Navbar.Group>
+          </Navbar>
         </React.Fragment>
     }
     </Subscribe>    
   );
 }
 
-export default compose(
-  withStateHandlers(
-    {
-      isLeftNavOpen: false,
-    },
-    {
-      setIsLeftNavOpen: () => (isLeftNavOpen) => ({
-        isLeftNavOpen
-      }),
-      handleToggle: ({ isLeftNavOpen}) => () => ({
-        isLeftNavOpen: !isLeftNavOpen,
-      })
-    }
-  ),
-  withHandlers({
-    handleClose: (props) => (e) => {
-      props.setIsLeftNavOpen(false);
-      actions.transitionToMenuOption(e.target.textContent);
-    }
-  }),
-
-)(Navbar);
+export default MyNavbar;

@@ -21,6 +21,10 @@ function close(){
   update(snackbar, state => null);  
 }
 
-const exported = { state: snackbar, actions: { setMessage, displayError, close } };
+const exported = { 
+  name: 'snackbar',
+  state: snackbar, 
+  actions: { setMessage, displayError, close } 
+};
 export const actions = exported.actions;
 export default exported;

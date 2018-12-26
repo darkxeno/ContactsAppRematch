@@ -1,20 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Card from "material-ui/Card";
-import CardMedia from "material-ui/Card/CardMedia";
-import CardTitle from "material-ui/Card/CardTitle";
-import CardActions from "material-ui/Card/CardActions";
-import FlatButton from "material-ui/FlatButton";
+import { Button, Card, Elevation } from "@blueprintjs/core";
 
-// https://imgur.com/mbZIBzc
 const ContactCard = ({ contact, onEditClick, onDeleteClick, big }) => {
   const { name, imgUrl, email, groupNames } = contact;
   return (
-    <Card style={{ width: big ? "auto" : "300px", margin: "1em 0 0 0" }}>
-      <CardMedia
-        mediaStyle={{ textAlign: "center" }}
-        overlay={<CardTitle title={name} />}
-      >
+    <Card 
+      interactive={true} 
+      elevation={Elevation.TWO} 
+      style={{ width: big ? "auto" : "300px", padding: '0px'}}>
+
+      <div style={{    
+        position: 'relative',
+        textAlign: 'center'
+      }}>
+        <h1 style={{
+          position: 'absolute',
+          bottom: '0px',
+          right: '0px',
+          left: '0px',
+          padding: '8px',
+          margin: '0',
+          color: 'white',
+          background: 'rgba(0, 0, 0, 0.54)'          
+        }} >{name}</h1>
         <img
           alt="contact"
           src={imgUrl || "http://i.imgur.com/mbZIBzc.png"}
@@ -26,16 +35,17 @@ const ContactCard = ({ contact, onEditClick, onDeleteClick, big }) => {
             maxHeight: 300
           }}
         />
-      </CardMedia>
-      <CardTitle
-        titleStyle={{ fontSize: "12pt" }}
-        title={email}
-        subtitle={groupNames || "Without group"}
-      />
-      <CardActions>
-        <FlatButton onClick={onEditClick} label="Edit" />
-        <FlatButton onClick={onDeleteClick} label="Delete" />
-      </CardActions>
+      </div>
+      <div style={{ fontSize: "12pt", padding: '8px' }}>
+        {email}
+        <div style={{ fontSize: '10pt', color: 'grey' }}>
+          {groupNames || "Without group"}
+        </div>
+      </div>
+      <div style={{padding: '8px', position: 'relative'}}>
+        <Button onClick={onEditClick} text="Edit" style={{marginRight:'8px'}} />
+        <Button onClick={onDeleteClick} text="Delete" style={{marginRight:'8px'}} />
+      </div>
     </Card>
   );
 };

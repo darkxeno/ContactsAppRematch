@@ -1,5 +1,5 @@
 import React from "react";
-import Snackbar from "material-ui/Snackbar";
+import { Toaster, Toast, Position } from "@blueprintjs/core";
 import { Subscribe } from 'bey';
 import SnackbarState from '../../state/snackbar/';
 
@@ -8,12 +8,13 @@ function SB() {
   return (
     <Subscribe to={SnackbarState.state}>
     { message =>
-      <Snackbar
-        open={message !== null}
-        message={message ? message : ''}
-        autoHideDuration={3000}
-        onRequestClose={SnackbarState.actions.close}
-      />
+      <Toaster position={Position.BOTTOM}>
+        {(message)?<Toast 
+              message={message ? message : ''}
+              timeout={3000}
+              onDismiss={SnackbarState.actions.close}
+           />:null}
+      </Toaster>
     }
     </Subscribe>
   );

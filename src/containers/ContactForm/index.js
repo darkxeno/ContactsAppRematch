@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import RaisedButton from "material-ui/RaisedButton";
+import { Button } from "@blueprintjs/core";
 import FormTextField from "../../components/FormTextField";
 import FormMultiSelectField from "../../components/FormMultiSelectField";
 import validate from "./form-validations";
@@ -9,6 +9,7 @@ import { Form, Field } from 'react-final-form';
 
 const styles = {
   formContainer: {
+    paddingTop: '16px',
     display: "flex",
     flex: "0 0 auto",
     alignItems: "center",
@@ -21,17 +22,14 @@ const styles = {
 
 class CreateOrEditContactPage extends Component {
   componentDidMount() {
-    const id = this.props.match.params.id;
+    const id = this.props.id;
     if(id){
       ContactsState.actions.loadData(id);
     }
   }
   componentWillReceiveProps(nextProps) {
-    const {
-      match: { params }
-    } = this.props;
-    if (params.id !== nextProps.match.params.id) {
-      ContactsState.actions.loadData(nextProps.match.params.id);
+    if (this.props.id !== nextProps.id) {
+      ContactsState.actions.loadData(nextProps.id);
     }
   }
   render() {
@@ -42,7 +40,7 @@ class CreateOrEditContactPage extends Component {
             <Form
               onSubmit={ContactsState.actions.saveContact}
               validate={validate}
-              initialValues={ this.props.match.params.id ? contacts.current : {} }
+              initialValues={ this.props.id ? contacts.current : {} }
               render={({ handleSubmit, pristine, invalid, submitting, reset }) => (            
               <form style={styles.formContainer} onSubmit={handleSubmit}>
                 <Field
@@ -80,18 +78,20 @@ class CreateOrEditContactPage extends Component {
                   }
                 />
                 <div>
-                  <RaisedButton
+                  <Button
                     style={styles.buttonStyle}
-                    label="Save contact"
-                    primary
+                    text="Save contact"
+                    icon="floppy-disk"
+                    intent="success"
                     type="submit"
                     disabled={pristine || submitting || invalid}
                   />
-                  <RaisedButton
+                  <Button
                     style={styles.buttonStyle}
-                    label="Reset values"
-                    secondary
+                    text="Reset values"                    
                     disabled={pristine || submitting}
+                    icon="refresh"
+                    intent="danger"
                     onClick={reset}
                   />
                 </div>
