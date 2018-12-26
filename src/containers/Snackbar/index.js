@@ -1,28 +1,23 @@
 import React from "react";
-import { connect } from "react-redux";
-import Snackbar from "material-ui/Snackbar";
+import { Toaster, Toast, Position } from "@blueprintjs/core";
+import { Subscribe } from 'bey';
+import SnackbarState from '../../state/snackbar/';
 
-function SB({ open, message, close }) {
+
+function SB() {
   return (
-    <Snackbar
-      open={open}
-      message={message}
-      autoHideDuration={3000}
-      onRequestClose={close}
-    />
+    <Subscribe to={SnackbarState.state}>
+    { message =>
+      <Toaster position={Position.BOTTOM}>
+        {(message)?<Toast 
+              message={message ? message : ''}
+              timeout={3000}
+              onDismiss={SnackbarState.actions.close}
+           />:null}
+      </Toaster>
+    }
+    </Subscribe>
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    message: state.snackbar,
-    open: state.snackbar ? true : false
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    close: () => dispatch.snackbar.close()
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SB);
+export default SB;

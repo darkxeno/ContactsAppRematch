@@ -6,8 +6,8 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
+import { MenuItem, FormGroup } from "@blueprintjs/core";
+import { MultiSelect } from "@blueprintjs/select";
 
 function FormMultiSelectField({
   options,
@@ -16,30 +16,58 @@ function FormMultiSelectField({
   meta: { touched, error },
   ...custom
 }) {
+  
+  const indexesOptions = {};
+  if( options && options.length > 0 ){
+    options.forEach( o => {
+      indexesOptions[ o.value ] = o;
+    });  
+  }
+  console.log('first:',value);
   return (
-    <SelectField
-      style={{ margin: "1.5em 0 0 0" }}
-      {...inputProps}
-      value={value}
-      hintText={label}
-      errorText={touched && error}
-      onChange={(e, index, optionValue) => {
-        if (value !== optionValue) {
-          onChange(optionValue);
-        }
-      }}
-      onBlur={() => onBlur(value)}
-      multiple
-      {...custom}
-    >
-      {options.map((opt) => (
-        <MenuItem
-          key={`option-${opt.value}`}
-          value={opt.value}
-          primaryText={opt.text}
-        />
-      ))}
-    </SelectField>
+    <FormGroup
+        helperText={error}
+        label={label}
+        intent={error ? 'danger' : undefined}
+        style={{ width: '300px', minWidth: '300px', maxWidth: '300px' }}
+    >    
+      <MultiSelect
+        shouldDismissPopover={false}        
+        noResults={<MenuItem disabled={true} text="No results." />}
+        popoverProps={{minimal: true}}
+        items={options}
+        selectedItems={ value==="" ? [] : value }
+        onItemSelect={(opt) => { 
+          if (value.indexOf(opt.value) === -1) {
+            onChange([...value, opt.value]);
+          } else {
+            value.splice(value.indexOf(opt.value), 1);
+            onChange(value);
+          }
+        }}
+        tagInputProps={{ fill: true, onRemove: (opt, index)=>{          
+          if( value && value.length > 0 ){
+            value.splice(index, 1);
+            console.log('deleting opt',opt);
+            onChange(value);  
+          }      
+        } }}
+        //onBlur={() => onBlur(value)}
+        itemRenderer={(opt, { modifiers, handleClick }) => {
+          return (
+            <MenuItem
+              active={value.indexOf(opt.value)!==-1}
+              key={`option-${opt.value}`}
+              //label={opt.value}
+              text={opt.text}
+              onClick={handleClick}
+            />
+          )}}
+        tagRenderer={opt => indexesOptions[opt].text}
+        {...custom}
+      >        
+      </MultiSelect>
+    </FormGroup>
   );
 }
 

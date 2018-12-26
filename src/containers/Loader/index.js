@@ -1,18 +1,27 @@
 import React from "react";
-import { connect } from "react-redux";
-import LinearProgress from "material-ui/LinearProgress";
+import { Toaster, Toast, Position, ProgressBar } from "@blueprintjs/core";
+import { Subscribe } from 'bey';
+import GlobalState from '../../state/global/';
 
-function Loader({ loading }) {
-  if (loading) {
-    return <LinearProgress mode="indeterminate" />;
-  }
-  return <span style={{ width: "4px" }} />;
+function Loader() {
+	return (
+    <Subscribe to={GlobalState.state}>
+    { state =>    	
+      <Toaster position={Position.TOP}>
+        {
+          (state.loading.state) ?
+            <Toast message={
+              <div>
+                <span>{`Loading ${state.loading.message}...`}</span>
+                <ProgressBar />
+              </div>  
+            }/>
+            :null
+        }
+      </Toaster>
+    }
+    </Subscribe>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.loading.global,
-  };
-};
-
-export default connect(mapStateToProps)(Loader);
+export default Loader;

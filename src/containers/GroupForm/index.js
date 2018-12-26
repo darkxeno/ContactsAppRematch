@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Field, reduxForm, getFormValues } from "redux-form";
-import RaisedButton from "material-ui/RaisedButton";
 import FormTextField from "../../components/FormTextField";
 import validate from "./form-validations";
-import { makeSelectGroupById } from "../../models/groups/selectors";
+import { Subscribe } from 'bey';
+import GroupsState from '../../state/groups/';
+import { Form, Field } from 'react-final-form';
+import { Button } from "@blueprintjs/core";
 
-const FORM_NAME = "group";
 const styles = {
   formContainer: {
+    paddingTop: '16px',
     display: "flex",
     flex: "0 0 auto",
     alignItems: "center",
@@ -21,84 +20,56 @@ const styles = {
 };
 
 class CreateOrEditGroupPage extends Component {
-  componentDidMount() {
-    this.props.initializeView(this.props.match.params);
+  componentDidMount() {    
+    const id = this.props.id;
+    if(id){
+      GroupsState.actions.loadData(id);
+    }    
   }
   componentWillReceiveProps(nextProps) {
-    const {
-      match: { params }
-    } = this.props;
-    if (params.id !== nextProps.match.params.id) {
-      nextProps.initializeView(nextProps.match.params);
+    if (this.props.id !== nextProps.id) {
+      GroupsState.actions.loadData(nextProps.id);
     }
   }
   render() {
-    const {
-      handleSubmit,
-      pristine,
-      submitting,
-      invalid,
-      reset,
-      saveGroup
-    } = this.props;
     return (
-      <form style={styles.formContainer} onSubmit={handleSubmit(saveGroup)}>
-        <Field
-          name="name"
-          label="Name"
-          placeholder="Name"
-          component={FormTextField}
-        />
-        <div>
-          <RaisedButton
-            style={styles.buttonStyle}
-            label="Save group"
-            primary
-            type="submit"
-            disabled={pristine || submitting || invalid}
-          />
-          <RaisedButton
-            style={styles.buttonStyle}
-            label="Reset values"
-            secondary
-            disabled={pristine || submitting}
-            onClick={reset}
-          />
-        </div>
-      </form>
+      <Subscribe to={GroupsState.state}>
+        {contacts => {
+          return (
+            <Form
+              onSubmit={GroupsState.actions.saveGroup}
+              validate={validate}
+              initialValues={contacts.current}
+              render={({ handleSubmit, pristine, invalid, submitting, form: {reset} }) => (            
+              <form style={styles.formContainer} onSubmit={handleSubmit}>            
+                <Field
+                  name="name"
+                  label="Name"
+                  placeholder="Name"
+                  component={FormTextField}
+                />
+                <div>
+                  <Button 
+                    style={{ marginRight: '1rem'}}
+                    icon="floppy-disk" 
+                    intent="success"
+                    type="submit"
+                    disabled={pristine || submitting || invalid}
+                    text="Save group" />                  
+                  <Button 
+                    icon="refresh" 
+                    intent="danger" 
+                    onClick={reset}
+                    disabled={pristine || submitting}
+                    text="Reset values" />
+                </div>
+              </form>
+            )} />
+        )}}
+      </Subscribe>              
     );
   }
 }
 
-CreateOrEditGroupPage.propTypes = {
-  group: PropTypes.object
-};
 
-const mapStateToProps = (store, props) => ({
-  initialValues: makeSelectGroupById(props.match.params.id)(store),
-  formValues: getFormValues(FORM_NAME)
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  initializeView: params => {
-    if (params && params.id) {
-      dispatch.groups.requestGroup(props.match.params.id);
-    }
-  },
-  saveGroup: group => {
-    if (group.id) {
-      dispatch.groups.updateGroupRequest(group);
-    } else {
-      dispatch.groups.createGroup(group);
-    }
-    props.history.goBack();
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-  reduxForm({
-    form: FORM_NAME,
-    enableReinitialize: true,
-    validate
-  })(CreateOrEditGroupPage)
-);
+export default CreateOrEditGroupPage;

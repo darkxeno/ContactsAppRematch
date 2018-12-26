@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import { Route, Switch } from "react-router-dom";
 import {
   ADD_PATHNAME,
   LIST_PATHNAME,
@@ -15,26 +14,23 @@ import Navbar from "./containers/Navbar";
 import Loader from "./containers/Loader";
 import Snackbar from "./containers/Snackbar";
 import GroupForm from "./containers/GroupForm";
+import { Router } from "@reach/router";
 
 class App extends PureComponent {
   render() {
-    const { location, history } = this.props;
+    const { history, location } = this.props;
     return (
-      <div>
+      <div className="bp3-fill" style={{ backgroundColor: '#30404d', minHeight: '100vh' }}>
         <Navbar location={location} history={history} />
         <Loader />
-        <Switch>
-          <Route exact path={ADD_PATHNAME} component={ContactForm} />
-          <Route exact path={LIST_PATHNAME} component={ContactList} />
-          <Route exact path={`${EDIT_PATHNAME}/:id`} component={ContactForm} />
-          <Route
-            exact
-            path={`${DETAIL_PATHNAME}/:id`}
-            component={ContactDetail}
-          />
-          <Route exact path={ADD_GROUP_PATHNAME} component={GroupForm} />
-          <Route component={About} />
-        </Switch>
+        <Router location={location} history={history} >
+          <ContactForm path={ADD_PATHNAME} />
+          <ContactList path={LIST_PATHNAME} />
+          <ContactForm path={`${EDIT_PATHNAME}/:id`} />
+          <ContactDetail path={`${DETAIL_PATHNAME}/:id`} />
+          <GroupForm path={ADD_GROUP_PATHNAME} />
+          <About default />
+        </Router>
         <Snackbar />
       </div>
     );

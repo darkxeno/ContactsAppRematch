@@ -2,31 +2,34 @@
   "name": "contacts-app-rematch",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://darkxeno.github.io/ContactsAppRematch",
   "devDependencies": {
     "react-scripts": "1.1.4",
     "eslint-config-airbnb": "13.0.0",
-    "eslint-config-airbnb-base": "10.0.1"
+    "gh-pages": "^2.0.1",
+    "eslint-config-airbnb-base": "10.0.1",
+    "webpack-bundle-analyzer": "^3.0.3"
   },
   "dependencies": {
-    "@rematch/core": "^0.6.0",
-    "@rematch/loading": "^0.5.0",
+    "@blueprintjs/core": "^3.10.0",
+    "@blueprintjs/select": "^3.4.0",
+    "@reach/router": "^1.2.1",
+    "bey": "^1.1.0",
+    "final-form": "^4.11.0",
     "firebase": "^4.13.1",
-    "material-ui": "^0.20.0",
+    "history": "4.7.2",
     "prop-types": "^15.6.1",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "react-navigation": "^1.5.11",
-    "react-redux": "^5.0.7",
-    "react-router-dom": "^4.2.2",
-    "recompose": "^0.27.0",
-    "redux-form": "^7.3.0",
-    "redux-orm": "^0.9.4",
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2",
+    "react-final-form": "^4.0.2",
     "reselect": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "node build.js",
+    "deploy": "gh-pages -d build"
   }
 }
