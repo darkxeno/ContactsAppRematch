@@ -1,7 +1,4 @@
 import React from "react";
-import compose from "recompose/compose";
-import withStateHandlers from "recompose/withStateHandlers";
-import withHandlers from "recompose/withHandlers";
 import { Navbar, Button, Alignment, Popover, Menu, MenuItem, Position } from "@blueprintjs/core";
 import IconElementList from "../../components/IconElementList";
 import {

@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route } from "react-router-dom";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
@@ -9,11 +8,9 @@ import { HOME_PATHNAME } from "./globals/pathNames";
 import { history } from "./state/history/"
 
 const Root = () => (
-  <MuiThemeProvider>
-    <Router history={history}>
-      <Route path={HOME_PATHNAME} component={App} />
-    </Router>
-  </MuiThemeProvider>
+  <Router history={history}>
+    <Route path={HOME_PATHNAME} component={App} />
+  </Router>
 );
 
 ReactDOM.render(<Root />, document.getElementById("root"));

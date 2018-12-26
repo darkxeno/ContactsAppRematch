@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { MenuItem, Menu, Popover, Button, Position } from "@blueprintjs/core";
 
-const iCON_SETTINGS = { horizontal: "right", vertical: "top" };
 
 const IconElementList = ({ changeListMode }) => (
   <Popover content={

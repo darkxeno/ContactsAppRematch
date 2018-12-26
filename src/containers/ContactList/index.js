@@ -1,10 +1,5 @@
 import { useEffect, useState, default as React } from "react";
-import List from "material-ui/List";
-import ListItem from "material-ui/List/ListItem";
-import Avatar from "material-ui/Avatar";
-import Divider from "material-ui/Divider";
-import IconButton from "material-ui/IconButton";
-import DeleteIcon from "material-ui/svg-icons/action/delete";
+import { Button } from "@blueprintjs/core";
 import ContactCard from "../../components/ContactCard";
 import { Subscribe } from 'bey';
 import ContactsState from '../../state/contacts/';
@@ -32,28 +27,43 @@ function ContactListCards(props){
 
 
 function ContactListItems(props){
-  console.log('ContactListItems props',props);
+  
   return props.list.map(contact => 
     <div key={`contact-${contact.id}`}>
-      <ListItem
-        leftAvatar={
-          contact.imgUrl ? (
-            <Avatar src={contact.imgUrl} />
-          ) : (
-            <Avatar>{contact.name.substring(0, 1)}</Avatar>
-          )
-        }
-        primaryText={contact.name}
-        secondaryText={contact.groupNames || "Without group"}
-        secondaryTextLines={1}
-        onClick={() => props.transitionToContactDetail(contact.id)}
-        rightIconButton={
-          <IconButton>
-            <DeleteIcon onClick={() => ContactsState.actions.deleteContact(contact.id)} />
-          </IconButton>
-        }
-      />
-      <Divider key={`divider-${contact.id}`} inset />
+      <div 
+        onClick={() => props.transitionToContactDetail(contact.id)} 
+        className='bp3-tag bp3-interactive'
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          height: '60px',
+          paddingLeft: '8px',
+          margin: '3px'
+        }}>
+        <div style={{ display: 'flex' }}>
+          {
+            contact.imgUrl ? (
+                <img src={contact.imgUrl} alt={contact.name} />
+              ) : (
+                <div style={{
+                  width: '50px',
+                  height: '50px',
+                  fontSize: '50px',
+                  backgroundColor: 'lightgrey',
+                  color: 'white',
+                  textAlign: 'center',
+                  lineHeight: '50px',
+                  borderRadius: '50px',
+                }}>{contact.name.substring(0, 1)}</div>
+              )
+          }
+          <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center', marginLeft: '2rem'}}>        
+            <div>{contact.name}</div>
+            <div style={{ fontSize: '12px', color: 'lightgrey'}}>{contact.groupNames || "Without group"}</div>
+          </div>
+        </div>  
+        <Button icon="delete" onClick={() => ContactsState.actions.deleteContact(contact.id)} />
+      </div>
     </div>
   );
 }
@@ -81,7 +91,7 @@ export default function ContactList(props){
         { contacts => {
           return (
                 (global.mode === 'list') ?
-                <List>
+                <div>
                   <div style={{
                     boxSizing: "border-box",
                     color: "rgba(0, 0, 0, 0.54)",
@@ -94,7 +104,7 @@ export default function ContactList(props){
                     Contacts
                   </div>
                   <ContactListItems {...addHandlers(props)} list={Object.values(contacts.list)} />
-                </List>
+                </div>
                 :    
                 <div style={{
                     display: "flex",

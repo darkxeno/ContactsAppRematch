@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import RaisedButton from "material-ui/RaisedButton";
+import { Button } from "@blueprintjs/core";
 import FormTextField from "../../components/FormTextField";
 import FormMultiSelectField from "../../components/FormMultiSelectField";
 import validate from "./form-validations";
@@ -81,18 +81,20 @@ class CreateOrEditContactPage extends Component {
                   }
                 />
                 <div>
-                  <RaisedButton
+                  <Button
                     style={styles.buttonStyle}
-                    label="Save contact"
-                    primary
+                    text="Save contact"
+                    icon="floppy-disk"
+                    intent="success"
                     type="submit"
                     disabled={pristine || submitting || invalid}
                   />
-                  <RaisedButton
+                  <Button
                     style={styles.buttonStyle}
-                    label="Reset values"
-                    secondary
+                    text="Reset values"                    
                     disabled={pristine || submitting}
+                    icon="refresh"
+                    intent="danger"
                     onClick={reset}
                   />
                 </div>
