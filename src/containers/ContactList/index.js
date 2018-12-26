@@ -29,7 +29,7 @@ function ContactListCards(props){
 function ContactListItems(props){
   
   return props.list.map(contact => 
-    <div key={`contact-${contact.id}`}>
+    <div key={`contact-${contact.id}`} id={contact.id}>
       <div 
         onClick={() => props.transitionToContactDetail(contact.id)} 
         className='bp3-tag bp3-interactive'
