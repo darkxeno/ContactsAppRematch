@@ -8,7 +8,7 @@ const ContactCard = ({ contact, onEditClick, onDeleteClick, big }) => {
     <Card 
       interactive={true} 
       elevation={Elevation.TWO} 
-      style={{ width: big ? "auto" : "300px"}}>
+      style={{ width: big ? "auto" : "300px", padding: '0px'}}>
 
       <div style={{    
         position: 'relative',

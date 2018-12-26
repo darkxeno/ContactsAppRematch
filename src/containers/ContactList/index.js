@@ -73,17 +73,23 @@ export default function ContactList(props){
   const [global, setGlobal] = useState(GlobalState.state.get());
 
   function handler(){
-    setGlobal(GlobalState.state.get());
+    const newMode = GlobalState.state.get().mode;
+    if(newMode !== global.mode){
+      setGlobal(GlobalState.state.get());
+    }
   }
 
   useEffect(() => {
     // Load the contact list
-    ContactsState.actions.loadData();
+    ContactsState.actions.loadData();    
+  }); 
+
+  useEffect(() => {
     GlobalState.state.on(handler);
     return function cleanup() {
       GlobalState.state.off(handler);
     };    
-  });    
+  });     
   
   return (
     <div style={{ margin: "0.2em 0 0 0" }}>

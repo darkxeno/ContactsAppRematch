@@ -6,13 +6,6 @@ const path = require('path');
 const { NormalModuleReplacementPlugin } = require('webpack');  
 
 const webpackConfigProd = require("react-scripts/config/webpack.config.prod")
-/*
-webpackConfigProd.plugins.push(
-  new BundleAnalyzerPlugin({
-    analyzerMode: "static",
-    reportFilename: "report.html",
-  })
-)*/
 
 webpackConfigProd.plugins.push(
   new NormalModuleReplacementPlugin(
@@ -20,6 +13,14 @@ webpackConfigProd.plugins.push(
     path.resolve(__dirname, './iconSvgPaths.js'),
   )
 )
+
+webpackConfigProd.plugins.push(
+  new BundleAnalyzerPlugin({
+    analyzerMode: "static",
+    reportFilename: "report.html",
+  })
+)
+
 
 require("react-scripts/scripts/build")
 
