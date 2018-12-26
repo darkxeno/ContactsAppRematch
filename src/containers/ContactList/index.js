@@ -58,8 +58,8 @@ function ContactListItems(props){
               )
           }
           <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center', marginLeft: '2rem'}}>        
-            <div>{contact.name}</div>
-            <div style={{ fontSize: '12px', color: 'lightgrey'}}>{contact.groupNames || "Without group"}</div>
+            <div style={{ fontWeight: 'bolder' }}>{contact.name}</div>
+            <div style={{ fontSize: '12px'}}>{contact.groupNames || "Without group"}</div>
           </div>
         </div>  
         <Button icon="delete" onClick={() => ContactsState.actions.deleteContact(contact.id)} />
@@ -92,17 +92,6 @@ export default function ContactList(props){
           return (
                 (global.mode === 'list') ?
                 <div>
-                  <div style={{
-                    boxSizing: "border-box",
-                    color: "rgba(0, 0, 0, 0.54)",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    lineHeight: "48px",
-                    paddingLeft: "16px",
-                    width: "100%"
-                  }}>
-                    Contacts
-                  </div>
                   <ContactListItems {...addHandlers(props)} list={Object.values(contacts.list)} />
                 </div>
                 :    

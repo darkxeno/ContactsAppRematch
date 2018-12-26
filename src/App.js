@@ -20,7 +20,7 @@ class App extends PureComponent {
   render() {
     const { location, history } = this.props;
     return (
-      <div>
+      <div class="bp3-fill" style={{ backgroundColor: '#30404d', minHeight: '100vh' }}>
         <Navbar location={location} history={history} />
         <Loader />
         <Switch>
