@@ -10,13 +10,11 @@ export default function loading(stateModule){
         const originalAction = stateModule.actions[actionName];
         stateModule.actions[actionName] = async function(...args){
           //console.log('loading true');          
-          //GlobalState.actions.setLoading(true);
-          update(GlobalState.state, state => { state.loading = true; });
+          GlobalState.actions.setLoading(true, stateModule.name);          
           update(stateModule.state, state => { state.loading = true; });
           const result = await originalAction(...args);
           update(stateModule.state, state => { state.loading = false; });
-          update(GlobalState.state, state => { state.loading = false; });
-          //GlobalState.actions.setLoading(false);
+          GlobalState.actions.setLoading(false, stateModule.name);
           //console.log('loading false');
           return result;
         }

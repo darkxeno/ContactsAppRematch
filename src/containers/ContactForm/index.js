@@ -22,17 +22,14 @@ const styles = {
 
 class CreateOrEditContactPage extends Component {
   componentDidMount() {
-    const id = this.props.match.params.id;
+    const id = this.props.id;
     if(id){
       ContactsState.actions.loadData(id);
     }
   }
   componentWillReceiveProps(nextProps) {
-    const {
-      match: { params }
-    } = this.props;
-    if (params.id !== nextProps.match.params.id) {
-      ContactsState.actions.loadData(nextProps.match.params.id);
+    if (this.props.id !== nextProps.id) {
+      ContactsState.actions.loadData(nextProps.id);
     }
   }
   render() {
@@ -43,7 +40,7 @@ class CreateOrEditContactPage extends Component {
             <Form
               onSubmit={ContactsState.actions.saveContact}
               validate={validate}
-              initialValues={ this.props.match.params.id ? contacts.current : {} }
+              initialValues={ this.props.id ? contacts.current : {} }
               render={({ handleSubmit, pristine, invalid, submitting, reset }) => (            
               <form style={styles.formContainer} onSubmit={handleSubmit}>
                 <Field

@@ -5,12 +5,21 @@ const LIST_MODE = 'list';
 const CARD_MODE = 'card';
 
 let global = state({
-  loading: false,
+  loading: { state: false, total: 0, message: null },
   mode: LIST_MODE
 });
 
-function setLoading(loading) {
-  update(global, state => { state.loading = loading; });
+function setLoading(loading, message) {
+  update(global, state => {
+    if(loading){
+      state.loading.total++;
+    } else {
+      state.loading.total--;
+    }
+
+    state.loading.state = state.loading.total > 0;
+    state.loading.message = message; 
+  });
 }
 
 function changeMode(mode) {

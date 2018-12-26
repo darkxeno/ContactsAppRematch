@@ -30,7 +30,9 @@ export function getContactService(id) {
       "value",
       contactDB => {
         const contactDBValue = contactDB.val();
-        contactDBValue.id = id;
+        if(contactDBValue){
+          contactDBValue.id = id;
+        }
         return resolve(contactDBValue);
       },
       err => reject(err)

@@ -1,4 +1,4 @@
-import { createBrowserHistory } from 'history';
+import { navigate } from "@reach/router";
 import { 
   EDIT_PATHNAME, 
   DETAIL_PATHNAME, 
@@ -8,8 +8,6 @@ import {
   ADD_GROUP_PATHNAME 
 } from "../../globals/pathNames";
 
-export const history = createBrowserHistory();
-
 const textToRouter = {
   List: LIST_PATHNAME,
   About: HOME_PATHNAME,
@@ -18,9 +16,17 @@ const textToRouter = {
 };
 
 export const actions = {
-	transitionToEditContact: (id) => history.push(`${EDIT_PATHNAME}/${id}`),
-	transitionToContactDetail: (id) => history.push(`${DETAIL_PATHNAME}/${id}`),
-  transitionToMenuOption: text => history.push(textToRouter[text]),
+	transitionToEditContact: (id) => navigate(`${EDIT_PATHNAME}/${id}`),
+	transitionToContactDetail: (id) => navigate(`${DETAIL_PATHNAME}/${id}`),
+  transitionToMenuOption: text => navigate(textToRouter[text]),
 };
 
-export default { history, actions };
+const exported = { 
+  name: 'history',
+  history: { 
+    goBack:()=>window.history.back()
+  }, 
+  actions 
+};
+export const history = exported.history;
+export default exported;

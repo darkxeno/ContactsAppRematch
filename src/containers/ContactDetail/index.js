@@ -13,15 +13,15 @@ class ContactPage extends PureComponent {
   }
 
   componentDidMount() {
-    ContactsState.actions.loadData(this.props.match.params.id);
+    ContactsState.actions.loadData(this.props.id);
   }
 
   onEditClick() {
-    this.transitionToEditContact( this.props.match.params.id );
+    this.transitionToEditContact( this.props.id );
   }
 
   onDeleteClick() {
-    ContactsState.actions.deleteContact( this.props.match.params.id );
+    ContactsState.actions.deleteContact( this.props.id );
   } 
 
   render() {

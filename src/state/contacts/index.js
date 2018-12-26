@@ -9,7 +9,7 @@ import {
   deleteContactService
 } from "../../services/contacts";
 import { history } from "../history/";
-import loading from "../helpers/loading"
+import loading from "../helpers/loading";
 
 let contacts = state({
   list: {},
@@ -18,6 +18,14 @@ let contacts = state({
 });
 
 async function loadData(id) {
+
+  const groupsResponse = await getGroupsService();
+  let newGroups = {};
+
+  groupsResponse.forEach(group => {
+    newGroups[ group.id ] = group;
+  })
+
   let contactsResponse;
   if(id){
     contactsResponse = [ await getContactService(id) ];  
@@ -25,28 +33,27 @@ async function loadData(id) {
     contactsResponse = await getContactsService();
   }
 	
-  const groupsResponse = await getGroupsService();
-  let newGroups = {};
-
-  groupsResponse.forEach(group => {
-    newGroups[ group.id ] = group;
-  })
   let newContacts = {};
+
   contactsResponse.forEach(contact => {
-    if(contact.groups && contact.groups.length > 0){
-      contact.groupNames = contact.groups.map( groupId => {
-        if(newGroups[groupId]){
-          return newGroups[groupId].name;
-        } else {
-          return '';
-        }
-      }).join(', ');      
+    if(contact){
+      if(contact.groups && contact.groups.length > 0){
+        contact.groupNames = contact.groups.map( groupId => {
+          if(newGroups[groupId]){
+            return newGroups[groupId].name;
+          } else {
+            return '';
+          }
+        }).join(', ');      
+      }
+
+      newContacts[ contact.id ] = contact;
     }
-    newContacts[ contact.id ] = contact;
-  })
+  });
+
   update(contacts, state => { 
     if( id ){
-      state.current = newContacts[id];
+      state.current = newContacts[id] || {};
     } else {
       state.list = newContacts;  
     }
@@ -91,7 +98,11 @@ async function deleteContact(id) {
   history.goBack();
 }
 
-export default loading({ state: contacts, actions: { loadData, saveContact, deleteContact } });
+export default loading({ 
+  name: 'contacts',
+  state: contacts, 
+  actions: { loadData, saveContact, deleteContact } 
+});
 
 
 

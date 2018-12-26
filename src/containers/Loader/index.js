@@ -9,8 +9,13 @@ function Loader() {
     { state =>    	
       <Toaster position={Position.TOP}>
         {
-          (state.loading) ?
-            <Toast message={<ProgressBar /> }/>    	      
+          (state.loading.state) ?
+            <Toast message={
+              <div>
+                <span>{`Loading ${state.loading.message}...`}</span>
+                <ProgressBar />
+              </div>  
+            }/>
             :null
         }
       </Toaster>

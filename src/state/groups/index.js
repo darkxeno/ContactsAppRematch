@@ -7,6 +7,7 @@ import {
   updateGroupService
 } from "../../services/groups";
 import { history } from "../history/";
+import loading from "../helpers/loading";
 
 let groups = state({
   list: {},
@@ -43,4 +44,8 @@ async function saveGroup(group) {
   history.goBack();
 }
 
-export default { state: groups, actions: { loadData, saveGroup } };
+export default loading({ 
+  name: 'groups',
+  state: groups, 
+  actions: { loadData, saveGroup } 
+});
