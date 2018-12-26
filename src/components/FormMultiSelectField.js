@@ -23,7 +23,7 @@ function FormMultiSelectField({
       indexesOptions[ o.value ] = o;
     });  
   }
-  console.log('first:',value);
+  
   return (
     <FormGroup
         helperText={error}
@@ -34,7 +34,7 @@ function FormMultiSelectField({
       <MultiSelect
         shouldDismissPopover={false}        
         noResults={<MenuItem disabled={true} text="No results." />}
-        popoverProps={{minimal: true}}
+        popoverProps={{minimal: true, targetClassName: 'contact-group' }}
         items={options}
         selectedItems={ value==="" ? [] : value }
         onItemSelect={(opt) => { 
@@ -45,14 +45,17 @@ function FormMultiSelectField({
             onChange(value);
           }
         }}
-        tagInputProps={{ fill: true, onRemove: (opt, index)=>{          
-          if( value && value.length > 0 ){
-            value.splice(index, 1);
-            console.log('deleting opt',opt);
-            onChange(value);  
-          }      
+        tagInputProps={{ 
+          placeholder: 'Select contact groups...', 
+          fill: true,
+          className: 'contact-group', 
+          onRemove: (opt, index)=>{          
+            if( value && value.length > 0 ){
+              value.splice(index, 1);
+              console.log('deleting opt',opt);
+              onChange(value);  
+            }      
         } }}
-        //onBlur={() => onBlur(value)}
         itemRenderer={(opt, { modifiers, handleClick }) => {
           return (
             <MenuItem
