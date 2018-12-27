@@ -1,5 +1,5 @@
-import { navigate, ROUTES } from '../../router';
-import { state, update } from 'bey';
+import { navigate } from '../../router/router-config';
+import { ROUTES } from '../../router/routes';
 
 const textToRouter = {
   List: ROUTES.LIST_CONTACTS,

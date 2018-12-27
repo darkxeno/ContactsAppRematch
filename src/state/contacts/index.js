@@ -9,13 +9,12 @@ import {
   deleteContactService
 } from "../../services/contacts";
 import { history } from "../history/";
-import loading from "../helpers/loading";
+import { loading, modified } from "../helpers/";
 
 let contacts = state({
   list: {},
   groups: {},
-  current: {},
-  modified: false
+  current: {}  
 });
 
 async function loadData(id) {
@@ -55,18 +54,12 @@ async function loadData(id) {
   update(contacts, state => { 
     if( id ){
       state.current = newContacts[id] || {};
-      state.modified = false;
+      //state.modified = false;
     } else {
       state.list = newContacts;  
     }
     
     state.groups = newGroups;
-  });
-}
-
-function markAsModified() {  
-  update(contacts, state => { 
-    state.modified = true; 
   });
 }
 
@@ -109,11 +102,11 @@ async function deleteContact(id) {
   history.goBack();
 }
 
-export default loading({ 
+export default modified(loading({ 
   name: 'contacts',
   state: contacts, 
-  actions: { loadData, saveContact, deleteContact, markAsModified } 
-});
+  actions: { loadData, saveContact, deleteContact } 
+}));
 
 
 

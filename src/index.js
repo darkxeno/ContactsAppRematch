@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { RouterProvider } from 'react-router5';
-import router from './router';
+import router from './router/router-config';
 
 const Root = () => (
   <RouterProvider router={router}>

@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { Route } from 'react-router5';
-import ComponentSelector from './ComponentSelector';
+import ComponentSelector from './router/ComponentSelector';
 import Navbar from "./containers/Navbar";
 import Loader from "./containers/Loader";
 import Snackbar from "./containers/Snackbar";

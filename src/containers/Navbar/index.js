@@ -4,7 +4,7 @@ import IconElementList from "../../components/IconElementList";
 import { Subscribe } from 'bey';
 import GlobalState from '../../state/global/';
 import { actions } from '../../state/history/';
-import { ROUTES } from '../../router';
+import { ROUTES } from '../../router/routes';
 
 function selectMenuOption(e){
   actions.transitionToMenuOption(e.target.textContent);
