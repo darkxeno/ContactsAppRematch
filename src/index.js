@@ -3,12 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
-import { Location } from "@reach/router";
+import { RouterProvider } from 'react-router5';
+import router from './router';
 
 const Root = () => (
-  <Location>
-    {props => <App location={props.location} />}
-  </Location>
+  <RouterProvider router={router}>
+    <App router={router} />
+  </RouterProvider>  
 );
 
 ReactDOM.render(<Root />, document.getElementById("root"));

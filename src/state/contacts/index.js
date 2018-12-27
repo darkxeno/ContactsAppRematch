@@ -14,7 +14,8 @@ import loading from "../helpers/loading";
 let contacts = state({
   list: {},
   groups: {},
-  current: {}
+  current: {},
+  modified: false
 });
 
 async function loadData(id) {
@@ -54,11 +55,18 @@ async function loadData(id) {
   update(contacts, state => { 
     if( id ){
       state.current = newContacts[id] || {};
+      state.modified = false;
     } else {
       state.list = newContacts;  
     }
     
     state.groups = newGroups;
+  });
+}
+
+function markAsModified() {  
+  update(contacts, state => { 
+    state.modified = true; 
   });
 }
 
@@ -73,7 +81,10 @@ async function saveContact(contact) {
     }
 
     console.log('current contact updated:',response);
-    update(contacts, state => { state.current = contact; });
+    update(contacts, state => { 
+      state.current = contact; 
+      state.modified = false;
+    });
     
     SnackbarActions.setMessage(`Contact ${contact.id?"updated":"created"} successfully`);
   } catch (error) {
@@ -101,7 +112,7 @@ async function deleteContact(id) {
 export default loading({ 
   name: 'contacts',
   state: contacts, 
-  actions: { loadData, saveContact, deleteContact } 
+  actions: { loadData, saveContact, deleteContact, markAsModified } 
 });
 
 

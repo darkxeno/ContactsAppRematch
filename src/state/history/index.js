@@ -1,23 +1,16 @@
-import { navigate } from "@reach/router";
-import { 
-  EDIT_PATHNAME, 
-  DETAIL_PATHNAME, 
-  HOME_PATHNAME,
-  LIST_PATHNAME,
-  ADD_PATHNAME,
-  ADD_GROUP_PATHNAME 
-} from "../../globals/pathNames";
+import { navigate, ROUTES } from '../../router';
+import { state, update } from 'bey';
 
 const textToRouter = {
-  List: LIST_PATHNAME,
-  About: HOME_PATHNAME,
-  "Add Contact": ADD_PATHNAME,
-  "Add Group": ADD_GROUP_PATHNAME
+  List: ROUTES.LIST_CONTACTS,
+  About: ROUTES.HOME,
+  "Add Contact": ROUTES.ADD_CONTACT,
+  "Add Group": ROUTES.ADD_GROUP
 };
 
 export const actions = {
-	transitionToEditContact: (id) => navigate(`${EDIT_PATHNAME}/${id}`),
-	transitionToContactDetail: (id) => navigate(`${DETAIL_PATHNAME}/${id}`),
+	transitionToEditContact: (id) => navigate(ROUTES.EDIT_CONTACT,{ id }),
+	transitionToContactDetail: (id) => navigate(ROUTES.CONTACT_DETAILS,{ id }),
   transitionToMenuOption: text => navigate(textToRouter[text]),
 };
 
@@ -26,7 +19,7 @@ const exported = {
   history: { 
     goBack:()=>window.history.back()
   }, 
-  actions 
+  actions,
 };
 export const history = exported.history;
 export default exported;

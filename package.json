@@ -13,7 +13,6 @@
   "dependencies": {
     "@blueprintjs/core": "^3.10.0",
     "@blueprintjs/select": "^3.4.0",
-    "@reach/router": "^1.2.1",
     "bey": "^1.1.0",
     "final-form": "^4.11.0",
     "firebase": "^4.13.1",
@@ -21,7 +20,11 @@
     "react": "16.7.0-alpha.2",
     "react-dom": "16.7.0-alpha.2",
     "react-final-form": "^4.0.2",
-    "reselect": "^3.0.1"
+    "react-router5": "^7.0.2",
+    "reselect": "^3.0.1",
+    "router5": "^7.0.1",
+    "router5-plugin-browser": "^7.0.1",
+    "router5-plugin-logger": "^7.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
