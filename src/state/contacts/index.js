@@ -9,7 +9,7 @@ import {
   deleteContactService
 } from "../../services/contacts";
 import { history } from "../history/";
-import { loading, modified } from "../helpers/";
+import { loading, modified, changelog } from "../helpers/";
 
 let contacts = state({
   list: {},
@@ -102,11 +102,11 @@ async function deleteContact(id) {
   history.goBack();
 }
 
-export default modified(loading({ 
+export default changelog( modified( loading({ 
   name: 'contacts',
   state: contacts, 
   actions: { loadData, saveContact, deleteContact } 
-}));
+})));
 
 
 

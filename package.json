@@ -16,6 +16,7 @@
     "bey": "^1.1.0",
     "final-form": "^4.11.0",
     "firebase": "^4.13.1",
+    "immer": "^1.9.3",
     "prop-types": "^15.6.1",
     "react": "16.7.0-alpha.2",
     "react-dom": "16.7.0-alpha.2",

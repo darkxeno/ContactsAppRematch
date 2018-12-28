@@ -94,7 +94,7 @@ class CreateOrEditContactPage extends Component {
                 return (            
                   <form style={styles.formContainer} onSubmit={handleSubmit}>
                     <FormSpy onChange={({dirty})=>{
-                      ContactsState.actions.setModified(dirty);  
+                      ContactsState.actions.setModified(dirty && !submitting);  
                     }} />
                     <Field
                       name="name"
