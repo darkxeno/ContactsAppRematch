@@ -1,4 +1,4 @@
-import { state, update } from 'bey';
+import { state as stateCreate, update } from 'bey';
 import { actions as SnackbarActions } from "../snackbar/";
 import { getGroupsService } from "../../services/groups";
 import { 
@@ -11,7 +11,7 @@ import {
 import { history } from "../history/";
 import { loading, modified, changelog } from "../helpers/";
 
-let contacts = state({
+let contacts = stateCreate({
   list: {},
   groups: {},
   current: {}  
@@ -102,11 +102,22 @@ async function deleteContact(id) {
   history.goBack();
 }
 
-export default changelog( modified( loading({ 
+function contactList(state){
+  return { current: state.current, groups: state.groups };
+}
+
+const exported = { 
   name: 'contacts',
   state: contacts, 
-  actions: { loadData, saveContact, deleteContact } 
-})));
+  actions: { loadData, saveContact, deleteContact },
+  selectors: { contactList } 
+};
+
+export const actions = exported.actions;
+export const selectors = exported.selectors;
+export const state = exported.state;
+
+export default changelog( modified( loading( exported )));
 
 
 

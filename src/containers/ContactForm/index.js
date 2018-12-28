@@ -4,7 +4,7 @@ import FormTextField from "../../components/FormTextField";
 import FormMultiSelectField from "../../components/FormMultiSelectField";
 import validate from "./form-validations";
 import { Subscribe } from 'bey';
-import ContactsState from '../../state/contacts/';
+import { actions, selectors, state } from '../../state/contacts/';
 import { Form, Field, FormSpy } from 'react-final-form';
 import { ROUTES } from '../../router/routes';
 
@@ -33,11 +33,11 @@ class CreateOrEditContactPage extends Component {
   componentDidMount() {
     const id = this.props.route.params.id;
     if(id){
-      ContactsState.actions.loadData(id);
+      actions.loadData(id);
     }
     if(this.props.router){
       const canDeactivate = (router) => (toState, fromState) => {
-        const isContactModified = ContactsState.state.get().modified;
+        const isContactModified = state.get().modified;
         if(isContactModified){          
           return new Promise((resolve, reject)=>{
             this.setState({ alertIsOpen: true, continue: reject, cancel: resolve });
@@ -51,7 +51,7 @@ class CreateOrEditContactPage extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.route.params.id !== nextProps.route.params.id) {
-      ContactsState.actions.loadData(nextProps.route.params.id);
+      actions.loadData(nextProps.route.params.id);
     }
   }
   handleCancel(){
@@ -81,20 +81,18 @@ class CreateOrEditContactPage extends Component {
               Are you sure you want leave? Your changes will be lost.
           </p>
         </Alert>      
-        <Subscribe to={ContactsState.state} on={state => {
-         return { current: state.current, groups: state.groups }
-        }}>
+        <Subscribe to={state} on={selectors.contactList}>
           {contacts => {          
             return (
               <Form
-                onSubmit={ContactsState.actions.saveContact}
+                onSubmit={actions.saveContact}
                 validate={validate}
                 initialValues={ this.props.route.params.id ? contacts.current : {} }
                 render={({ handleSubmit, pristine, invalid, submitting, reset }) => {
                 return (            
                   <form style={styles.formContainer} onSubmit={handleSubmit}>
                     <FormSpy onChange={({dirty})=>{
-                      ContactsState.actions.setModified(dirty && !submitting);  
+                      actions.setModified(dirty && !submitting);  
                     }} />
                     <Field
                       name="name"
