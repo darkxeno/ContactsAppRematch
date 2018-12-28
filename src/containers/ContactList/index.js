@@ -32,14 +32,7 @@ function ContactListItems(props){
     <div key={`contact-${contact.id}`} id={contact.id}>
       <div 
         onClick={() => props.transitionToContactDetail(contact.id)} 
-        className='bp3-tag bp3-interactive'
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          height: '60px',
-          paddingLeft: '8px',
-          margin: '3px'
-        }}>
+        className={`bp3-tag bp3-interactive contact-list-item ${props.route.params.id===contact.id?'selected':''}`}>
         <div style={{ display: 'flex' }}>
           {
             contact.imgUrl ? (
@@ -49,16 +42,7 @@ function ContactListItems(props){
                   maxHeight: 50
                 }} />
               ) : (
-                <div style={{
-                  width: '50px',
-                  height: '50px',
-                  fontSize: '50px',
-                  backgroundColor: 'lightgrey',
-                  color: 'white',
-                  textAlign: 'center',
-                  lineHeight: '50px',
-                  borderRadius: '50px',
-                }}>{contact.name.substring(0, 1)}</div>
+                <div className="avatar">{contact.name.substring(0, 1).toUpperCase()}</div>
               )
           }
           <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center', marginLeft: '2rem'}}>        
@@ -96,27 +80,26 @@ export default function ContactList(props){
   });     
   
   return (
-    <div style={{ margin: "0.2em 0 0 0" }}>
-      <Subscribe to={ContactsState.state}>
-        { contacts => {
+    <div style={{ margin: "0.2em 0 0 0", display: 'flex', flex: '1 0 auto' }}>
+      <Subscribe to={ContactsState.state} on={state=>state.list}>
+        { contactList => {
           return (
-                (global.mode === 'list') ?
-                <div>
-                  <ContactListItems {...addHandlers(props)} list={Object.values(contacts.list)} />
-                </div>
-                :    
-                <div style={{
-                    display: "flex",
-                    flex: "0 0 auto",
-                    flexWrap: "wrap",
-                    margin: "1em",
-                    justifyContent: "space-between"
-                  }}
-                >
-                  <ContactListCards {...addHandlers(props)} list={Object.values(contacts.list)} />            
-                </div>                
-            )}}
-          </Subscribe>
+            (global.mode === 'list') ?
+            <div style={{
+              display: 'flex',
+              flex: '1 0 auto',
+              flexDirection: 'column',
+            }}>
+              <ContactListItems {...addHandlers(props)} list={Object.values(contactList)} />
+            </div>
+            :    
+            <div style={{
+              }}
+            >
+              <ContactListCards {...addHandlers(props)} list={Object.values(contactList)} />            
+            </div>                
+        )}}
+      </Subscribe>
     </div>
   );  
 }

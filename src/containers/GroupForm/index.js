@@ -4,18 +4,15 @@ import validate from "./form-validations";
 import { Subscribe } from 'bey';
 import GroupsState from '../../state/groups/';
 import { Form, Field } from 'react-final-form';
-import { Button } from "@blueprintjs/core";
+import { Button, Card, Elevation } from "@blueprintjs/core";
 
 const styles = {
   formContainer: {
     paddingTop: '16px',
-    display: "flex",
-    flex: "0 0 auto",
-    alignItems: "center",
-    flexDirection: "column"
   },
-  buttonStyle: {
-    margin: "2em 0 0 1em"
+  buttonsContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
   }
 };
 
@@ -40,30 +37,34 @@ class CreateOrEditGroupPage extends Component {
               onSubmit={GroupsState.actions.saveGroup}
               validate={validate}
               initialValues={contacts.current}
-              render={({ handleSubmit, pristine, invalid, submitting, form: {reset} }) => (            
-              <form style={styles.formContainer} onSubmit={handleSubmit}>            
-                <Field
-                  name="name"
-                  label="Name"
-                  placeholder="Name"
-                  component={FormTextField}
-                />
-                <div>
-                  <Button 
-                    style={{ marginRight: '1rem'}}
-                    icon="floppy-disk" 
-                    intent="success"
-                    type="submit"
-                    disabled={pristine || submitting || invalid}
-                    text="Save group" />                  
-                  <Button 
-                    icon="refresh" 
-                    intent="danger" 
-                    onClick={reset}
-                    disabled={pristine || submitting}
-                    text="Reset values" />
-                </div>
-              </form>
+              render={({ handleSubmit, pristine, invalid, submitting, form: {reset} }) => (
+              <Card 
+                interactive={true} 
+                elevation={Elevation.TWO} 
+                style={{ width: "300px", margin: '0.5em 1em', padding: '1em'}}>                
+                <form style={styles.formContainer} onSubmit={handleSubmit}>            
+                  <Field
+                    name="name"
+                    label="Name"
+                    placeholder="Name"
+                    component={FormTextField}
+                  />
+                  <div style={styles.buttonsContainer}>
+                    <Button 
+                      icon="floppy-disk" 
+                      intent="success"
+                      type="submit"
+                      disabled={pristine || submitting || invalid}
+                      text="Save group" />                  
+                    <Button 
+                      icon="refresh" 
+                      intent="danger" 
+                      onClick={reset}
+                      disabled={pristine || submitting}
+                      text="Reset values" />
+                  </div>
+                </form>
+              </Card> 
             )} />
         )}}
       </Subscribe>              

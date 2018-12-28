@@ -29,7 +29,7 @@ function FormMultiSelectField({
         helperText={error}
         label={label}
         intent={error ? 'danger' : undefined}
-        style={{ width: '300px', minWidth: '300px', maxWidth: '300px' }}
+        //style={{ width: '300px', minWidth: '300px', maxWidth: '300px' }}
     >    
       <MultiSelect
         shouldDismissPopover={false}        

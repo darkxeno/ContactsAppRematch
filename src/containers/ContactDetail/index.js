@@ -16,9 +16,11 @@ class ContactPage extends PureComponent {
     ContactsState.actions.loadData(this.props.route.params.id);
   }
 
-  onEditClick() {
+  componentDidUpdate() {
+    ContactsState.actions.loadData(this.props.route.params.id);
+  }
 
-    console.log('this.props',this.props);
+  onEditClick() {
     this.transitionToEditContact( this.props.route.params.id );
   }
 
@@ -29,16 +31,17 @@ class ContactPage extends PureComponent {
   render() {
     return (
       <Subscribe to={ContactsState.state}>
-      { contacts => { return (
-        <div style={{ margin: "1em" }}>
-          <ContactCard
-            big
-            contact={contacts.current}
-            onEditClick={this.onEditClick}
-            onDeleteClick={this.onDeleteClick}
-          />
-        </div>
-      )}}
+      { contacts => { 
+        //return (contacts.current && contacts.current.name)?
+          return (<div style={{ margin: "0.5em 1em" }}>
+            <ContactCard
+              big
+              contact={contacts.current}
+              onEditClick={this.onEditClick}
+              onDeleteClick={this.onDeleteClick}
+            />
+          </div>)//:null
+      }}
       </Subscribe>
     );
   }

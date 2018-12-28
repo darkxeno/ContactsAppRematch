@@ -18,12 +18,25 @@ export default function ComponentSelector({ route, router }) {
       case ROUTES.ADD_GROUP:
         return <GroupForm route={route} />      
       case ROUTES.CONTACT_DETAILS:
-        return <ContactDetail route={route} />
+        return (
+          <div style={{ display: 'flex', flex: '1 0 auto' }}>
+            <ContactList route={route} />
+            <ContactDetail route={route} />
+          </div>
+        )        
       case ROUTES.LIST_CONTACTS:
         return <ContactList route={route} />
-      case ROUTES.EDIT_CONTACT:
       case ROUTES.ADD_CONTACT:
-        return <ContactForm route={route} router={router} />
+        return (          
+          <ContactForm route={route} router={router} />          
+        )      
+      case ROUTES.EDIT_CONTACT:
+        return (
+          <div style={{ display: 'flex', flex: '1 0 auto' }}>
+            <ContactList route={route} />
+            <ContactForm route={route} router={router} />
+          </div>
+        )
       case ROUTES.HOME:
       default:
         return <About route={route} />

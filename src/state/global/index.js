@@ -6,7 +6,10 @@ const CARD_MODE = 'card';
 
 let global = state({
   loading: { state: false, total: 0, message: null },
-  mode: LIST_MODE
+  mode: LIST_MODE,
+  menu: {
+    visible: true
+  }
 });
 
 function setLoading(loading, message) {
@@ -29,6 +32,10 @@ function changeMode(mode) {
   }
 }
 
-const exported = { state: global, actions: { setLoading, changeMode } };
+function toggleMenu() {
+  update(global, state => { state.menu.visible = !state.menu.visible; });
+}
+
+const exported = { state: global, actions: { setLoading, changeMode, toggleMenu } };
 export const actions = exported.actions;
 export default exported;

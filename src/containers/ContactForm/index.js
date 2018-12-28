@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Alert } from "@blueprintjs/core";
+import { Button, Alert, Card, Elevation } from "@blueprintjs/core";
 import FormTextField from "../../components/FormTextField";
 import FormMultiSelectField from "../../components/FormMultiSelectField";
 import validate from "./form-validations";
@@ -10,14 +10,11 @@ import { ROUTES } from '../../router/routes';
 
 const styles = {
   formContainer: {
-    paddingTop: '16px',
-    display: "flex",
-    flex: "0 0 auto",
-    alignItems: "center",
-    flexDirection: "column"
+    paddingTop: '16px'
   },
-  buttonStyle: {
-    margin: "2em 0 0 1em"
+  buttonsContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
   }
 };
 
@@ -89,64 +86,67 @@ class CreateOrEditContactPage extends Component {
                 validate={validate}
                 initialValues={ this.props.route.params.id ? contacts.current : {} }
                 render={({ handleSubmit, pristine, invalid, submitting, reset }) => {
-                return (            
-                  <form style={styles.formContainer} onSubmit={handleSubmit}>
-                    <FormSpy onChange={({dirty})=>{
-                      actions.setModified(dirty && !submitting);  
-                    }} />
-                    <Field
-                      name="name"
-                      label="Name"
-                      placeholder="Name"
-                      component={FormTextField}
-                    />
-                    <Field
-                      name="email"
-                      label="Email"
-                      placeholder="Email"
-                      component={FormTextField}
-                    />
-                    <Field
-                      name="phoneNumber"
-                      label="Phone number"
-                      placeholder="Phone number"
-                      component={FormTextField}
-                    />
-                    <Field
-                      name="imgUrl"
-                      label="Profile image url"
-                      placeholder="Profile image url"
-                      component={FormTextField}
-                    />
-                    <Field
-                      name="groups"
-                      component={FormMultiSelectField}
-                      label="Groups"
-                      options={
-                        Object.values(contacts.groups).map(
-                          group => ({ value:group.id, text:group.name })
-                        )
-                      }
-                    />
-                    <div>
-                      <Button
-                        style={styles.buttonStyle}
-                        text="Save contact"
-                        icon="floppy-disk"
-                        intent="success"
-                        type="submit"
-                        disabled={pristine || submitting || invalid}
+                return (
+                  <Card 
+                    interactive={true} 
+                    elevation={Elevation.TWO} 
+                    style={{ width: "300px", margin: '0.5em 1em', padding: '1em'}}>
+                    <form style={styles.formContainer} onSubmit={handleSubmit}>
+                      <FormSpy onChange={({dirty})=>{
+                        actions.setModified(dirty && !submitting);  
+                      }} />
+                      <Field
+                        name="name"
+                        label="Name"
+                        placeholder="Name"
+                        component={FormTextField}
                       />
-                      <Button
-                        style={styles.buttonStyle}
-                        text="Reset values"                    
-                        disabled={pristine || submitting}
-                        icon="refresh"
-                        intent="danger"
-                        onClick={reset}
+                      <Field
+                        name="email"
+                        label="Email"
+                        placeholder="Email"
+                        component={FormTextField}
                       />
-                    </div>
-                  </form>
+                      <Field
+                        name="phoneNumber"
+                        label="Phone number"
+                        placeholder="Phone number"
+                        component={FormTextField}
+                      />
+                      <Field
+                        name="imgUrl"
+                        label="Profile image url"
+                        placeholder="Profile image url"
+                        component={FormTextField}
+                      />
+                      <Field
+                        name="groups"
+                        component={FormMultiSelectField}
+                        label="Groups"
+                        options={
+                          Object.values(contacts.groups).map(
+                            group => ({ value:group.id, text:group.name })
+                          )
+                        }
+                      />
+                      <div style={styles.buttonsContainer}>
+                        <Button
+                          text="Save contact"
+                          icon="floppy-disk"
+                          intent="success"
+                          type="submit"
+                          disabled={pristine || submitting || invalid}
+                        />
+                        <Button
+                          text="Reset values"                    
+                          disabled={pristine || submitting}
+                          icon="refresh"
+                          intent="danger"
+                          onClick={reset}
+                        />
+                      </div>
+                    </form>
+                  </Card> 
               )}} />
           )}}
         </Subscribe>

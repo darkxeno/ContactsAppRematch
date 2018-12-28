@@ -16,7 +16,7 @@ function renderTextField({
         //labelFor="text-input"
         //labelInfo="(required)"
         intent={touched && error ? 'danger' : undefined}
-        style={{ width: '300px' }}
+        //style={{ width: '300px' }}
     >    
       <InputGroup
         

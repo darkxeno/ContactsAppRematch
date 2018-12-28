@@ -25,7 +25,8 @@
     "reselect": "^3.0.1",
     "router5": "^7.0.1",
     "router5-plugin-browser": "^7.0.1",
-    "router5-plugin-logger": "^7.0.1"
+    "router5-plugin-logger": "^7.0.1",
+    "use-immer": "0.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

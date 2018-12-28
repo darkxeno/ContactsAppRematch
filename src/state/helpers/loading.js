@@ -2,7 +2,8 @@ import GlobalState from "../global/";
 import { update } from 'bey';
 
 function isAsync(fn) {
-   return fn.constructor.name === 'AsyncFunction';
+  return fn.isSync !== true;  
+  //return fn.constructor.name === 'AsyncFunction';
 }
 
 export default function loading(stateModule){
