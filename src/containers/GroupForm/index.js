@@ -21,14 +21,14 @@ const styles = {
 
 class CreateOrEditGroupPage extends Component {
   componentDidMount() {    
-    const id = this.props.id;
+    const id = this.props.route.params.id;
     if(id){
       GroupsState.actions.loadData(id);
     }    
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.id !== nextProps.id) {
-      GroupsState.actions.loadData(nextProps.id);
+    if (this.props.route.params.id !== nextProps.route.params.id) {
+      GroupsState.actions.loadData(nextProps.route.params.id);
     }
   }
   render() {

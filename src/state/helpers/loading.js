@@ -1,11 +1,17 @@
 import GlobalState from "../global/";
 import { update } from 'bey';
 
+function isAsync(fn) {
+   return fn.constructor.name === 'AsyncFunction';
+}
+
 export default function loading(stateModule){
 
 	if(stateModule.actions && Object.values(stateModule.actions).length > 0){
   	Object.keys(stateModule.actions).forEach(actionName => {
-      if(stateModule.actions[actionName] && typeof stateModule.actions[actionName] === 'function' ){
+      if(stateModule.actions[actionName] && 
+        typeof stateModule.actions[actionName] === 'function' &&
+        isAsync(stateModule.actions[actionName]) ){
 
         const originalAction = stateModule.actions[actionName];
 

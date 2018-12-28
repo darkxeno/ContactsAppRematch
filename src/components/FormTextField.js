@@ -1,7 +1,5 @@
 import React from "react";
-import { Classes, InputGroup, FormGroup } from "@blueprintjs/core";
-
-console.log('Classes',Classes);
+import { InputGroup, FormGroup } from "@blueprintjs/core";
 
 function renderTextField({
   input,
