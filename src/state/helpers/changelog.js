@@ -9,7 +9,7 @@ export default function changelog(stateModule){
 
 	if(stateModule.actions && typeof stateModule.actions === 'object'){
 
-		const key = stateModule.name || Symbol();
+	const key = stateModule.name || Symbol();
 
     changelogs.set({
     	[key]: { changes:[] }
