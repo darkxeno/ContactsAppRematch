@@ -1,20 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Card, Elevation } from "@blueprintjs/core";
+import { Button, Card, Elevation, Classes } from "@blueprintjs/core";
 
-const ContactCard = ({ contact, onEditClick, onDeleteClick, big }) => {
+const ContactCard = ({ contact, onEditClick, onDeleteClick, big, loading }) => {
   const { name, imgUrl, email, groupNames } = contact;
+  const loadingClass = loading ? Classes.SKELETON : '' ;
   return (
     <Card 
       interactive={true} 
       elevation={Elevation.TWO} 
-      style={{ width: big ? "auto" : "300px", padding: '0px'}}>
+      style={{ width: big ? "auto" : "300px", padding: '0px'}}      
+      >
 
       <div style={{    
         position: 'relative',
-        textAlign: 'center'
+        textAlign: 'center',
+        height: 300,
+        width: 300,        
       }}>
-        <h1 style={{
+        <h1         
+        style={{
           position: 'absolute',
           bottom: '0px',
           right: '0px',
@@ -23,24 +28,26 @@ const ContactCard = ({ contact, onEditClick, onDeleteClick, big }) => {
           margin: '0',
           color: 'white',
           background: 'rgba(0, 0, 0, 0.54)'          
-        }} >{name}</h1>
+        }} >
+          <span className={ loadingClass }>{name || '...'}</span>
+        </h1>
         <img
           alt="contact"
           src={imgUrl || "http://i.imgur.com/mbZIBzc.png"}
           style={{
-            height: "auto",
-            width: "auto",
+            maxHeight: 300,
             maxWidth: 300,
-            minWidth: 300,
-            maxHeight: 300
           }}
         />
       </div>
       <div style={{ fontSize: "12pt", padding: '8px' }}>
-        {email}
-        <div style={{ fontSize: '10pt', color: 'grey' }}>
+        <span className={loadingClass}>
+          { email || '...' }
+        </span><br/>
+        <span style={{ fontSize: '10pt', color: 'grey' }} className={loadingClass}>
           {groupNames || "Without group"}
-        </div>
+        </span>
+        
       </div>
       <div style={{padding: '8px', position: 'relative'}}>
         <Button onClick={onEditClick} text="Edit" style={{marginRight:'8px'}} />

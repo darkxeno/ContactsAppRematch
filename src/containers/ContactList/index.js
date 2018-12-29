@@ -80,7 +80,7 @@ export default function ContactList(props){
   });     
   
   return (
-    <div style={{ margin: "0.2em 0 0 0", display: 'flex', flex: '1 0 auto' }}>
+    <div style={{ margin: "0.2em 0 0 0", display: 'flex', flex: '1 0 auto', flexDirection: 'row' }}>
       <Subscribe to={ContactsState.state} on={state=>state.list}>
         { contactList => {
           return (
@@ -94,6 +94,7 @@ export default function ContactList(props){
             </div>
             :    
             <div style={{
+              flexWrap: 'wrap'
               }}
             >
               <ContactListCards {...addHandlers(props)} list={Object.values(contactList)} />            

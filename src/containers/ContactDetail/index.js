@@ -35,11 +35,12 @@ class ContactPage extends PureComponent {
         //return (contacts.current && contacts.current.name)?
           return (<div style={{ margin: "0.5em 1em" }}>
             <ContactCard
-              big
+              big              
               contact={contacts.current}
+              loading={contacts.loading}
               onEditClick={this.onEditClick}
               onDeleteClick={this.onDeleteClick}
-            />
+            />            
           </div>)//:null
       }}
       </Subscribe>

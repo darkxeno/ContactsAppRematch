@@ -12,14 +12,18 @@ class App extends PureComponent {
     const route = router.getState();
     return (
       <div className="bp3-fill" style={{ backgroundColor: '#30404d', minHeight: '100vh' }}>
-        <Navbar route={route} />
-        <Loader />
-        <div style={{ display: 'flex' }}>
-          <Menu route={route} />
-          <Route router={router}>
-            {({ route }) => <ComponentSelector route={route} {...this.props} />}
-          </Route>
-        </div>
+        <Route router={router}>
+          {({ route }) => <Navbar route={route} />}
+        </Route>
+        <Loader />                  
+        <Route router={router}>
+          {({ route }) => (
+            <div style={{ display: 'flex' }}>
+              <Menu route={route} />
+              <ComponentSelector route={route} {...this.props} />
+            </div>
+          )}
+        </Route>
         <Snackbar />
       </div>
     );
