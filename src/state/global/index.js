@@ -8,7 +8,8 @@ let global = state({
   loading: { state: false, total: 0, message: null },
   mode: LIST_MODE,
   menu: {
-    visible: true
+    left: true,
+    right: true
   }
 });
 
@@ -32,10 +33,14 @@ function changeMode(mode) {
   }
 }
 
-function toggleMenu() {
-  update(global, state => { state.menu.visible = !state.menu.visible; });
+function toggleLeftMenu() {
+  update(global, state => { state.menu.left = !state.menu.left; });
 }
 
-const exported = { state: global, actions: { setLoading, changeMode, toggleMenu } };
+function setRightMenuVisibility(visible) {
+  update(global, state => { state.menu.right = visible; });
+}
+
+const exported = { state: global, actions: { setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility } };
 export const actions = exported.actions;
 export default exported;

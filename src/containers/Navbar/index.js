@@ -17,7 +17,7 @@ function MyNavbar({
         <React.Fragment>
           <Navbar>
               <Navbar.Group align={Alignment.LEFT}>                  
-                <Button className="bp3-minimal" icon="menu" onClick={GlobalState.actions.toggleMenu} />                
+                <Button className="bp3-minimal" icon="menu" onClick={GlobalState.actions.toggleLeftMenu} />
                 <Navbar.Divider />
                 <Navbar.Heading>Contacts app</Navbar.Heading>                  
               </Navbar.Group>

@@ -4,12 +4,11 @@ import ComponentSelector from './router/ComponentSelector';
 import Navbar from "./containers/Navbar";
 import Loader from "./containers/Loader";
 import Snackbar from "./containers/Snackbar";
-import Menu from "./containers/Menu";
+import LeftMenu from "./containers/Menu/LeftMenu";
 
 class App extends PureComponent {
   render() {
     const { router } = this.props;
-    const route = router.getState();
     return (
       <div className="bp3-fill" style={{ backgroundColor: '#30404d', minHeight: '100vh' }}>
         <Route router={router}>
@@ -19,7 +18,7 @@ class App extends PureComponent {
         <Route router={router}>
           {({ route }) => (
             <div style={{ display: 'flex' }}>
-              <Menu route={route} />
+              <LeftMenu route={route} />
               <ComponentSelector route={route} {...this.props} />
             </div>
           )}

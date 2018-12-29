@@ -17,10 +17,16 @@ export default function loading(stateModule){
         const originalAction = stateModule.actions[actionName];
 
         stateModule.actions[actionName] = async function(...args){
-          GlobalState.actions.setLoading(true, stateModule.name);          
-          update(stateModule.state, state => { state.loading = true; });
+          GlobalState.actions.setLoading(true, stateModule.name);
+          const loadingBefore = stateModule.state.get().loading;
+          if(loadingBefore !== true){
+            update(stateModule.state, state => { state.loading = true; });
+          }
           const result = await originalAction(...args);
-          update(stateModule.state, state => { state.loading = false; });
+          const loadingAfter = stateModule.state.get().loading;
+          if(loadingAfter !== false){
+            update(stateModule.state, state => { state.loading = false; });
+          }
           GlobalState.actions.setLoading(false, stateModule.name);
           return result;
         }   
