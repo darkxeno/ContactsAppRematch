@@ -39,6 +39,7 @@ export default function DrawerMenu(props){
       (true || state.isOpen)?<Sidebar
         open={isOpen}
         pullRight={true}
+        touch={true}
         styles={{ root: { position: 'initial'}, content: {display: 'none'}, overlay: { display: 'none'}, sidebar: {background:'#30404d', paddingTop: '3.5rem'}}}
         onSetOpen={(open)=>{
           console.log('open',open);

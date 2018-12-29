@@ -1,6 +1,7 @@
 body {
 	background: #30404d;
 	user-select: none;
+	overflow-x: hidden;
 }
 
 .leftMenu .selected {
