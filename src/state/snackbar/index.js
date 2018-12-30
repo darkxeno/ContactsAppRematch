@@ -7,24 +7,24 @@ function setMessage(message) {
 }
 
 function displayError(error) {
-  let message = "Unknown error";
+  let message = 'Unknown error';
 
   if (error && error.message) {
     message = error.message;
-  } else if (typeof error === "string") {
+  } else if (typeof error === 'string') {
     message = error;
   }
   update(snackbar, state => message);
 }
 
-function close(){
-  update(snackbar, state => null);  
+function close() {
+  update(snackbar, state => null);
 }
 
-const exported = { 
+const exported = {
   name: 'snackbar',
-  state: snackbar, 
-  actions: { setMessage, displayError, close } 
+  state: snackbar,
+  actions: { setMessage, displayError, close },
 };
 export const actions = exported.actions;
 export default exported;

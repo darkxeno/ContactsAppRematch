@@ -5,7 +5,7 @@ export const ROUTES = {
   CONTACT_DETAILS: 'contactDetails',
   ADD_GROUP: 'addGroup',
   EDIT_CONTACT: 'editContact',
-}
+};
 
 export const routes = [
   { name: ROUTES.HOME, path: '/' },
@@ -13,5 +13,5 @@ export const routes = [
   { name: ROUTES.LIST_CONTACTS, path: '/list' },
   { name: ROUTES.EDIT_CONTACT, path: '/edit/:id' },
   { name: ROUTES.CONTACT_DETAILS, path: '/detail/:id' },
-  { name: ROUTES.ADD_GROUP, path: '/group/add' }
+  { name: ROUTES.ADD_GROUP, path: '/group/add' },
 ];

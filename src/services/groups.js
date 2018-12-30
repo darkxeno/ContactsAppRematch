@@ -1,24 +1,24 @@
 import firebase from './index';
 
-const BASE_URL = "/groups";
+const BASE_URL = '/groups';
 
 export function getGroupsService() {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.once(
-      "value",
+      'value',
       groupsDB => {
         const groupsDBValue = groupsDB.val();
         const groups = [];
-        Object.keys(groupsDBValue).map((id) =>
+        Object.keys(groupsDBValue).map(id =>
           groups.push({
             id,
-            ...groupsDBValue[id]
-          })
+            ...groupsDBValue[id],
+          }),
         );
         return resolve(groups);
       },
-      err => reject(err)
+      err => reject(err),
     );
   });
 }
@@ -27,13 +27,13 @@ export function getGroupService(id) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}/${id}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.once(
-      "value",
+      'value',
       groupDB => {
         const groupDBValue = groupDB.val();
         groupDBValue.id = id;
         return resolve(groupDBValue);
       },
-      err => reject(err)
+      err => reject(err),
     );
   });
 }
@@ -63,7 +63,7 @@ export function updateGroupService({ id, ...others }) {
       }
       return resolve({
         id,
-        ...others
+        ...others,
       });
     });
   });

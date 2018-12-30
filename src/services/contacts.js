@@ -1,24 +1,24 @@
 import firebase from './index';
 
-const BASE_URL = "/jony";
+const BASE_URL = '/jony';
 
 export function getContactsService() {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.once(
-      "value",
+      'value',
       contactsDB => {
         const contactsDBValue = contactsDB.val();
         const contacts = [];
-        Object.keys(contactsDBValue).map((id) =>
+        Object.keys(contactsDBValue).map(id =>
           contacts.push({
             id,
-            ...contactsDBValue[id]
-          })
+            ...contactsDBValue[id],
+          }),
         );
         return resolve(contacts);
       },
-      err => reject(err)
+      err => reject(err),
     );
   });
 }
@@ -27,15 +27,15 @@ export function getContactService(id) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}/${id}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.once(
-      "value",
+      'value',
       contactDB => {
         const contactDBValue = contactDB.val();
-        if(contactDBValue){
+        if (contactDBValue) {
           contactDBValue.id = id;
         }
         return resolve(contactDBValue);
       },
-      err => reject(err)
+      err => reject(err),
     );
   });
 }
@@ -65,7 +65,7 @@ export function updateContactService({ id, ...others }) {
       }
       return resolve({
         id,
-        ...others
+        ...others,
       });
     });
   });

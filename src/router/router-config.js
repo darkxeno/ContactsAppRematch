@@ -4,21 +4,21 @@ import browserPlugin from 'router5-plugin-browser';
 import { routes } from './routes';
 
 function configureRouter() {
-    const router = createRouter(routes, {
-      defaultRoute: 'home',
-      autoCleanup: false    
-    });
-    
-    // Plugins
-    router.usePlugin(
-      loggerPlugin,
-      browserPlugin({
-        useHash: true,
-        forceDeactivate: false
-      })
-    );
+  const router = createRouter(routes, {
+    defaultRoute: 'home',
+    autoCleanup: false,
+  });
 
-    return router;
+  // Plugins
+  router.usePlugin(
+    loggerPlugin,
+    browserPlugin({
+      useHash: true,
+      forceDeactivate: false,
+    }),
+  );
+
+  return router;
 }
 
 const router = configureRouter();

@@ -1,5 +1,5 @@
 import { state, update } from 'bey';
-import { actions as SnackbarActions } from "../snackbar/";
+import { actions as SnackbarActions } from '../snackbar/';
 
 const LIST_MODE = 'list';
 const CARD_MODE = 'card';
@@ -9,38 +9,47 @@ let global = state({
   mode: LIST_MODE,
   menu: {
     left: true,
-    right: true
-  }
+    right: true,
+  },
 });
 
 function setLoading(loading, message) {
   update(global, state => {
-    if(loading){
+    if (loading) {
       state.loading.total++;
     } else {
       state.loading.total--;
     }
 
     state.loading.state = state.loading.total > 0;
-    state.loading.message = message; 
+    state.loading.message = message;
   });
 }
 
 function changeMode(mode) {
   if (mode === LIST_MODE || mode === CARD_MODE) {
-    update(global, state => { state.mode = mode; });
-    SnackbarActions.setMessage(`Mode changed to: ${mode}`); 
+    update(global, state => {
+      state.mode = mode;
+    });
+    SnackbarActions.setMessage(`Mode changed to: ${mode}`);
   }
 }
 
 function toggleLeftMenu() {
-  update(global, state => { state.menu.left = !state.menu.left; });
+  update(global, state => {
+    state.menu.left = !state.menu.left;
+  });
 }
 
 function setRightMenuVisibility(visible) {
-  update(global, state => { state.menu.right = visible; });
+  update(global, state => {
+    state.menu.right = visible;
+  });
 }
 
-const exported = { state: global, actions: { setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility } };
+const exported = {
+  state: global,
+  actions: { setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility },
+};
 export const actions = exported.actions;
 export default exported;

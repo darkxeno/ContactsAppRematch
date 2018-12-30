@@ -5,27 +5,27 @@ import { actions as GlobalActions } from '../global/';
 const textToRouter = {
   List: ROUTES.LIST_CONTACTS,
   About: ROUTES.HOME,
-  "Add Contact": ROUTES.ADD_CONTACT,
-  "Add Group": ROUTES.ADD_GROUP
+  'Add Contact': ROUTES.ADD_CONTACT,
+  'Add Group': ROUTES.ADD_GROUP,
 };
 
 export const actions = {
-	transitionToEditContact: (id) => {
+  transitionToEditContact: id => {
     GlobalActions.setRightMenuVisibility(true);
-    navigate(ROUTES.EDIT_CONTACT,{ id });
+    navigate(ROUTES.EDIT_CONTACT, { id });
   },
-	transitionToContactDetail: (id) => {
+  transitionToContactDetail: id => {
     GlobalActions.setRightMenuVisibility(true);
-    navigate(ROUTES.CONTACT_DETAILS,{ id });
+    navigate(ROUTES.CONTACT_DETAILS, { id });
   },
   transitionToMenuOption: text => navigate(textToRouter[text]),
 };
 
-const exported = { 
+const exported = {
   name: 'history',
-  history: { 
-    goBack:()=>window.history.back()
-  }, 
+  history: {
+    goBack: () => window.history.back(),
+  },
   actions,
 };
 export const history = exported.history;
