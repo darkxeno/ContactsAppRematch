@@ -5,10 +5,12 @@ import { Subscribe } from 'bey';
 import GlobalState from '../../state/global/';
 import { ROUTES } from '../../router/routes';
 
-function MyNavbar({ handleToggle, isLeftNavOpen, setIsLeftNavOpen, route }) {
+function MyNavbar({
+  handleToggle, isLeftNavOpen, setIsLeftNavOpen, route,
+}) {
   return (
     <Subscribe to={GlobalState.state}>
-      {state => (
+      {(state) => (
         <React.Fragment>
           <Navbar>
             <Navbar.Group align={Alignment.LEFT}>

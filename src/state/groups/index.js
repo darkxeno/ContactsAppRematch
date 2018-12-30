@@ -9,7 +9,7 @@ import {
 import { history } from '../history/';
 import loading from '../helpers/loading';
 
-let groups = state({
+const groups = state({
   list: {},
   current: {},
 });
@@ -18,12 +18,12 @@ async function loadData(id) {
   let groupsResponse;
   if (id) {
     groupsResponse = await getGroupService(id);
-    update(groups, state => {
+    update(groups, (state) => {
       state.current = groupsResponse;
     });
   } else {
     groupsResponse = await getGroupsService();
-    update(groups, state => {
+    update(groups, (state) => {
       state.list = groupsResponse;
     });
   }
@@ -39,7 +39,7 @@ async function saveGroup(group) {
       SnackbarActions.setMessage('Group created successfully');
     }
 
-    update(groups, state => {
+    update(groups, (state) => {
       state.current = group;
     });
   } catch (error) {

@@ -8,7 +8,7 @@ import DrawerMenu from '../containers/Menu/DrawerMenu';
 import { ROUTES } from './routes';
 
 export default function ComponentSelector({ route, router }) {
-  //console.log("Changing route:", route);
+  // console.log("Changing route:", route);
 
   if (!route) {
     return <About route={route} />;

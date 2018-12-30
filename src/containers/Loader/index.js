@@ -6,7 +6,7 @@ import GlobalState from '../../state/global/';
 function Loader() {
   return (
     <Subscribe to={GlobalState.state}>
-      {state => (
+      {(state) => (
         <Toaster position={Position.TOP}>
           {state.loading.state ? (
             <Toast

@@ -33,7 +33,7 @@ class CreateOrEditContactPage extends Component {
       actions.loadData(id);
     }
     if (this.props.router) {
-      const canDeactivate = router => (toState, fromState) => {
+      const canDeactivate = (router) => (toState, fromState) => {
         const isContactModified = state.get().modified;
         if (isContactModified) {
           return new Promise((resolve, reject) => {
@@ -77,81 +77,79 @@ class CreateOrEditContactPage extends Component {
           <p>Are you sure you want leave? Your changes will be lost.</p>
         </Alert>
         <Subscribe to={state} on={selectors.contactList}>
-          {contacts => {
-            return (
-              <Form
-                onSubmit={actions.saveContact}
-                validate={validate}
-                initialValues={this.props.route.params.id ? contacts.current : {}}
-                render={({ handleSubmit, pristine, invalid, submitting, reset }) => {
-                  return (
-                    <Card
-                      interactive={true}
-                      elevation={Elevation.TWO}
-                      style={{ width: '300px', margin: '0.5em 1em', padding: '1em' }}
-                    >
-                      <form style={styles.formContainer} onSubmit={handleSubmit}>
-                        <FormSpy
-                          onChange={({ dirty }) => {
-                            actions.setModified(dirty && !submitting);
-                          }}
-                        />
-                        <Field
-                          name="name"
-                          label="Name"
-                          placeholder="Name"
-                          component={FormTextField}
-                        />
-                        <Field
-                          name="email"
-                          label="Email"
-                          placeholder="Email"
-                          component={FormTextField}
-                        />
-                        <Field
-                          name="phoneNumber"
-                          label="Phone number"
-                          placeholder="Phone number"
-                          component={FormTextField}
-                        />
-                        <Field
-                          name="imgUrl"
-                          label="Profile image url"
-                          placeholder="Profile image url"
-                          component={FormTextField}
-                        />
-                        <Field
-                          name="groups"
-                          component={FormMultiSelectField}
-                          label="Groups"
-                          options={Object.values(contacts.groups).map(group => ({
-                            value: group.id,
-                            text: group.name,
-                          }))}
-                        />
-                        <div style={styles.buttonsContainer}>
-                          <Button
-                            text="Save contact"
-                            icon="floppy-disk"
-                            intent="success"
-                            type="submit"
-                            disabled={pristine || submitting || invalid}
-                          />
-                          <Button
-                            text="Reset values"
-                            disabled={pristine || submitting}
-                            icon="refresh"
-                            intent="danger"
-                            onClick={reset}
-                          />
-                        </div>
-                      </form>
-                    </Card>
-                  );
-                }}
-              />
-            );
-          }}
+          {(contacts) => (
+            <Form
+              onSubmit={actions.saveContact}
+              validate={validate}
+              initialValues={this.props.route.params.id ? contacts.current : {}}
+              render={({
+                handleSubmit, pristine, invalid, submitting, reset,
+              }) => (
+                <Card
+                  interactive
+                  elevation={Elevation.TWO}
+                  style={{ width: '300px', margin: '0.5em 1em', padding: '1em' }}
+                >
+                  <form style={styles.formContainer} onSubmit={handleSubmit}>
+                    <FormSpy
+                      onChange={({ dirty }) => {
+                        actions.setModified(dirty && !submitting);
+                      }}
+                    />
+                    <Field
+                      name="name"
+                      label="Name"
+                      placeholder="Name"
+                      component={FormTextField}
+                    />
+                    <Field
+                      name="email"
+                      label="Email"
+                      placeholder="Email"
+                      component={FormTextField}
+                    />
+                    <Field
+                      name="phoneNumber"
+                      label="Phone number"
+                      placeholder="Phone number"
+                      component={FormTextField}
+                    />
+                    <Field
+                      name="imgUrl"
+                      label="Profile image url"
+                      placeholder="Profile image url"
+                      component={FormTextField}
+                    />
+                    <Field
+                      name="groups"
+                      component={FormMultiSelectField}
+                      label="Groups"
+                      options={Object.values(contacts.groups).map((group) => ({
+                        value: group.id,
+                        text: group.name,
+                      }))}
+                    />
+                    <div style={styles.buttonsContainer}>
+                      <Button
+                        text="Save contact"
+                        icon="floppy-disk"
+                        intent="success"
+                        type="submit"
+                        disabled={pristine || submitting || invalid}
+                      />
+                      <Button
+                        text="Reset values"
+                        disabled={pristine || submitting}
+                        icon="refresh"
+                        intent="danger"
+                        onClick={reset}
+                      />
+                    </div>
+                  </form>
+                </Card>
+              )}
+            />
+          )}
         </Subscribe>
       </div>
     );

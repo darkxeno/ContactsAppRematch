@@ -4,7 +4,7 @@ import { actions as SnackbarActions } from '../snackbar/';
 const LIST_MODE = 'list';
 const CARD_MODE = 'card';
 
-let global = state({
+const global = state({
   loading: { state: false, total: 0, message: null },
   mode: LIST_MODE,
   menu: {
@@ -14,7 +14,7 @@ let global = state({
 });
 
 function setLoading(loading, message) {
-  update(global, state => {
+  update(global, (state) => {
     if (loading) {
       state.loading.total++;
     } else {
@@ -28,7 +28,7 @@ function setLoading(loading, message) {
 
 function changeMode(mode) {
   if (mode === LIST_MODE || mode === CARD_MODE) {
-    update(global, state => {
+    update(global, (state) => {
       state.mode = mode;
     });
     SnackbarActions.setMessage(`Mode changed to: ${mode}`);
@@ -36,20 +36,22 @@ function changeMode(mode) {
 }
 
 function toggleLeftMenu() {
-  update(global, state => {
+  update(global, (state) => {
     state.menu.left = !state.menu.left;
   });
 }
 
 function setRightMenuVisibility(visible) {
-  update(global, state => {
+  update(global, (state) => {
     state.menu.right = visible;
   });
 }
 
 const exported = {
   state: global,
-  actions: { setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility },
+  actions: {
+    setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility,
+  },
 };
 export const actions = exported.actions;
 export default exported;

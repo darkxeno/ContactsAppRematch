@@ -15,32 +15,30 @@ function InnerMenu(props) {
     <Menu className="leftMenu" style={{ paddingTop: '4rem' }}>
       <MenuItem
         active={props.route.name === ROUTES.HOME}
-        onClick={e => {
+        onClick={(e) => {
           selectMenuOption(e);
         }}
         text="About"
       />
       <MenuItem
         active={
-          [ROUTES.LIST_CONTACTS, ROUTES.CONTACT_DETAILS, ROUTES.EDIT_CONTACT].indexOf(
-            props.route.name,
-          ) !== -1
+          [ROUTES.LIST_CONTACTS, ROUTES.CONTACT_DETAILS, ROUTES.EDIT_CONTACT].indexOf(props.route.name, ) !== -1
         }
-        onClick={e => {
+        onClick={(e) => {
           selectMenuOption(e);
         }}
         text="List"
       />
       <MenuItem
         active={props.route.name === ROUTES.ADD_CONTACT}
-        onClick={e => {
+        onClick={(e) => {
           selectMenuOption(e);
         }}
         text="Add Contact"
       />
       <MenuItem
         active={props.route.name === ROUTES.ADD_GROUP}
-        onClick={e => {
+        onClick={(e) => {
           selectMenuOption(e);
         }}
         text="Add Group"
@@ -49,7 +47,7 @@ function InnerMenu(props) {
   );
 }
 
-const mql = window.matchMedia(`(min-width: 800px)`);
+const mql = window.matchMedia('(min-width: 800px)');
 
 export default function LeftMenu(props) {
   const [smallScreen, setSmallScreen] = useState(!mql.matches);
@@ -66,23 +64,22 @@ export default function LeftMenu(props) {
   });
 
   return (
-    <Subscribe to={GlobalState.state} on={state => state.menu.left}>
-      {visible => {
+    <Subscribe to={GlobalState.state} on={(state) => state.menu.left}>
+      {(visible) => {
         if (visible) {
           if (!smallScreen) {
             return <InnerMenu {...props} />;
-          } else {
-            return (
-              <Sidebar
-                open={visible}
-                styles={{ sidebar: { background: '#30404d' } }}
-                onSetOpen={GlobalState.actions.toggleLeftMenu}
-                sidebar={<InnerMenu {...props} />}
-              >
-                {false}
-              </Sidebar>
-            );
           }
+          return (
+            <Sidebar
+              open={visible}
+              styles={{ sidebar: { background: '#30404d' } }}
+              onSetOpen={GlobalState.actions.toggleLeftMenu}
+              sidebar={<InnerMenu {...props} />}
+            >
+              {false}
+            </Sidebar>
+          );
         }
         return null;
       }}

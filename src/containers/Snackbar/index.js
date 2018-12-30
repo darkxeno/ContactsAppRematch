@@ -6,11 +6,11 @@ import SnackbarState from '../../state/snackbar/';
 function SB() {
   return (
     <Subscribe to={SnackbarState.state}>
-      {message => (
+      {(message) => (
         <Toaster position={Position.BOTTOM}>
           {message ? (
             <Toast
-              message={message ? message : ''}
+              message={message || ''}
               timeout={3000}
               onDismiss={SnackbarState.actions.close}
             />

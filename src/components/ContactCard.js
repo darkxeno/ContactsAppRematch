@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card, Elevation, Classes } from '@blueprintjs/core';
 
-const ContactCard = ({ contact, onEditClick, onDeleteClick, big, loading }) => {
-  const { name, imgUrl, email, groupNames } = contact;
+const ContactCard = ({
+  contact, onEditClick, onDeleteClick, big, loading,
+}) => {
+  const {
+    name, imgUrl, email, groupNames,
+  } = contact;
   const loadingClass = loading ? Classes.SKELETON : '';
   return (
     <Card
-      interactive={true}
+      interactive
       elevation={Elevation.TWO}
       style={{ width: big ? 'auto' : '300px', padding: '0px' }}
     >

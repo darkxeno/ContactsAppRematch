@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react';
+import { Subscribe } from 'bey';
 import ContactCard from '../../components/ContactCard';
 import ContactsState from '../../state/contacts/';
-import { actions } from '../../state/history/';
-import { Subscribe } from 'bey';
+import { actions as HistoryActions } from '../../state/history/';
+
 
 class ContactPage extends PureComponent {
   constructor(props) {
     super(props);
     this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
-    this.transitionToEditContact = actions.transitionToEditContact;
+    this.transitionToEditContact = HistoryActions.transitionToEditContact;
   }
 
   componentDidMount() {
@@ -31,9 +32,8 @@ class ContactPage extends PureComponent {
   render() {
     return (
       <Subscribe to={ContactsState.state}>
-        {contacts => {
-          //return (contacts.current && contacts.current.name)?
-          return (
+        {(contacts) =>
+          (
             <div style={{ margin: '0.5em 1em' }}>
               <ContactCard
                 big
@@ -43,8 +43,8 @@ class ContactPage extends PureComponent {
                 onDeleteClick={this.onDeleteClick}
               />
             </div>
-          ); //:null
-        }}
+          )
+        }
       </Subscribe>
     );
   }

@@ -11,14 +11,16 @@ import { MultiSelect } from '@blueprintjs/select';
 
 function FormMultiSelectField({
   options,
-  input: { value, onChange, onBlur, ...inputProps },
+  input: {
+    value, onChange, onBlur
+  },
   label,
   meta: { touched, error },
   ...custom
 }) {
   const indexesOptions = {};
   if (options && options.length > 0) {
-    options.forEach(o => {
+    options.forEach((o) => {
       indexesOptions[o.value] = o;
     });
   }
@@ -27,16 +29,16 @@ function FormMultiSelectField({
     <FormGroup
       helperText={error}
       label={label}
-      intent={error ? 'danger' : undefined}
-      //style={{ width: '300px', minWidth: '300px', maxWidth: '300px' }}
+      intent={touched && error ? 'danger' : undefined}
+      // style={{ width: '300px', minWidth: '300px', maxWidth: '300px' }}
     >
       <MultiSelect
         shouldDismissPopover={false}
-        noResults={<MenuItem disabled={true} text="No results." />}
+        noResults={<MenuItem disabled text="No results." />}
         popoverProps={{ minimal: true, targetClassName: 'contact-group' }}
         items={options}
         selectedItems={value === '' ? [] : value}
-        onItemSelect={opt => {
+        onItemSelect={(opt) => {
           if (value.indexOf(opt.value) === -1) {
             onChange([...value, opt.value]);
           } else {
@@ -51,23 +53,20 @@ function FormMultiSelectField({
           onRemove: (opt, index) => {
             if (value && value.length > 0) {
               value.splice(index, 1);
-              console.log('deleting opt', opt);
               onChange(value);
             }
           },
         }}
-        itemRenderer={(opt, { modifiers, handleClick }) => {
-          return (
-            <MenuItem
-              active={value.indexOf(opt.value) !== -1}
-              key={`option-${opt.value}`}
-              //label={opt.value}
-              text={opt.text}
-              onClick={handleClick}
-            />
-          );
-        }}
-        tagRenderer={opt => indexesOptions[opt].text}
+        itemRenderer={(opt, { modifiers, handleClick }) => (
+          <MenuItem
+            active={value.indexOf(opt.value) !== -1}
+            key={`option-${opt.value}`}
+            // label={opt.value}
+            text={opt.text}
+            onClick={handleClick}
+          />
+        )}
+        tagRenderer={(opt) => indexesOptions[opt].text}
         {...custom}
       />
     </FormGroup>

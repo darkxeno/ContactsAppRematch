@@ -13,9 +13,9 @@ export default function changelog(stateModule) {
       [key]: { changes: [] },
     });
 
-    stateModule.state.on(function() {
+    stateModule.state.on(() => {
       const newState = stateModule.state.get();
-      update(changelogs, state => {
+      update(changelogs, (state) => {
         const previousSnap = state[key].changes[state[key].changes.length - 1];
         const previousValue = previousSnap ? original(previousSnap).snapshot : undefined;
         state[key].changes.push({ snapshot: newState, updatedAt: Date.now() });

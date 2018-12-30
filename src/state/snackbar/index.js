@@ -1,9 +1,9 @@
 import { state, update } from 'bey';
 
-let snackbar = state(null);
+const snackbar = state(null);
 
 function setMessage(message) {
-  update(snackbar, state => message);
+  update(snackbar, () => message);
 }
 
 function displayError(error) {
@@ -14,11 +14,11 @@ function displayError(error) {
   } else if (typeof error === 'string') {
     message = error;
   }
-  update(snackbar, state => message);
+  update(snackbar, () => message);
 }
 
 function close() {
-  update(snackbar, state => null);
+  update(snackbar, () => null);
 }
 
 const exported = {
@@ -26,5 +26,5 @@ const exported = {
   state: snackbar,
   actions: { setMessage, displayError, close },
 };
-export const actions = exported.actions;
+export const { actions } = exported;
 export default exported;

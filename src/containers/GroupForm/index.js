@@ -31,42 +31,42 @@ class CreateOrEditGroupPage extends Component {
   render() {
     return (
       <Subscribe to={GroupsState.state}>
-        {contacts => {
-          return (
-            <Form
-              onSubmit={GroupsState.actions.saveGroup}
-              validate={validate}
-              initialValues={contacts.current}
-              render={({ handleSubmit, pristine, invalid, submitting, form: { reset } }) => (
-                <Card
-                  interactive={true}
-                  elevation={Elevation.TWO}
-                  style={{ width: '300px', margin: '0.5em 1em', padding: '1em' }}
-                >
-                  <form style={styles.formContainer} onSubmit={handleSubmit}>
-                    <Field name="name" label="Name" placeholder="Name" component={FormTextField} />
-                    <div style={styles.buttonsContainer}>
-                      <Button
-                        icon="floppy-disk"
-                        intent="success"
-                        type="submit"
-                        disabled={pristine || submitting || invalid}
-                        text="Save group"
-                      />
-                      <Button
-                        icon="refresh"
-                        intent="danger"
-                        onClick={reset}
-                        disabled={pristine || submitting}
-                        text="Reset values"
-                      />
-                    </div>
-                  </form>
-                </Card>
-              )}
-            />
-          );
-        }}
+        {(contacts) => (
+          <Form
+            onSubmit={GroupsState.actions.saveGroup}
+            validate={validate}
+            initialValues={contacts.current}
+            render={({
+              handleSubmit, pristine, invalid, submitting, form: { reset },
+            }) => (
+              <Card
+                interactive
+                elevation={Elevation.TWO}
+                style={{ width: '300px', margin: '0.5em 1em', padding: '1em' }}
+              >
+                <form style={styles.formContainer} onSubmit={handleSubmit}>
+                  <Field name="name" label="Name" placeholder="Name" component={FormTextField} />
+                  <div style={styles.buttonsContainer}>
+                    <Button
+                      icon="floppy-disk"
+                      intent="success"
+                      type="submit"
+                      disabled={pristine || submitting || invalid}
+                      text="Save group"
+                    />
+                    <Button
+                      icon="refresh"
+                      intent="danger"
+                      onClick={reset}
+                      disabled={pristine || submitting}
+                      text="Reset values"
+                    />
+                  </div>
+                </form>
+              </Card>
+            )}
+          />
+        )}
       </Subscribe>
     );
   }

@@ -11,7 +11,7 @@ import {
 import { history } from '../history/';
 import { loading, modified, changelog } from '../helpers/';
 
-let contacts = stateCreate({
+const contacts = stateCreate({
   list: {},
   groups: {},
   current: {},
@@ -19,9 +19,9 @@ let contacts = stateCreate({
 
 async function loadData(id) {
   const groupsResponse = await getGroupsService();
-  let newGroups = {};
+  const newGroups = {};
 
-  groupsResponse.forEach(group => {
+  groupsResponse.forEach((group) => {
     newGroups[group.id] = group;
   });
 
@@ -32,18 +32,17 @@ async function loadData(id) {
     contactsResponse = await getContactsService();
   }
 
-  let newContacts = {};
+  const newContacts = {};
 
-  contactsResponse.forEach(contact => {
+  contactsResponse.forEach((contact) => {
     if (contact) {
       if (contact.groups && contact.groups.length > 0) {
         contact.groupNames = contact.groups
-          .map(groupId => {
+          .map((groupId) => {
             if (newGroups[groupId]) {
               return newGroups[groupId].name;
-            } else {
-              return '';
             }
+            return '';
           })
           .join(', ');
       }
@@ -52,10 +51,10 @@ async function loadData(id) {
     }
   });
 
-  update(contacts, state => {
+  update(contacts, (state) => {
     if (id) {
       state.current = newContacts[id] || {};
-      //state.modified = false;
+      // state.modified = false;
     } else {
       state.list = newContacts;
     }
@@ -75,7 +74,7 @@ async function saveContact(contact) {
     }
 
     console.log('current contact updated:', response);
-    update(contacts, state => {
+    update(contacts, (state) => {
       state.current = contact;
       state.modified = false;
     });
@@ -90,9 +89,9 @@ async function saveContact(contact) {
 async function deleteContact(id) {
   try {
     if (id) {
-      let response = await deleteContactService(id);
+      const response = await deleteContactService(id);
       console.log('contact deleted:', response);
-      update(contacts, state => {
+      update(contacts, (state) => {
         state.current = {};
       });
 

@@ -7,7 +7,7 @@ export default function modified(stateModule) {
     stateModule.actions.setModified = function setModified(modified) {
       const state = stateModule.state.get();
       if (state.modified !== modified) {
-        update(stateModule.state, state => {
+        update(stateModule.state, (state) => {
           state.modified = modified;
         });
       }

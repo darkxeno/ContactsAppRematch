@@ -1,11 +1,12 @@
-import { useEffect, useState, default as React } from 'react';
+import React, { useEffect, useState } from 'react';
+import posed, { PoseGroup } from 'react-pose';
+import { Subscribe } from 'bey';
 import { Button } from '@blueprintjs/core';
 import ContactCard from '../../components/ContactCard';
-import { Subscribe } from 'bey';
 import ContactsState from '../../state/contacts/';
 import GlobalState from '../../state/global/';
 import { actions } from '../../state/history/';
-import posed, { PoseGroup } from 'react-pose';
+
 
 function addHandlers(props) {
   return {
@@ -15,7 +16,7 @@ function addHandlers(props) {
 }
 
 function ContactListCards(props) {
-  return props.list.map(contact => (
+  return props.list.map((contact) => (
     <ContactCard
       key={`contact-${contact.id}`}
       contact={contact}
@@ -115,29 +116,31 @@ export default function ContactList(props) {
   });
 
   return (
-    <div style={{ margin: '0.2em 0 0 0', display: 'flex', flex: '1 0 auto', flexDirection: 'row' }}>
-      <Subscribe to={ContactsState.state} on={state => state.list}>
-        {contactList => {
-          return global.mode === 'list' ? (
-            <div
-              style={{
-                display: 'flex',
-                flex: '1 0 auto',
-                flexDirection: 'column',
-              }}
-            >
-              <ContactListItems {...addHandlers(props)} list={Object.values(contactList)} />
-            </div>
-          ) : (
-            <div
-              style={{
-                flexWrap: 'wrap',
-              }}
-            >
-              <ContactListCards {...addHandlers(props)} list={Object.values(contactList)} />
-            </div>
-          );
-        }}
+    <div
+      style={{
+        margin: '0.2em 0 0 0', display: 'flex', flex: '1 0 auto', flexDirection: 'row',
+      }}
+    >
+      <Subscribe to={ContactsState.state} on={(state) => state.list}>
+        {(contactList) => global.mode === 'list' ? (
+          <div
+            style={{
+              display: 'flex',
+              flex: '1 0 auto',
+              flexDirection: 'column',
+            }}
+          >
+            <ContactListItems {...addHandlers(props)} list={Object.values(contactList)} />
+          </div>
+        ) : (
+          <div
+            style={{
+              flexWrap: 'wrap',
+            }}
+          >
+            <ContactListCards {...addHandlers(props)} list={Object.values(contactList)} />
+          </div>
+        )}
       </Subscribe>
     </div>
   );
