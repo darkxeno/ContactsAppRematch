@@ -1,5 +1,5 @@
-import GlobalState from '../global/';
 import { update } from 'bey';
+import { actions as GlobalActions } from '../global/';
 
 function isAsync(fn) {
   return fn.isSync !== true;
@@ -16,8 +16,8 @@ export default function loading(stateModule) {
       ) {
         const originalAction = stateModule.actions[actionName];
 
-        stateModule.actions[actionName] = async function (...args) {
-          GlobalState.actions.setLoading(true, stateModule.name);
+        stateModule.actions[actionName] = async function plusLoading(...args) {
+          GlobalActions.setLoading(true, stateModule.name);
           const loadingBefore = stateModule.state.get().loading;
           if (loadingBefore !== true) {
             update(stateModule.state, (state) => {
@@ -31,7 +31,7 @@ export default function loading(stateModule) {
               state.loading = false;
             });
           }
-          GlobalState.actions.setLoading(false, stateModule.name);
+          GlobalActions.setLoading(false, stateModule.name);
           return result;
         };
       }

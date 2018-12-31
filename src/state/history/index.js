@@ -28,5 +28,5 @@ const exported = {
   },
   actions,
 };
-export const history = exported.history;
+export const { history } = exported;
 export default exported;

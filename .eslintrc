@@ -22,6 +22,10 @@
     }
   },
   "rules": {
+    "no-param-reassign":[
+      2,
+      {"ignorePropertyModificationsFor": ["state"]}
+    ],    
     "arrow-parens": [
       "error",
       "always"

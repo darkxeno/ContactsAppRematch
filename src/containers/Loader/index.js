@@ -1,11 +1,11 @@
 import React from 'react';
 import { Toaster, Toast, Position, ProgressBar } from '@blueprintjs/core';
 import { Subscribe } from 'bey';
-import GlobalState from '../../state/global/';
+import { state as GlobalState } from '../../state/global/';
 
 function Loader() {
   return (
-    <Subscribe to={GlobalState.state}>
+    <Subscribe to={GlobalState}>
       {(state) => (
         <Toaster position={Position.TOP}>
           {state.loading.state ? (

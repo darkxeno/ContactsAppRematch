@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import posed, { PoseGroup } from 'react-pose';
+import PropTypes from 'prop-types';
 import { Subscribe } from 'bey';
 import { Button } from '@blueprintjs/core';
 import ContactCard from '../../components/ContactCard';
-import ContactsState from '../../state/contacts/';
-import GlobalState from '../../state/global/';
-import { actions } from '../../state/history/';
-
-
-function addHandlers(props) {
-  return {
-    ...props,
-    ...actions,
-  };
-}
+import { state as ContactsState, actions as ContactsActions } from '../../state/contacts/';
+import { state as GlobalState } from '../../state/global/';
+import { actions as HistoryActions } from '../../state/history/';
 
 function ContactListCards(props) {
   return props.list.map((contact) => (
     <ContactCard
       key={`contact-${contact.id}`}
       contact={contact}
-      onEditClick={() => props.transitionToEditContact(contact.id)}
-      onDeleteClick={() => ContactsState.actions.deleteContact(contact.id)}
+      onEditClick={() => HistoryActions.transitionToEditContact(contact.id)}
+      onDeleteClick={() => ContactsActions.deleteContact(contact.id)}
     />
   ));
 }
@@ -47,7 +40,9 @@ function ContactListItems(props) {
       {props.list.map((contact, i) => (
         <Item key={`contact-${contact.id}`} id={contact.id} i={i}>
           <div
-            onClick={() => props.transitionToContactDetail(contact.id)}
+            role="presentation"
+            onKeyPress={(e) => (e.key === 'Enter') ? HistoryActions.transitionToContactDetail(contact.id) : false}
+            onClick={() => HistoryActions.transitionToContactDetail(contact.id)}
             className={`bp3-tag bp3-interactive contact-list-item ${
               props.route.params.id === contact.id ? 'selected' : ''
             }`}
@@ -83,7 +78,7 @@ function ContactListItems(props) {
             <Pop>
               <Button
                 icon="delete"
-                onClick={() => ContactsState.actions.deleteContact(contact.id)}
+                onClick={() => ContactsActions.deleteContact(contact.id)}
               />
             </Pop>
           </div>
@@ -94,24 +89,24 @@ function ContactListItems(props) {
 }
 
 export default function ContactList(props) {
-  const [global, setGlobal] = useState(GlobalState.state.get());
+  const [global, setGlobal] = useState(GlobalState.get());
 
   function handler() {
-    const newMode = GlobalState.state.get().mode;
+    const newMode = GlobalState.get().mode;
     if (newMode !== global.mode) {
-      setGlobal(GlobalState.state.get());
+      setGlobal(GlobalState.get());
     }
   }
 
   useEffect(() => {
     // Load the contact list
-    ContactsState.actions.loadData();
+    ContactsActions.loadData();
   });
 
   useEffect(() => {
-    GlobalState.state.on(handler);
+    GlobalState.on(handler);
     return function cleanup() {
-      GlobalState.state.off(handler);
+      GlobalState.off(handler);
     };
   });
 
@@ -121,7 +116,7 @@ export default function ContactList(props) {
         margin: '0.2em 0 0 0', display: 'flex', flex: '1 0 auto', flexDirection: 'row',
       }}
     >
-      <Subscribe to={ContactsState.state} on={(state) => state.list}>
+      <Subscribe to={ContactsState} on={(state) => state.list}>
         {(contactList) => global.mode === 'list' ? (
           <div
             style={{
@@ -130,7 +125,7 @@ export default function ContactList(props) {
               flexDirection: 'column',
             }}
           >
-            <ContactListItems {...addHandlers(props)} list={Object.values(contactList)} />
+            <ContactListItems {...props} list={Object.values(contactList)} />
           </div>
         ) : (
           <div
@@ -138,10 +133,25 @@ export default function ContactList(props) {
               flexWrap: 'wrap',
             }}
           >
-            <ContactListCards {...addHandlers(props)} list={Object.values(contactList)} />
+            <ContactListCards {...props} list={Object.values(contactList)} />
           </div>
         )}
       </Subscribe>
     </div>
   );
 }
+
+ContactListCards.propTypes = {
+  list: PropTypes.array.isRequired,
+  route: PropTypes.object.isRequired,
+};
+
+ContactListItems.propTypes = {
+  list: PropTypes.array.isRequired,
+  route: PropTypes.object.isRequired,
+};
+
+ContactListCards.propTypes = {
+  list: PropTypes.array.isRequired,
+  route: PropTypes.object.isRequired,
+};

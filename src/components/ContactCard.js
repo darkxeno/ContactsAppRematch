@@ -1,9 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 import { Button, Card, Elevation, Classes } from '@blueprintjs/core';
 
+const styles = {
+  cardRoot: (props) => (props.big ?
+    { width: 'auto' } :
+    { width: '300px', padding: '0px' }
+  ),
+  cardContentContainer: {
+    position: 'relative',
+    textAlign: 'center',
+    height: 300,
+    width: 300,
+  },
+  cardHeader: {
+    position: 'absolute',
+    bottom: '0px',
+    right: '0px',
+    left: '0px',
+    padding: '8px',
+    margin: '0',
+    color: 'white',
+    background: 'rgba(0, 0, 0, 0.54)',
+  },
+  cardImage: {
+    maxHeight: 300,
+    maxWidth: 300,
+  },
+};
+
 const ContactCard = ({
-  contact, onEditClick, onDeleteClick, big, loading,
+  // eslint-disable-next-line no-unused-vars
+  contact, onEditClick, onDeleteClick, big, loading, classes,
 }) => {
   const {
     name, imgUrl, email, groupNames,
@@ -13,37 +42,16 @@ const ContactCard = ({
     <Card
       interactive
       elevation={Elevation.TWO}
-      style={{ width: big ? 'auto' : '300px', padding: '0px' }}
+      className={classes.cardRoot}
     >
-      <div
-        style={{
-          position: 'relative',
-          textAlign: 'center',
-          height: 300,
-          width: 300,
-        }}
-      >
-        <h1
-          style={{
-            position: 'absolute',
-            bottom: '0px',
-            right: '0px',
-            left: '0px',
-            padding: '8px',
-            margin: '0',
-            color: 'white',
-            background: 'rgba(0, 0, 0, 0.54)',
-          }}
-        >
+      <div className={classes.cardContentContainer}>
+        <h1 className={classes.cardHeader}>
           <span className={loadingClass}>{name || '...'}</span>
         </h1>
         <img
           alt="contact"
           src={imgUrl || 'http://i.imgur.com/mbZIBzc.png'}
-          style={{
-            maxHeight: 300,
-            maxWidth: 300,
-          }}
+          className={classes.cardImage}
         />
       </div>
       <div style={{ fontSize: '12pt', padding: '8px' }}>
@@ -62,9 +70,17 @@ const ContactCard = ({
 };
 
 ContactCard.propTypes = {
-  contact: PropTypes.object,
-  onEditClick: PropTypes.func,
-  onDeleteClick: PropTypes.func,
+  contact: PropTypes.object.isRequired,
+  onEditClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  big: PropTypes.boolean,
+  loading: PropTypes.boolean,
 };
 
-export default ContactCard;
+ContactCard.defaultProps = {
+  big: false,
+  loading: false,
+};
+
+export default injectSheet(styles)(ContactCard);

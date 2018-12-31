@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import About from '../containers/About';
 import ContactForm from '../containers/ContactForm';
 import ContactList from '../containers/ContactList';
@@ -8,8 +9,6 @@ import DrawerMenu from '../containers/Menu/DrawerMenu';
 import { ROUTES } from './routes';
 
 export default function ComponentSelector({ route, router }) {
-  // console.log("Changing route:", route);
-
   if (!route) {
     return <About route={route} />;
   }
@@ -44,3 +43,8 @@ export default function ComponentSelector({ route, router }) {
       return <About route={route} />;
   }
 }
+
+ComponentSelector.propTypes = {
+  router: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+};

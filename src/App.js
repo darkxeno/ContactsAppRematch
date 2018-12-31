@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Route } from 'react-router5';
+import PropTypes from 'prop-types';
 import ComponentSelector from './router/ComponentSelector';
 import Navbar from './containers/Navbar';
 import Loader from './containers/Loader';
@@ -26,5 +27,10 @@ class App extends PureComponent {
     );
   }
 }
+
+App.propTypes = {
+  router: PropTypes.object.isRequired,
+};
+
 
 export default App;

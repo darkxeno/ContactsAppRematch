@@ -73,7 +73,9 @@ async function saveContact(contact) {
       response = await postContactService(contact);
     }
 
+    // eslint-disable-next-line no-console
     console.log('current contact updated:', response);
+
     update(contacts, (state) => {
       state.current = contact;
       state.modified = false;
@@ -89,8 +91,7 @@ async function saveContact(contact) {
 async function deleteContact(id) {
   try {
     if (id) {
-      const response = await deleteContactService(id);
-      console.log('contact deleted:', response);
+      await deleteContactService(id);
       update(contacts, (state) => {
         state.current = {};
       });
@@ -115,8 +116,5 @@ const exported = {
   selectors: { contactList },
 };
 
-export const actions = exported.actions;
-export const selectors = exported.selectors;
-export const state = exported.state;
-
+export const { actions, state, selectors } = exported;
 export default changelog(modified(loading(exported)));

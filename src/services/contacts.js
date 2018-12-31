@@ -14,7 +14,7 @@ export function getContactsService() {
           contacts.push({
             id,
             ...contactsDBValue[id],
-          }), );
+          }));
         return resolve(contacts);
       },
       (err) => reject(err),

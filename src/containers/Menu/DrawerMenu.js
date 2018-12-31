@@ -1,7 +1,8 @@
-import { useEffect, useState, default as React } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from 'react-sidebar';
+import PropTypes from 'prop-types';
 import { Button } from '@blueprintjs/core';
-import GlobalState from '../../state/global/';
+import { state as GlobalState, actions as GlobalActions } from '../../state/global/';
 
 const mql = window.matchMedia('(min-width: 800px)');
 
@@ -13,7 +14,7 @@ export default function DrawerMenu(props) {
   }
 
   function isOpenChanged() {
-    const isOpen = GlobalState.state.get().menu.right;
+    const isOpen = GlobalState.get().menu.right;
     if (isOpen !== state.isOpen) {
       setState({ ...state, isOpen });
     }
@@ -21,19 +22,19 @@ export default function DrawerMenu(props) {
 
   useEffect(() => {
     mql.addListener(mediaQueryChanged);
-    GlobalState.state.on(isOpenChanged);
+    GlobalState.on(isOpenChanged);
     return function cleanup() {
       mql.removeListener(mediaQueryChanged);
-      GlobalState.state.off(isOpenChanged);
+      GlobalState.off(isOpenChanged);
     };
   });
 
-  const isOpen = state.isOpen;
+  const { isOpen } = state;
 
   if (!state.isSmallScreen) {
     return props.children;
   }
-  return true || state.isOpen ? (
+  return (
     <Sidebar
       open={isOpen}
       pullRight
@@ -45,15 +46,14 @@ export default function DrawerMenu(props) {
         sidebar: { background: '#30404d', paddingTop: '3.5rem' },
       }}
       onSetOpen={(open) => {
-        console.log('open', open);
-        GlobalState.actions.setRightMenuVisibility(open);
+        GlobalActions.setRightMenuVisibility(open);
       }}
       sidebar={
         <div>
           <Button
             className="bp3-minimal"
             icon="cross"
-            onClick={() => GlobalState.actions.setRightMenuVisibility(false)}
+            onClick={() => GlobalActions.setRightMenuVisibility(false)}
           />
           {props.children}
         </div>
@@ -63,9 +63,13 @@ export default function DrawerMenu(props) {
         <Button
           className="bp3-minimal"
           icon="menu"
-          onClick={() => GlobalState.actions.setRightMenuVisibility(!isOpen)}
+          onClick={() => GlobalActions.setRightMenuVisibility(!isOpen)}
         />
       }
     </Sidebar>
-  ) : null;
+  );
 }
+
+DrawerMenu.propTypes = {
+  children: PropTypes.array.isRequired,
+};

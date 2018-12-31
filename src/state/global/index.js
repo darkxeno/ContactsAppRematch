@@ -1,10 +1,10 @@
-import { state, update } from 'bey';
+import { state as stateCreate, update } from 'bey';
 import { actions as SnackbarActions } from '../snackbar/';
 
 const LIST_MODE = 'list';
 const CARD_MODE = 'card';
 
-const global = state({
+const global = stateCreate({
   loading: { state: false, total: 0, message: null },
   mode: LIST_MODE,
   menu: {
@@ -16,9 +16,9 @@ const global = state({
 function setLoading(loading, message) {
   update(global, (state) => {
     if (loading) {
-      state.loading.total++;
+      state.loading.total += 1;
     } else {
-      state.loading.total--;
+      state.loading.total -= 1;
     }
 
     state.loading.state = state.loading.total > 0;
@@ -53,5 +53,5 @@ const exported = {
     setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility,
   },
 };
-export const actions = exported.actions;
+export const { state, actions } = exported;
 export default exported;

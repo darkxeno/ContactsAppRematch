@@ -1,9 +1,3 @@
-/**
- *
- * FormSelectField
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MenuItem, FormGroup } from '@blueprintjs/core';
@@ -12,7 +6,7 @@ import { MultiSelect } from '@blueprintjs/select';
 function FormMultiSelectField({
   options,
   input: {
-    value, onChange, onBlur
+    value, onChange,
   },
   label,
   meta: { touched, error },
@@ -57,7 +51,7 @@ function FormMultiSelectField({
             }
           },
         }}
-        itemRenderer={(opt, { modifiers, handleClick }) => (
+        itemRenderer={(opt, { handleClick }) => (
           <MenuItem
             active={value.indexOf(opt.value) !== -1}
             key={`option-${opt.value}`}
@@ -74,9 +68,9 @@ function FormMultiSelectField({
 }
 
 FormMultiSelectField.propTypes = {
-  input: PropTypes.object,
-  label: PropTypes.string,
-  meta: PropTypes.object,
+  input: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
+  meta: PropTypes.object.isRequired,
   options: PropTypes.array.isRequired,
 };
 

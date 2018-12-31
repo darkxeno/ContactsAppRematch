@@ -14,7 +14,7 @@ export function getGroupsService() {
           groups.push({
             id,
             ...groupsDBValue[id],
-          }), );
+          }));
         return resolve(groups);
       },
       (err) => reject(err),

@@ -1,4 +1,4 @@
-import { state, update } from 'bey';
+import { state as stateCreate, update } from 'bey';
 import { actions as SnackbarActions } from '../snackbar/';
 import {
   getGroupsService,
@@ -9,7 +9,7 @@ import {
 import { history } from '../history/';
 import loading from '../helpers/loading';
 
-const groups = state({
+const groups = stateCreate({
   list: {},
   current: {},
 });
@@ -49,8 +49,10 @@ async function saveGroup(group) {
   history.goBack();
 }
 
-export default loading({
+const exported = {
   name: 'groups',
   state: groups,
   actions: { loadData, saveGroup },
-});
+};
+export const { state, actions } = exported;
+export default loading(exported);

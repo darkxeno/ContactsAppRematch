@@ -1,10 +1,12 @@
-import { useEffect, useState, default as React } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Subscribe } from 'bey';
+import PropTypes from 'prop-types';
+import Sidebar from 'react-sidebar';
 import { Menu, MenuItem } from '@blueprintjs/core';
 import { actions } from '../../state/history/';
-import GlobalState from '../../state/global/';
-import { Subscribe } from 'bey';
+import { state as GlobalState, actions as GlobalActions } from '../../state/global/';
 import { ROUTES } from '../../router/routes';
-import Sidebar from 'react-sidebar';
+
 
 function selectMenuOption(e) {
   actions.transitionToMenuOption(e.target.textContent);
@@ -22,7 +24,7 @@ function InnerMenu(props) {
       />
       <MenuItem
         active={
-          [ROUTES.LIST_CONTACTS, ROUTES.CONTACT_DETAILS, ROUTES.EDIT_CONTACT].indexOf(props.route.name, ) !== -1
+          [ROUTES.LIST_CONTACTS, ROUTES.CONTACT_DETAILS, ROUTES.EDIT_CONTACT].indexOf(props.route.name) !== -1
         }
         onClick={(e) => {
           selectMenuOption(e);
@@ -64,7 +66,7 @@ export default function LeftMenu(props) {
   });
 
   return (
-    <Subscribe to={GlobalState.state} on={(state) => state.menu.left}>
+    <Subscribe to={GlobalState} on={(state) => state.menu.left}>
       {(visible) => {
         if (visible) {
           if (!smallScreen) {
@@ -74,7 +76,7 @@ export default function LeftMenu(props) {
             <Sidebar
               open={visible}
               styles={{ sidebar: { background: '#30404d' } }}
-              onSetOpen={GlobalState.actions.toggleLeftMenu}
+              onSetOpen={GlobalActions.toggleLeftMenu}
               sidebar={<InnerMenu {...props} />}
             >
               {false}
@@ -86,3 +88,7 @@ export default function LeftMenu(props) {
     </Subscribe>
   );
 }
+
+InnerMenu.propTypes = {
+  route: PropTypes.object.isRequired,
+};

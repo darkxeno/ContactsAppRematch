@@ -24,5 +24,5 @@ function configureRouter() {
 const router = configureRouter();
 router.start();
 
-export const navigate = router.navigate;
+export const { navigate } = router;
 export default router;

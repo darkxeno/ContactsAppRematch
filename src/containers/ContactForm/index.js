@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { Subscribe } from 'bey';
+import PropTypes from 'prop-types';
+import { Form, Field, FormSpy } from 'react-final-form';
 import { Button, Alert, Card, Elevation } from '@blueprintjs/core';
 import FormTextField from '../../components/FormTextField';
 import FormMultiSelectField from '../../components/FormMultiSelectField';
 import validate from './form-validations';
-import { Subscribe } from 'bey';
 import { actions, selectors, state } from '../../state/contacts/';
-import { Form, Field, FormSpy } from 'react-final-form';
 import { ROUTES } from '../../router/routes';
 
 const styles = {
@@ -18,8 +19,6 @@ const styles = {
   },
 };
 
-let renders = 0;
-
 class CreateOrEditContactPage extends Component {
   constructor(props) {
     super(props);
@@ -28,11 +27,12 @@ class CreateOrEditContactPage extends Component {
     this.handleContinue = this.handleContinue.bind(this);
   }
   componentDidMount() {
-    const id = this.props.route.params.id;
+    const { id } = this.props.route.params;
     if (id) {
       actions.loadData(id);
     }
     if (this.props.router) {
+      // eslint-disable-next-line no-unused-vars
       const canDeactivate = (router) => (toState, fromState) => {
         const isContactModified = state.get().modified;
         if (isContactModified) {
@@ -60,8 +60,6 @@ class CreateOrEditContactPage extends Component {
     this.setState({ alertIsOpen: false });
   }
   render() {
-    renders++;
-    console.log('renders', renders);
     const { alertIsOpen } = this.state;
     return (
       <div>
@@ -155,5 +153,10 @@ class CreateOrEditContactPage extends Component {
     );
   }
 }
+
+CreateOrEditContactPage.propTypes = {
+  route: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+};
 
 export default CreateOrEditContactPage;
