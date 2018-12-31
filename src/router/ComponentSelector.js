@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 import About from '../containers/About';
 import ContactForm from '../containers/ContactForm';
 import ContactList from '../containers/ContactList';
@@ -8,7 +9,18 @@ import GroupForm from '../containers/GroupForm';
 import DrawerMenu from '../containers/Menu/DrawerMenu';
 import { ROUTES } from './routes';
 
-export default function ComponentSelector({ route, router }) {
+const styles = {
+  contactDetailsLayout: {
+    display: 'flex',
+    flex: '1 0 auto',
+  },
+  editContactLayout: {
+    display: 'flex',
+    flex: '1 0 auto',
+  },
+};
+
+function ComponentSelector({ route, router, classes }) {
   if (!route) {
     return <About route={route} />;
   }
@@ -18,7 +30,7 @@ export default function ComponentSelector({ route, router }) {
       return <GroupForm route={route} />;
     case ROUTES.CONTACT_DETAILS:
       return (
-        <div style={{ display: 'flex', flex: '1 0 auto' }}>
+        <div className={classes.contactDetailsLayout}>
           <ContactList route={route} />
           <DrawerMenu>
             <ContactDetail route={route} />
@@ -31,7 +43,7 @@ export default function ComponentSelector({ route, router }) {
       return <ContactForm route={route} router={router} />;
     case ROUTES.EDIT_CONTACT:
       return (
-        <div style={{ display: 'flex', flex: '1 0 auto' }}>
+        <div className={classes.editContactLayout}>
           <ContactList route={route} />
           <DrawerMenu>
             <ContactForm route={route} router={router} />
@@ -47,4 +59,7 @@ export default function ComponentSelector({ route, router }) {
 ComponentSelector.propTypes = {
   router: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
+
+export default injectSheet(styles)(ComponentSelector);
