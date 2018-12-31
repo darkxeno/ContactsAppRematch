@@ -30,6 +30,7 @@ function InnerMenu(props) {
         active={props.route.name === ROUTES.HOME}
         onClick={(e) => {
           selectMenuOption(e);
+          GlobalActions.toggleLeftMenu();
         }}
         text="About"
       />
@@ -39,6 +40,7 @@ function InnerMenu(props) {
         }
         onClick={(e) => {
           selectMenuOption(e);
+          GlobalActions.toggleLeftMenu();
         }}
         text="List"
       />
@@ -46,6 +48,7 @@ function InnerMenu(props) {
         active={props.route.name === ROUTES.ADD_CONTACT}
         onClick={(e) => {
           selectMenuOption(e);
+          GlobalActions.toggleLeftMenu();
         }}
         text="Add Contact"
       />
@@ -53,6 +56,7 @@ function InnerMenu(props) {
         active={props.route.name === ROUTES.ADD_GROUP}
         onClick={(e) => {
           selectMenuOption(e);
+          GlobalActions.toggleLeftMenu();
         }}
         text="Add Group"
       />
