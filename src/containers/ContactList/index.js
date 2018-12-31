@@ -1,12 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import posed, { PoseGroup } from 'react-pose';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 import { Subscribe } from 'bey';
 import { Button } from '@blueprintjs/core';
 import ContactCard from '../../components/ContactCard';
 import { state as ContactsState, actions as ContactsActions } from '../../state/contacts/';
 import { state as GlobalState } from '../../state/global/';
 import { actions as HistoryActions } from '../../state/history/';
+
+const styles = {
+  contactListItemImage: {
+    maxWidth: 50,
+    minWidth: 50,
+    maxHeight: 50,
+  },
+  contactListItemTextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignSelf: 'center',
+    marginLeft: '2rem',
+  },
+  contactListItemText1stLine: {
+    fontWeight: 'bolder',
+  },
+  contactListItemText2ndLine: {
+    fontSize: '12px',
+  },
+  contactListRoot: {
+    margin: '0.2em 0 0 0',
+    display: 'flex',
+    flex: '1 0 auto',
+    flexDirection: 'row',
+  },
+  contactListItemsContainer: {
+    display: 'flex',
+    flex: '1 0 auto',
+    flexDirection: 'column',
+  },
+  contactListCardsContainer: {
+    flexWrap: 'wrap',
+  },
+};
 
 function ContactListCards(props) {
   return props.list.map((contact) => (
@@ -34,17 +69,19 @@ const Item = posed.div({
   props: { i: 0 },
 });
 
-function ContactListItems(props) {
+function ContactListItems({
+  classes, route, list,
+}) {
   return (
     <PoseGroup>
-      {props.list.map((contact, i) => (
+      {list.map((contact, i) => (
         <Item key={`contact-${contact.id}`} id={contact.id} i={i}>
           <div
             role="presentation"
             onKeyPress={(e) => (e.key === 'Enter') ? HistoryActions.transitionToContactDetail(contact.id) : false}
             onClick={() => HistoryActions.transitionToContactDetail(contact.id)}
             className={`bp3-tag bp3-interactive contact-list-item ${
-              props.route.params.id === contact.id ? 'selected' : ''
+              route.params.id === contact.id ? 'selected' : ''
             }`}
           >
             <div style={{ display: 'flex' }}>
@@ -53,26 +90,15 @@ function ContactListItems(props) {
                   <img
                     src={contact.imgUrl}
                     alt={contact.name}
-                    style={{
-                      maxWidth: 50,
-                      minWidth: 50,
-                      maxHeight: 50,
-                    }}
+                    className={classes.contactListItemImage}
                   />
                 </Pop>
               ) : (
                 <Pop className="avatar">{contact.name.substring(0, 1).toUpperCase()}</Pop>
               )}
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignSelf: 'center',
-                  marginLeft: '2rem',
-                }}
-              >
-                <div style={{ fontWeight: 'bolder' }}>{contact.name}</div>
-                <div style={{ fontSize: '12px' }}>{contact.groupNames || 'Without group'}</div>
+              <div className={classes.contactListItemTextContainer}>
+                <div className={classes.contactListItemText1stLine}>{contact.name}</div>
+                <div className={classes.contactListItemText2ndLine}>{contact.groupNames || 'Without group'}</div>
               </div>
             </div>
             <Pop>
@@ -88,7 +114,7 @@ function ContactListItems(props) {
   );
 }
 
-export default function ContactList(props) {
+function ContactList(props) {
   const [global, setGlobal] = useState(GlobalState.get());
 
   function handler() {
@@ -111,28 +137,14 @@ export default function ContactList(props) {
   });
 
   return (
-    <div
-      style={{
-        margin: '0.2em 0 0 0', display: 'flex', flex: '1 0 auto', flexDirection: 'row',
-      }}
-    >
+    <div className={props.classes.contactListRoot}>
       <Subscribe to={ContactsState} on={(state) => state.list}>
         {(contactList) => global.mode === 'list' ? (
-          <div
-            style={{
-              display: 'flex',
-              flex: '1 0 auto',
-              flexDirection: 'column',
-            }}
-          >
+          <div className={props.classes.contactListItemsContainer}>
             <ContactListItems {...props} list={Object.values(contactList)} />
           </div>
         ) : (
-          <div
-            style={{
-              flexWrap: 'wrap',
-            }}
-          >
+          <div className={props.classes.contactListCardsContainer}>
             <ContactListCards {...props} list={Object.values(contactList)} />
           </div>
         )}
@@ -149,9 +161,11 @@ ContactListCards.propTypes = {
 ContactListItems.propTypes = {
   list: PropTypes.array.isRequired,
   route: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-ContactListCards.propTypes = {
-  list: PropTypes.array.isRequired,
-  route: PropTypes.object.isRequired,
+ContactList.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
+
+export default injectSheet(styles)(ContactList);

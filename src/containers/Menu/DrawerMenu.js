@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from 'react-sidebar';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 import { Button } from '@blueprintjs/core';
 import { state as GlobalState, actions as GlobalActions } from '../../state/global/';
 
+const styles = {
+  sidebar:{
+    root: { position: 'initial' },
+    content: { display: 'none' },
+    overlay: { display: 'none' },
+    sidebar: { background: '#30404d', paddingTop: '3.5rem' },
+  }
+};
+
 const mql = window.matchMedia('(min-width: 800px)');
 
-export default function DrawerMenu(props) {
+function DrawerMenu(props) {
   const [state, setState] = useState({ isSmallScreen: !mql.matches, isOpen: true });
 
   function mediaQueryChanged() {
@@ -39,16 +49,11 @@ export default function DrawerMenu(props) {
       open={isOpen}
       pullRight
       touch
-      styles={{
-        root: { position: 'initial' },
-        content: { display: 'none' },
-        overlay: { display: 'none' },
-        sidebar: { background: '#30404d', paddingTop: '3.5rem' },
-      }}
+      styles={}
       onSetOpen={(open) => {
         GlobalActions.setRightMenuVisibility(open);
       }}
-      sidebar={
+      sidebar={styles.sidebar}
         <div>
           <Button
             className="bp3-minimal"
@@ -72,4 +77,7 @@ export default function DrawerMenu(props) {
 
 DrawerMenu.propTypes = {
   children: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired,
 };
+
+export default injectSheet(styles)(DrawerMenu);

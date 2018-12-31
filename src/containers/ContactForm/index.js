@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Subscribe } from 'bey';
+import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import { Form, Field, FormSpy } from 'react-final-form';
 import { Button, Alert, Card, Elevation } from '@blueprintjs/core';
@@ -10,6 +11,11 @@ import { actions, selectors, state } from '../../state/contacts/';
 import { ROUTES } from '../../router/routes';
 
 const styles = {
+  formCard: {
+    width: '300px',
+    margin: '0.5em 1em',
+    padding: '1em',
+  },
   formContainer: {
     paddingTop: '16px',
   },
@@ -61,6 +67,7 @@ class CreateOrEditContactPage extends Component {
   }
   render() {
     const { alertIsOpen } = this.state;
+    const { classes } = this.props;
     return (
       <div>
         <Alert
@@ -86,9 +93,9 @@ class CreateOrEditContactPage extends Component {
                 <Card
                   interactive
                   elevation={Elevation.TWO}
-                  style={{ width: '300px', margin: '0.5em 1em', padding: '1em' }}
+                  className={classes.formCard}
                 >
-                  <form style={styles.formContainer} onSubmit={handleSubmit}>
+                  <form className={classes.formContainer} onSubmit={handleSubmit}>
                     <FormSpy
                       onChange={({ dirty }) => {
                         actions.setModified(dirty && !submitting);
@@ -127,7 +134,7 @@ class CreateOrEditContactPage extends Component {
                         text: group.name,
                       }))}
                     />
-                    <div style={styles.buttonsContainer}>
+                    <div className={classes.buttonsContainer}>
                       <Button
                         text="Save contact"
                         icon="floppy-disk"
@@ -157,6 +164,7 @@ class CreateOrEditContactPage extends Component {
 CreateOrEditContactPage.propTypes = {
   route: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default CreateOrEditContactPage;
+export default injectSheet(styles)(CreateOrEditContactPage);

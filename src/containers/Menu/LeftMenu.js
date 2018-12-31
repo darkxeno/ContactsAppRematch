@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Subscribe } from 'bey';
 import PropTypes from 'prop-types';
+// import injectSheet from 'react-jss';
 import Sidebar from 'react-sidebar';
 import { Menu, MenuItem } from '@blueprintjs/core';
 import { actions } from '../../state/history/';
 import { state as GlobalState, actions as GlobalActions } from '../../state/global/';
 import { ROUTES } from '../../router/routes';
 
+const styles = {
+  sidebar: {
+    sidebar: {
+      background: '#30404d',
+    },
+  },
+  leftMenuRoot: {
+    paddingTop: '4rem',
+  },
+};
 
 function selectMenuOption(e) {
   actions.transitionToMenuOption(e.target.textContent);
@@ -14,7 +25,7 @@ function selectMenuOption(e) {
 
 function InnerMenu(props) {
   return (
-    <Menu className="leftMenu" style={{ paddingTop: '4rem' }}>
+    <Menu className="leftMenu">
       <MenuItem
         active={props.route.name === ROUTES.HOME}
         onClick={(e) => {
@@ -75,7 +86,7 @@ export default function LeftMenu(props) {
           return (
             <Sidebar
               open={visible}
-              styles={{ sidebar: { background: '#30404d' } }}
+              styles={ styles.sidebar }
               onSetOpen={GlobalActions.toggleLeftMenu}
               sidebar={<InnerMenu {...props} />}
             >

@@ -4,6 +4,10 @@ body {
 	overflow-x: hidden;
 }
 
+.leftMenu {
+  padding-top: '4rem';
+}
+
 .leftMenu .selected {
 	background: #5C7080;
 }

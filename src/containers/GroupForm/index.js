@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { Subscribe } from 'bey';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 import { Form, Field } from 'react-final-form';
 import { Button, Card, Elevation } from '@blueprintjs/core';
 import FormTextField from '../../components/FormTextField';
 import validate from './form-validations';
 import { actions as GroupActions, state as GroupState } from '../../state/groups/';
 
-
 const styles = {
+  formCard: {
+    width: '300px',
+    margin: '0.5em 1em',
+    padding: '1em',
+  },
   formContainer: {
     paddingTop: '16px',
   },
@@ -31,6 +36,7 @@ class CreateOrEditGroupPage extends Component {
     }
   }
   render() {
+    const { classes } = this.props;
     return (
       <Subscribe to={GroupState}>
         {(contacts) => (
@@ -44,11 +50,11 @@ class CreateOrEditGroupPage extends Component {
               <Card
                 interactive
                 elevation={Elevation.TWO}
-                style={{ width: '300px', margin: '0.5em 1em', padding: '1em' }}
+                className={classes.formCard}
               >
-                <form style={styles.formContainer} onSubmit={handleSubmit}>
+                <form className={classes.formContainer} onSubmit={handleSubmit}>
                   <Field name="name" label="Name" placeholder="Name" component={FormTextField} />
-                  <div style={styles.buttonsContainer}>
+                  <div className={classes.buttonsContainer}>
                     <Button
                       icon="floppy-disk"
                       intent="success"
@@ -76,6 +82,7 @@ class CreateOrEditGroupPage extends Component {
 
 CreateOrEditGroupPage.propTypes = {
   route: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default CreateOrEditGroupPage;
+export default injectSheet(styles)(CreateOrEditGroupPage);
