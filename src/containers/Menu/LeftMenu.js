@@ -86,7 +86,7 @@ export default function LeftMenu(props) {
           return (
             <Sidebar
               open={visible}
-              styles={ styles.sidebar }
+              styles={styles.sidebar}
               onSetOpen={GlobalActions.toggleLeftMenu}
               sidebar={<InnerMenu {...props} />}
             >

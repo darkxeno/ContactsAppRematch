@@ -6,12 +6,12 @@ import { Button } from '@blueprintjs/core';
 import { state as GlobalState, actions as GlobalActions } from '../../state/global/';
 
 const styles = {
-  sidebar:{
+  sidebar: {
     root: { position: 'initial' },
     content: { display: 'none' },
     overlay: { display: 'none' },
     sidebar: { background: '#30404d', paddingTop: '3.5rem' },
-  }
+  },
 };
 
 const mql = window.matchMedia('(min-width: 800px)');
@@ -49,11 +49,11 @@ function DrawerMenu(props) {
       open={isOpen}
       pullRight
       touch
-      styles={}
+      styles={styles.sidebar}
       onSetOpen={(open) => {
         GlobalActions.setRightMenuVisibility(open);
       }}
-      sidebar={styles.sidebar}
+      sidebar={
         <div>
           <Button
             className="bp3-minimal"
@@ -77,7 +77,7 @@ function DrawerMenu(props) {
 
 DrawerMenu.propTypes = {
   children: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired,
+  // classes: PropTypes.object.isRequired,
 };
 
 export default injectSheet(styles)(DrawerMenu);
