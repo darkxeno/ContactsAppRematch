@@ -9,10 +9,7 @@ function FormTextField({
     <FormGroup
       helperText={error}
       label={label}
-      // labelFor="text-input"
-      // labelInfo="(required)"
       intent={touched && error ? 'danger' : undefined}
-      // style={{ width: '300px' }}
     >
       <InputGroup
         placeholder={placeholder}

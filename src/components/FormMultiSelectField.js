@@ -24,7 +24,6 @@ function FormMultiSelectField({
       helperText={error}
       label={label}
       intent={touched && error ? 'danger' : undefined}
-      // style={{ width: '300px', minWidth: '300px', maxWidth: '300px' }}
     >
       <MultiSelect
         shouldDismissPopover={false}
@@ -55,7 +54,6 @@ function FormMultiSelectField({
           <MenuItem
             active={value.indexOf(opt.value) !== -1}
             key={`option-${opt.value}`}
-            // label={opt.value}
             text={opt.text}
             onClick={handleClick}
           />

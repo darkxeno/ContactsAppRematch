@@ -1,10 +1,16 @@
 import React, { PureComponent } from 'react';
 import { Subscribe } from 'bey';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 import ContactCard from '../../components/ContactCard';
 import { state as ContactsState, actions as ContactsActions } from '../../state/contacts/';
 import { actions as HistoryActions } from '../../state/history/';
 
+const styles = {
+  contactDetailRoot: {
+    margin: '0.5em 1em',
+  },
+};
 
 class ContactPage extends PureComponent {
   constructor(props) {
@@ -35,7 +41,7 @@ class ContactPage extends PureComponent {
       <Subscribe to={ContactsState}>
         {(contacts) =>
           (
-            <div style={{ margin: '0.5em 1em' }}>
+            <div className={this.props.classes.contactDetailRoot}>
               <ContactCard
                 big
                 contact={contacts.current}
@@ -53,6 +59,7 @@ class ContactPage extends PureComponent {
 
 ContactPage.propTypes = {
   route: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default ContactPage;
+export default injectSheet(styles)(ContactPage);
