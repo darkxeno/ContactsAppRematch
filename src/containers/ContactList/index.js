@@ -134,7 +134,10 @@ function ContactListItems({
             <Pop>
               <Button
                 icon="delete"
-                onClick={() => ContactsActions.deleteContact(contact.id)}
+                onClick={(e) => {
+                  ContactsActions.deleteContact(contact.id);
+                  e.stopPropagation();
+                }}
               />
             </Pop>
           </div>

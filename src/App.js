@@ -19,7 +19,7 @@ function App({
         {({ route }) => (
           <div style={{ display: 'flex' }}>
             <LeftMenu route={route} />
-            <ComponentSelector route={route} {...rest} />
+            <ComponentSelector route={route} router={router} {...rest} />
           </div>
         )}
       </Route>
