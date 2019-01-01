@@ -10,6 +10,24 @@ import { state as GlobalState } from '../../state/global/';
 import { actions as HistoryActions } from '../../state/history/';
 
 const styles = {
+  contactListItem: {
+    '&.bp3-tag.bp3-interactive': {
+      display: 'flex',
+      justifyContent: 'space-between',
+      height: '60px',
+      paddingLeft: '8px',
+      margin: '3px',
+      backgroundColor: '#394b59',
+      color: 'white',
+      boxShadow: '0 0 0 1px rgba(16, 22, 26, 0.2), 0 0 0 rgba(16, 22, 26, 0), 0 1px 1px rgba(16, 22, 26, 0.4)',
+    },
+    '&.bp3-tag.bp3-interactive:hover': {
+      background: '#202B33',
+    },
+    '&.bp3-tag.bp3-interactive.selected': {
+      background: '#5C7080',
+    },
+  },
   contactListItemImage: {
     maxWidth: 50,
     minWidth: 50,
@@ -27,6 +45,16 @@ const styles = {
   contactListItemText2ndLine: {
     fontSize: '12px',
   },
+  contactListItemAvatar: {
+    width: '50px',
+    height: '50px',
+    fontSize: '35px',
+    backgroundColor: '#182026',
+    color: 'white',
+    textAlign: 'center',
+    lineHeight: '50px',
+    borderRadius: '50px',
+  },
   contactListRoot: {
     margin: '0.2em 0 0 0',
     display: 'flex',
@@ -43,17 +71,6 @@ const styles = {
   },
 };
 
-function ContactListCards(props) {
-  return props.list.map((contact) => (
-    <ContactCard
-      key={`contact-${contact.id}`}
-      contact={contact}
-      onEditClick={() => HistoryActions.transitionToEditContact(contact.id)}
-      onDeleteClick={() => ContactsActions.deleteContact(contact.id)}
-    />
-  ));
-}
-
 const Pop = posed.div({
   hoverable: true,
   init: { scale: 1 },
@@ -69,6 +86,17 @@ const Item = posed.div({
   props: { i: 0 },
 });
 
+function ContactListCards(props) {
+  return props.list.map((contact) => (
+    <ContactCard
+      key={`contact-${contact.id}`}
+      contact={contact}
+      onEditClick={() => HistoryActions.transitionToEditContact(contact.id)}
+      onDeleteClick={() => ContactsActions.deleteContact(contact.id)}
+    />
+  ));
+}
+
 function ContactListItems({
   classes, route, list,
 }) {
@@ -80,7 +108,7 @@ function ContactListItems({
             role="presentation"
             onKeyPress={(e) => (e.key === 'Enter') ? HistoryActions.transitionToContactDetail(contact.id) : false}
             onClick={() => HistoryActions.transitionToContactDetail(contact.id)}
-            className={`bp3-tag bp3-interactive contact-list-item ${
+            className={`bp3-tag bp3-interactive ${classes.contactListItem} ${
               route.params.id === contact.id ? 'selected' : ''
             }`}
           >
@@ -94,7 +122,9 @@ function ContactListItems({
                   />
                 </Pop>
               ) : (
-                <Pop className="avatar">{contact.name.substring(0, 1).toUpperCase()}</Pop>
+                <Pop className={classes.contactListItemAvatar}>
+                  { contact.name.substring(0, 1).toUpperCase() }
+                </Pop>
               )}
               <div className={classes.contactListItemTextContainer}>
                 <div className={classes.contactListItemText1stLine}>{contact.name}</div>

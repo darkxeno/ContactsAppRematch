@@ -28,6 +28,21 @@ const styles = {
     maxHeight: 300,
     maxWidth: 300,
   },
+  cardTextContainer: {
+    fontSize: '12pt',
+    padding: '8px',
+  },
+  cardTextGroup: {
+    fontSize: '10pt',
+    color: 'grey',
+  },
+  buttonContainer: {
+    padding: '8px',
+    position: 'relative',
+  },
+  button: {
+    marginRight: '8px',
+  },
 };
 
 const ContactCard = ({
@@ -54,16 +69,16 @@ const ContactCard = ({
           className={classes.cardImage}
         />
       </div>
-      <div style={{ fontSize: '12pt', padding: '8px' }}>
+      <div className={classes.cardTextContainer}>
         <span className={loadingClass}>{email || '...'}</span>
         <br />
-        <span style={{ fontSize: '10pt', color: 'grey' }} className={loadingClass}>
+        <span className={`${classes.cardTextGroup} ${loadingClass}`}>
           {groupNames || 'Without group'}
         </span>
       </div>
-      <div style={{ padding: '8px', position: 'relative' }}>
-        <Button onClick={onEditClick} text="Edit" style={{ marginRight: '8px' }} />
-        <Button onClick={onDeleteClick} text="Delete" style={{ marginRight: '8px' }} />
+      <div className={classes.buttonContainer}>
+        <Button onClick={onEditClick} text="Edit" className={classes.button} />
+        <Button onClick={onDeleteClick} text="Delete" className={classes.button} />
       </div>
     </Card>
   );
@@ -74,8 +89,8 @@ ContactCard.propTypes = {
   onEditClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  big: PropTypes.boolean,
-  loading: PropTypes.boolean,
+  big: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 ContactCard.defaultProps = {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Subscribe } from 'bey';
 import PropTypes from 'prop-types';
-// import injectSheet from 'react-jss';
+import injectSheet from 'react-jss';
 import Sidebar from 'react-sidebar';
 import { Menu, MenuItem } from '@blueprintjs/core';
 import { actions } from '../../state/history/';
@@ -16,6 +16,9 @@ const styles = {
   },
   leftMenuRoot: {
     paddingTop: '4rem',
+    '&.selected': {
+      background: '#5C7080',
+    },
   },
 };
 
@@ -23,40 +26,50 @@ function selectMenuOption(e) {
   actions.transitionToMenuOption(e.target.textContent);
 }
 
-function InnerMenu(props) {
+function InnerMenu({
+  route, smallScreen, classes,
+}) {
   return (
-    <Menu className="leftMenu">
+    <Menu className={classes.leftMenuRoot}>
       <MenuItem
-        active={props.route.name === ROUTES.HOME}
+        active={route.name === ROUTES.HOME}
         onClick={(e) => {
           selectMenuOption(e);
-          GlobalActions.toggleLeftMenu();
+          if (smallScreen) {
+            GlobalActions.toggleLeftMenu();
+          }
         }}
         text="About"
       />
       <MenuItem
         active={
-          [ROUTES.LIST_CONTACTS, ROUTES.CONTACT_DETAILS, ROUTES.EDIT_CONTACT].indexOf(props.route.name) !== -1
+          [ROUTES.LIST_CONTACTS, ROUTES.CONTACT_DETAILS, ROUTES.EDIT_CONTACT].indexOf(route.name) !== -1
         }
         onClick={(e) => {
           selectMenuOption(e);
-          GlobalActions.toggleLeftMenu();
+          if (smallScreen) {
+            GlobalActions.toggleLeftMenu();
+          }
         }}
         text="List"
       />
       <MenuItem
-        active={props.route.name === ROUTES.ADD_CONTACT}
+        active={route.name === ROUTES.ADD_CONTACT}
         onClick={(e) => {
           selectMenuOption(e);
-          GlobalActions.toggleLeftMenu();
+          if (smallScreen) {
+            GlobalActions.toggleLeftMenu();
+          }
         }}
         text="Add Contact"
       />
       <MenuItem
-        active={props.route.name === ROUTES.ADD_GROUP}
+        active={route.name === ROUTES.ADD_GROUP}
         onClick={(e) => {
           selectMenuOption(e);
-          GlobalActions.toggleLeftMenu();
+          if (smallScreen) {
+            GlobalActions.toggleLeftMenu();
+          }
         }}
         text="Add Group"
       />
@@ -66,7 +79,9 @@ function InnerMenu(props) {
 
 const mql = window.matchMedia('(min-width: 800px)');
 
-export default function LeftMenu(props) {
+const StyledInnerMenu = injectSheet(styles)(InnerMenu);
+
+function LeftMenu(props) {
   const [smallScreen, setSmallScreen] = useState(!mql.matches);
 
   function mediaQueryChanged() {
@@ -85,14 +100,14 @@ export default function LeftMenu(props) {
       {(visible) => {
         if (visible) {
           if (!smallScreen) {
-            return <InnerMenu {...props} />;
+            return <StyledInnerMenu smallScreen={smallScreen} {...props} />;
           }
           return (
             <Sidebar
               open={visible}
               styles={styles.sidebar}
               onSetOpen={GlobalActions.toggleLeftMenu}
-              sidebar={<InnerMenu {...props} />}
+              sidebar={<StyledInnerMenu smallScreen={smallScreen} {...props} />}
             >
               {false}
             </Sidebar>
@@ -106,4 +121,8 @@ export default function LeftMenu(props) {
 
 InnerMenu.propTypes = {
   route: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  smallScreen: PropTypes.bool.isRequired,
 };
+
+export default LeftMenu;

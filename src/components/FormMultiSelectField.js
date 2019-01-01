@@ -2,6 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MenuItem, FormGroup } from '@blueprintjs/core';
 import { MultiSelect } from '@blueprintjs/select';
+import injectSheet from 'react-jss';
+
+const styles = {
+  contactGroupMultiSelect: {
+    '&.bp3-popover-target': {
+      width: '100%',
+    },
+  },
+  contactGroupTagInputProps: {
+    '& .bp3-input-ghost': {
+      fontSize: '14px',
+    },
+  },
+};
 
 function FormMultiSelectField({
   options,
@@ -10,6 +24,7 @@ function FormMultiSelectField({
   },
   label,
   meta: { touched, error },
+  classes,
   ...custom
 }) {
   const indexesOptions = {};
@@ -28,7 +43,7 @@ function FormMultiSelectField({
       <MultiSelect
         shouldDismissPopover={false}
         noResults={<MenuItem disabled text="No results." />}
-        popoverProps={{ minimal: true, targetClassName: 'contact-group' }}
+        popoverProps={{ minimal: true, targetClassName: classes.contactGroupMultiSelect }}
         items={options}
         selectedItems={value === '' ? [] : value}
         onItemSelect={(opt) => {
@@ -42,7 +57,7 @@ function FormMultiSelectField({
         tagInputProps={{
           placeholder: 'Select contact groups...',
           fill: true,
-          className: 'contact-group',
+          className: classes.contactGroupTagInputProps,
           onRemove: (opt, index) => {
             if (value && value.length > 0) {
               value.splice(index, 1);
@@ -70,6 +85,7 @@ FormMultiSelectField.propTypes = {
   label: PropTypes.string.isRequired,
   meta: PropTypes.object.isRequired,
   options: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default FormMultiSelectField;
+export default injectSheet(styles)(FormMultiSelectField);

@@ -76,7 +76,7 @@ function DrawerMenu(props) {
 }
 
 DrawerMenu.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.object.isRequired,
   // classes: PropTypes.object.isRequired,
 };
 
