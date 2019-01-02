@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import posed, { PoseGroup } from 'react-pose';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Subscribe } from 'bey';
 import { Button } from '@blueprintjs/core';
 import ContactCard from '../../components/ContactCard';
-import { state as ContactsState, actions as ContactsActions } from '../../state/contacts/';
-import { state as GlobalState } from '../../state/global/';
+import { useMultipleStates } from '../../state/helpers/useStateProvider';
+import Contacts, { actions as ContactsActions } from '../../state/contacts/';
+import Global from '../../state/global/';
 import { actions as HistoryActions } from '../../state/history/';
 
 const styles = {
@@ -148,31 +149,22 @@ function ContactListItems({
 }
 
 function ContactList(props) {
-  const [global, setGlobal] = useState(GlobalState.get());
-
-  function handler() {
-    const newMode = GlobalState.get().mode;
-    if (newMode !== global.mode) {
-      setGlobal(GlobalState.get());
-    }
-  }
-
   useEffect(() => {
     // Load the contact list
     ContactsActions.loadData();
-  });
+  }, []);
 
-  useEffect(() => {
-    GlobalState.on(handler);
-    return function cleanup() {
-      GlobalState.off(handler);
-    };
-  });
+  //const { contacts, global } = ContactsState.useState(Contacts, Global);
+  const { contacts, global } = useMultipleStates(Contacts, Global);
+
+  console.log('contactsContext',contacts.list);
+
+  const contactList = contacts.list;
 
   return (
     <div className={props.classes.contactListRoot}>
-      <Subscribe to={ContactsState} on={(state) => state.list}>
-        {(contactList) => global.mode === 'list' ? (
+      
+        {global.mode === 'list' ? (
           <div className={props.classes.contactListItemsContainer}>
             <ContactListItems {...props} list={Object.values(contactList)} />
           </div>
@@ -181,7 +173,7 @@ function ContactList(props) {
             <ContactListCards {...props} list={Object.values(contactList)} />
           </div>
         )}
-      </Subscribe>
+      
     </div>
   );
 }

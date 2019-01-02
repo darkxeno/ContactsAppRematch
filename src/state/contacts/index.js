@@ -9,7 +9,7 @@ import {
   deleteContactService,
 } from '../../services/contacts';
 import { history } from '../history/';
-import { loading, modified, changelog } from '../helpers/';
+import { loading, modified, changelog, useStateProvider } from '../helpers/';
 
 const contacts = stateCreate({
   list: {},
@@ -117,4 +117,4 @@ const exported = {
 };
 
 export const { actions, state, selectors } = exported;
-export default changelog(modified(loading(exported)));
+export default useStateProvider(changelog(modified(loading(exported))));

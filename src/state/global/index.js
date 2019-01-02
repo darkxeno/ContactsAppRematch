@@ -48,6 +48,7 @@ function setRightMenuVisibility(visible) {
 }
 
 const exported = {
+  name: 'global',
   state: global,
   actions: {
     setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility,
