@@ -30,6 +30,6 @@ const store = init({
 
 store.dispatch(KafkaActions.connect(options));
 
-setTimeout(()=>store.dispatch(KafkaActions.subscribe({sqls: "SELECT * FROM `contacts` WHERE _vtype='JSON' AND _ktype='BYTES' AND _sample=2 AND _sampleWindow=200"})),5000);
+setTimeout(()=>store.dispatch(KafkaActions.subscribe({sqls: "SELECT * FROM `contactsWithStats` WHERE _vtype='JSON' AND _ktype='BYTES' AND _sample=2 AND _sampleWindow=200"})),5000);
 
 export default store;

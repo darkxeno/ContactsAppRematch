@@ -22,7 +22,9 @@ export default {
 	    const { Contact } = session;
 
 	    _.map(payload.content,(message)=>{
-	    	return Contact.create(JSON.parse(message.value));
+	    	let contact = JSON.parse(message.value);
+	    	contact.name = contact.name + '(changes '+contact.changes+')';
+	    	return Contact.upsert(contact);
 	    })
 	    
 	    return session.state;

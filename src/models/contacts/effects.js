@@ -40,8 +40,8 @@ export default {
   async requestContactList() {
     try {
       await dispatch.groups.requestGroupList();
-      const payload = await getContactsService();
-      this.listContacts(payload);
+      //const payload = await getContactsService();
+      //this.listContacts(payload);
     } catch (error) {
       dispatch.snackbar.displayError(error);
     }

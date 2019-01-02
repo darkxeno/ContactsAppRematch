@@ -1,6 +1,9 @@
 import topics from './topics';
 import Kafka from 'no-kafka';
 import cuid from 'cuid';
+import crypto from 'crypto';
+
+const secret = 'abcdefg';
 
 console.log(`producing on ${topics.CONTACTS}`);
 
@@ -12,7 +15,12 @@ function startSending(p) {
   let counter = 1;
   setInterval(() => {
     const randomName = names[ Math.floor(Math.random() * (names.length-1)) ];
-    const key = cuid();
+    //const key = cuid();
+    /*const key = crypto.createHmac('sha256', secret)
+                   .update(randomName)
+                   .digest('hex');*/
+
+    const key = randomName.toLowerCase();                   
 
     const value = {
       id: key,
