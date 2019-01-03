@@ -10,11 +10,10 @@ export function getContactsService() {
       (contactsDB) => {
         const contactsDBValue = contactsDB.val();
         const contacts = [];
-        Object.keys(contactsDBValue).map((id) =>
-          contacts.push({
-            id,
-            ...contactsDBValue[id],
-          }));
+        Object.keys(contactsDBValue).map((id) => contacts.push({
+          id,
+          ...contactsDBValue[id],
+        }));
         return resolve(contacts);
       },
       (err) => reject(err),

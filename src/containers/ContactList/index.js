@@ -5,9 +5,9 @@ import injectSheet from 'react-jss';
 import { Button } from '@blueprintjs/core';
 import ContactCard from '../../components/ContactCard';
 import { useMultipleStates } from '../../state/helpers/useStateProvider';
-import Contacts, { actions as ContactsActions } from '../../state/contacts/';
-import Global from '../../state/global/';
-import { actions as HistoryActions } from '../../state/history/';
+import Contacts, { actions as ContactsActions } from '../../state/contacts';
+import Global from '../../state/global';
+import { actions as HistoryActions } from '../../state/history';
 
 const styles = {
   contactListItem: {

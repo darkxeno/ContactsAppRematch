@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { Button, Card, Elevation, Classes } from '@blueprintjs/core';
+import {
+  Button, Card, Elevation, Classes,
+} from '@blueprintjs/core';
 
 const styles = {
   // eslint-disable-next-line arrow-body-style

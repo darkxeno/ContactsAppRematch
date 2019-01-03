@@ -1,12 +1,12 @@
 import { state as stateCreate, update } from 'bey';
-import { actions as SnackbarActions } from '../snackbar/';
+import { actions as SnackbarActions } from '../snackbar';
 import {
   getGroupsService,
   getGroupService,
   postGroupService,
   updateGroupService,
 } from '../../services/groups';
-import { history } from '../history/';
+import { history } from '../history';
 import loading from '../helpers/loading';
 
 const groups = stateCreate({

@@ -10,11 +10,10 @@ export function getGroupsService() {
       (groupsDB) => {
         const groupsDBValue = groupsDB.val();
         const groups = [];
-        Object.keys(groupsDBValue).map((id) =>
-          groups.push({
-            id,
-            ...groupsDBValue[id],
-          }));
+        Object.keys(groupsDBValue).map((id) => groups.push({
+          id,
+          ...groupsDBValue[id],
+        }));
         return resolve(groups);
       },
       (err) => reject(err),

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import Sidebar from 'react-sidebar';
 import { Menu, MenuItem } from '@blueprintjs/core';
-import { actions } from '../../state/history/';
-import { state as GlobalState, actions as GlobalActions } from '../../state/global/';
+import { actions } from '../../state/history';
+import { state as GlobalState, actions as GlobalActions } from '../../state/global';
 import { ROUTES } from '../../router/routes';
 
 const styles = {

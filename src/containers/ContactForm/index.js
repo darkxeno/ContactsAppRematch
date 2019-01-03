@@ -3,11 +3,13 @@ import { Subscribe } from 'bey';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import { Form, Field, FormSpy } from 'react-final-form';
-import { Button, Alert, Card, Elevation } from '@blueprintjs/core';
+import {
+  Button, Alert, Card, Elevation,
+} from '@blueprintjs/core';
 import FormTextField from '../../components/FormTextField';
 import FormMultiSelectField from '../../components/FormMultiSelectField';
 import validate from './form-validations';
-import { actions, selectors, state } from '../../state/contacts/';
+import { actions, selectors, state } from '../../state/contacts';
 import { ROUTES } from '../../router/routes';
 
 const styles = {
@@ -32,14 +34,15 @@ class CreateOrEditContactPage extends Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
   }
+
   componentDidMount() {
-    const { id } = this.props.route.params;
+    const { route: { params: { id } }, router } = this.props;
     if (id) {
       actions.loadData(id);
     }
-    if (this.props.router) {
+    if (router) {
       // eslint-disable-next-line no-unused-vars
-      const canDeactivate = (router) => (toState, fromState) => {
+      const canDeactivate = (routerProvided) => (toState, fromState) => {
         const isContactModified = state.get().modified;
         if (isContactModified) {
           return new Promise((resolve, reject) => {
@@ -48,23 +51,28 @@ class CreateOrEditContactPage extends Component {
         }
         return true;
       };
-      this.props.router.canDeactivate(ROUTES.ADD_CONTACT, canDeactivate);
-      this.props.router.canDeactivate(ROUTES.EDIT_CONTACT, canDeactivate);
+      router.canDeactivate(ROUTES.ADD_CONTACT, canDeactivate);
+      router.canDeactivate(ROUTES.EDIT_CONTACT, canDeactivate);
     }
   }
+
   componentWillReceiveProps(nextProps) {
-    if (this.props.route.params.id !== nextProps.route.params.id) {
+    const { route: { params: { id } } } = this.props;
+    if (id !== nextProps.route.params.id) {
       actions.loadData(nextProps.route.params.id);
     }
   }
+
   handleCancel() {
     this.state.continue();
     this.setState({ alertIsOpen: false });
   }
+
   handleContinue() {
     this.state.cancel();
     this.setState({ alertIsOpen: false });
   }
+
   render() {
     const { alertIsOpen } = this.state;
     const { classes } = this.props;

@@ -1,5 +1,5 @@
 import { state as stateCreate, update } from 'bey';
-import { actions as SnackbarActions } from '../snackbar/';
+import { actions as SnackbarActions } from '../snackbar';
 import { getGroupsService } from '../../services/groups';
 import {
   getContactsService,
@@ -8,8 +8,10 @@ import {
   postContactService,
   deleteContactService,
 } from '../../services/contacts';
-import { history } from '../history/';
-import { loading, modified, changelog, useStateProvider } from '../helpers/';
+import { history } from '../history';
+import {
+  loading, modified, changelog, useStateProvider,
+} from '../helpers';
 
 const contacts = stateCreate({
   list: {},

@@ -3,8 +3,8 @@ import { Subscribe } from 'bey';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import ContactCard from '../../components/ContactCard';
-import { state as ContactsState, actions as ContactsActions } from '../../state/contacts/';
-import { actions as HistoryActions } from '../../state/history/';
+import { state as ContactsState, actions as ContactsActions } from '../../state/contacts';
+import { actions as HistoryActions } from '../../state/history';
 
 const styles = {
   contactDetailRoot: {
@@ -40,18 +40,17 @@ class ContactPage extends PureComponent {
   render() {
     return (
       <Subscribe to={ContactsState}>
-        {(contacts) =>
-          (
-            <div className={this.props.classes.contactDetailRoot}>
-              <ContactCard
-                big
-                contact={contacts.current}
-                loading={contacts.loading}
-                onEditClick={this.onEditClick}
-                onDeleteClick={this.onDeleteClick}
-              />
-            </div>
-          )
+        {(contacts) => (
+          <div className={this.props.classes.contactDetailRoot}>
+            <ContactCard
+              big
+              contact={contacts.current}
+              loading={contacts.loading}
+              onEditClick={this.onEditClick}
+              onDeleteClick={this.onDeleteClick}
+            />
+          </div>
+        )
         }
       </Subscribe>
     );

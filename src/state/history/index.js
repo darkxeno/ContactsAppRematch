@@ -1,6 +1,6 @@
 import { navigate } from '../../router/router-config';
 import { ROUTES } from '../../router/routes';
-import { actions as GlobalActions } from '../global/';
+import { actions as GlobalActions } from '../global';
 
 const textToRouter = {
   List: ROUTES.LIST_CONTACTS,

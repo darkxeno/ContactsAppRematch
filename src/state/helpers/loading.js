@@ -1,5 +1,5 @@
 import { update } from 'bey';
-import { actions as GlobalActions } from '../global/';
+import { actions as GlobalActions } from '../global';
 
 function isAsync(fn) {
   return fn.isSync !== true;
@@ -10,9 +10,9 @@ export default function loading(stateModule) {
   if (stateModule.actions && Object.values(stateModule.actions).length > 0) {
     Object.keys(stateModule.actions).forEach((actionName) => {
       if (
-        stateModule.actions[actionName] &&
-        typeof stateModule.actions[actionName] === 'function' &&
-        isAsync(stateModule.actions[actionName])
+        stateModule.actions[actionName]
+        && typeof stateModule.actions[actionName] === 'function'
+        && isAsync(stateModule.actions[actionName])
       ) {
         const originalAction = stateModule.actions[actionName];
 

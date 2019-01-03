@@ -1,7 +1,7 @@
 import React from 'react';
 import { Toaster, Toast, Position } from '@blueprintjs/core';
 import { Subscribe } from 'bey';
-import { state as SnackbarState, actions as SnackbarActions } from '../../state/snackbar/';
+import { state as SnackbarState, actions as SnackbarActions } from '../../state/snackbar';
 
 function SB() {
   return (

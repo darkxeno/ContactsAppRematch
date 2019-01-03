@@ -1,7 +1,9 @@
 import React from 'react';
-import { Toaster, Toast, Position, ProgressBar } from '@blueprintjs/core';
+import {
+  Toaster, Toast, Position, ProgressBar,
+} from '@blueprintjs/core';
 import { Subscribe } from 'bey';
-import { state as GlobalState } from '../../state/global/';
+import { state as GlobalState } from '../../state/global';
 
 function Loader() {
   return (
@@ -10,12 +12,12 @@ function Loader() {
         <Toaster position={Position.TOP}>
           {state.loading.state ? (
             <Toast
-              message={
+              message={(
                 <div>
                   <span>{`Loading ${state.loading.message}...`}</span>
                   <ProgressBar />
                 </div>
-              }
+              )}
             />
           ) : null}
         </Toaster>

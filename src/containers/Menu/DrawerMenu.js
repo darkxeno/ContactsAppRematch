@@ -3,7 +3,7 @@ import Sidebar from 'react-sidebar';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Button } from '@blueprintjs/core';
-import { state as GlobalState, actions as GlobalActions } from '../../state/global/';
+import { state as GlobalState, actions as GlobalActions } from '../../state/global';
 
 const styles = {
   sidebar: {
@@ -53,7 +53,7 @@ function DrawerMenu(props) {
       onSetOpen={(open) => {
         GlobalActions.setRightMenuVisibility(open);
       }}
-      sidebar={
+      sidebar={(
         <div>
           <Button
             className="bp3-minimal"
@@ -62,7 +62,7 @@ function DrawerMenu(props) {
           />
           {props.children}
         </div>
-      }
+      )}
     >
       {
         <Button

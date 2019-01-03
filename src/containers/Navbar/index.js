@@ -3,7 +3,7 @@ import { Subscribe } from 'bey';
 import PropTypes from 'prop-types';
 import { Navbar, Button, Alignment } from '@blueprintjs/core';
 import IconElementList from '../../components/IconElementList';
-import { state as GlobalState, actions as GlobalActions } from '../../state/global/';
+import { state as GlobalState, actions as GlobalActions } from '../../state/global';
 import { ROUTES } from '../../router/routes';
 
 function MyNavbar({

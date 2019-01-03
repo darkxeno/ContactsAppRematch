@@ -6,7 +6,7 @@ import { Form, Field } from 'react-final-form';
 import { Button, Card, Elevation } from '@blueprintjs/core';
 import FormTextField from '../../components/FormTextField';
 import validate from './form-validations';
-import { actions as GroupActions, state as GroupState } from '../../state/groups/';
+import { actions as GroupActions, state as GroupState } from '../../state/groups';
 
 const styles = {
   formCard: {
@@ -30,11 +30,13 @@ class CreateOrEditGroupPage extends Component {
       GroupActions.loadData(id);
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.route.params.id !== nextProps.route.params.id) {
       GroupActions.loadData(nextProps.route.params.id);
     }
   }
+
   render() {
     const { classes } = this.props;
     return (
