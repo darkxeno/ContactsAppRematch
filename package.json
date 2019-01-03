@@ -45,8 +45,8 @@
     "eject": "react-scripts eject",
     "predeploy": "node build.js",
     "deploy": "gh-pages -d build",
-    "prettier": "./node_modules/.bin/prettier --config .prettierrc  ./src/**/**/*.js  ./src/**/*.js ./src/*.js -l;exit 0",
-    "prettierFix": "./node_modules/.bin/prettier --config .prettierrc ./src/**/**/*.js  ./src/**/*.js ./src/*.js --write",
+    "prettier": "./node_modules/.bin/prettier --config .prettierrc ./src/**/**/*.js ./src/**/*.js ./src/*.js -l;exit 0",
+    "prettierFix": "./node_modules/.bin/prettier --config .prettierrc ./src/**/**/*.js ./src/**/*.js ./src/*.js --write",
     "eslint": "./node_modules/.bin/eslint ./src/",
     "eslintFix": "./node_modules/.bin/eslint ./src/ --fix"
   },
