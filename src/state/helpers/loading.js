@@ -17,6 +17,10 @@ export default function loading(stateModule) {
         const originalAction = stateModule.actions[actionName];
 
         stateModule.actions[actionName] = async function plusLoading(...args) {
+          /* eslint-disable no-console */
+          console.groupCollapsed(`[${stateModule.name}] executing action: ${actionName}()`)
+          console.log(`Using arguments: ${args}`);
+          console.groupEnd();
           GlobalActions.setLoading(true, stateModule.name);
           const loadingBefore = stateModule.state.get().loading;
           if (loadingBefore !== true) {
