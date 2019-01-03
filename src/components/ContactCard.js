@@ -4,10 +4,17 @@ import injectSheet from 'react-jss';
 import { Button, Card, Elevation, Classes } from '@blueprintjs/core';
 
 const styles = {
-  cardRoot: (props) => (props.big ?
-    { width: 'auto' } :
-    { width: '300px', padding: '0px' }
-  ),
+  // eslint-disable-next-line arrow-body-style
+  cardRoot: (props) => {
+    return ({
+      width: props.big ? 'auto' : '300px',
+      padding: props.big ? 'inherit' : '0px',
+      '& .bp3-card.bp3-interactive': {
+        margin: '1em',
+        padding: 0,
+      },
+    });
+  },
   cardContentContainer: {
     position: 'relative',
     textAlign: 'center',

@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect } from 'react';
 import posed, { PoseGroup } from 'react-pose';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { Subscribe } from 'bey';
 import { Button } from '@blueprintjs/core';
 import ContactCard from '../../components/ContactCard';
 import { useMultipleStates } from '../../state/helpers/useStateProvider';
@@ -154,26 +153,21 @@ function ContactList(props) {
     ContactsActions.loadData();
   }, []);
 
-  //const { contacts, global } = ContactsState.useState(Contacts, Global);
-  const { contacts, global } = useMultipleStates(Contacts, Global);
-
-  console.log('contactsContext',contacts.list);
-
+  // const [contacts, global] = ContactsState.useState(Contacts, Global);
+  const [contacts, global] = useMultipleStates(Contacts, Global);
   const contactList = contacts.list;
 
   return (
     <div className={props.classes.contactListRoot}>
-      
-        {global.mode === 'list' ? (
-          <div className={props.classes.contactListItemsContainer}>
-            <ContactListItems {...props} list={Object.values(contactList)} />
-          </div>
-        ) : (
-          <div className={props.classes.contactListCardsContainer}>
-            <ContactListCards {...props} list={Object.values(contactList)} />
-          </div>
-        )}
-      
+      {global.mode === 'list' ? (
+        <div className={props.classes.contactListItemsContainer}>
+          <ContactListItems {...props} list={Object.values(contactList)} />
+        </div>
+      ) : (
+        <div className={props.classes.contactListCardsContainer}>
+          <ContactListCards {...props} list={Object.values(contactList)} />
+        </div>
+      )}
     </div>
   );
 }

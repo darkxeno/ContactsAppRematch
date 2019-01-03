@@ -1,15 +1,15 @@
 import { original } from 'immer';
+import jsonDiff from 'json-diff';
 import { state as stateCreate, update } from 'bey';
 
-const changelogs = stateCreate({
-  changelogs: {},
-});
+const changelogs = stateCreate({});
 
 export default function changelog(stateModule) {
   if (stateModule.actions && typeof stateModule.actions === 'object') {
     const key = stateModule.name || Symbol('state module name is not defined');
 
     changelogs.set({
+      ...changelogs.get(),
       [key]: { changes: [] },
     });
 
@@ -19,8 +19,13 @@ export default function changelog(stateModule) {
         const previousSnap = state[key].changes[state[key].changes.length - 1];
         const previousValue = previousSnap ? original(previousSnap).snapshot : undefined;
         state[key].changes.push({ snapshot: newState, updatedAt: Date.now() });
-        // eslint-disable-next-line no-console
-        console.log(`[${key}] state changed from:`, previousValue, '\nto:\n', newState);
+        /* eslint-disable no-console */
+        console.groupCollapsed(`[${key}] state changed`);
+        console.log('FROM:', previousValue);
+        console.log('TO:', newState);
+        console.log('DIFF:');
+        console.log(jsonDiff.diffString(previousValue, newState));
+        console.groupEnd();
       });
     });
   }

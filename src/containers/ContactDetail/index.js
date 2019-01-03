@@ -9,6 +9,7 @@ import { actions as HistoryActions } from '../../state/history/';
 const styles = {
   contactDetailRoot: {
     margin: '0.5em 1em',
+    width: '300px',
   },
 };
 

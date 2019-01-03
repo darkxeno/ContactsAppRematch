@@ -1,5 +1,6 @@
 import { state as stateCreate, update } from 'bey';
 import { actions as SnackbarActions } from '../snackbar/';
+import { changelog } from '../helpers/';
 
 const LIST_MODE = 'list';
 const CARD_MODE = 'card';
@@ -55,4 +56,4 @@ const exported = {
   },
 };
 export const { state, actions } = exported;
-export default exported;
+export default changelog(exported);
