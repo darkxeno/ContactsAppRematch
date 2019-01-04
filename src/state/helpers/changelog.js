@@ -20,7 +20,7 @@ export default function changelog(stateModule) {
         const previousValue = previousSnap ? original(previousSnap).snapshot : undefined;
         state[key].changes.push({ snapshot: newState, updatedAt: Date.now() });
         /* eslint-disable no-console */
-        console.groupCollapsed(`[${key}] state changed`); // at ${new Date().getMilliseconds()}
+        console.groupCollapsed(`[${key}] state changed at ${new Date().getMilliseconds()}`); // at ${new Date().getMilliseconds()}
         console.log('FROM:', previousValue);
         console.log('TO:', newState);
         console.log('DIFF:');

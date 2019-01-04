@@ -35,7 +35,8 @@ export function useMultipleStates(...stateModules) {
 
 function updateStateDeferred(setStateFunction, oldState, newPartialState, moduleName, futureState, componentName) {
   futureState.changes.push({ oldState, newPartialState, moduleName });
-  setTimeout(() => {
+  let timeouts = [];
+  timeouts.push(setTimeout(() => {
     if (futureState.changes.length > 0) {
       let newState = { ...futureState.oldState };
       let moduleNameStr = '';
@@ -46,8 +47,9 @@ function updateStateDeferred(setStateFunction, oldState, newPartialState, module
       executeUpdateState(setStateFunction, oldState, newState, moduleNameStr, futureState.changes.length, componentName);
       futureState.oldState = newState;
       futureState.changes = [];
+      timeouts.forEach((t)=>clearTimeout(t));
     }
-  }, 0);
+  }, 0));
 }
 
 function executeUpdateState(setStateFunction, oldState, newState, moduleName, totalChanges, componentName) {
@@ -82,7 +84,9 @@ export function useMultiple(stateModulesObject, selectorsObject = {}, componentN
       const handler = () => {
         const currentState = module.state.get();
         const newState = (selector) ? selector(currentState) : currentState;
-        if (!shallowEqual(newState, state[module.name])) {
+        //console.log('updateStateDeferred', module.name ,new Date().getMilliseconds());
+        if (true || !shallowEqual(newState, state[module.name])) {          
+          //console.log('updateStateDeferred changed',new Date().getMilliseconds());
           updateStateDeferred(setState, state, newState, module.name, futureState, componentName);
         }
       };
