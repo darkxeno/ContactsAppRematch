@@ -5,7 +5,7 @@ import injectSheet from 'react-jss';
 import { Button } from '@blueprintjs/core';
 import ContactCard from '../../components/ContactCard';
 import { useMultiple } from '../../state/helpers/useStateProvider';
-import Contacts, { actions as ContactsActions } from '../../state/contacts';
+import Contacts, { actions as ContactsActions, selectors as ContactsSelectors } from '../../state/contacts';
 import Global from '../../state/global';
 import { actions as HistoryActions } from '../../state/history';
 
@@ -147,16 +147,20 @@ function ContactListItems({
   );
 }
 
-const ContactList = React.memo(function ContactList(props) {
+const ContactList = React.memo((props) => {
   useEffect(() => {
     // Load the contact list
     ContactsActions.loadData();
   }, []);
-
+  
   // const [contacts, global] = ContactsState.useMultipleStates(Contacts, Global);
-  const {contacts, global} = useMultiple({contacts: Contacts, global: Global});
-  //const [contacts, global] = useMultipleStates(Contacts, Global);
-  console.log('render list');
+  const { contacts, global } = useMultiple({
+    contacts: Contacts,
+    global: Global,
+  }, {
+    contacts: ContactsSelectors.contactList,
+    global: ContactsSelectors.contactListGlobal,
+  });
 
   return (
     <div className={props.classes.contactListRoot}>

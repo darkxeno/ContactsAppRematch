@@ -18,11 +18,11 @@ export default function loading(stateModule, options = { localLoading: false }) 
 
         stateModule.actions[actionName] = async function plusLoading(...args) {
           /* eslint-disable no-console */
-          console.groupCollapsed(`[${stateModule.name}] executing action: ${actionName}()`)
+          console.groupCollapsed(`[${stateModule.name}] executing action: ${actionName}()`);
           console.log(`Using arguments: ${args}`);
           console.groupEnd();
           GlobalActions.setLoading(true, stateModule.name);
-          if( options.localLoading ){
+          if (options.localLoading) {
             const loadingBefore = stateModule.state.get().loading;
             if (loadingBefore !== true) {
               update(stateModule.state, (state) => {
@@ -31,7 +31,7 @@ export default function loading(stateModule, options = { localLoading: false }) 
             }
           }
           const result = await originalAction(...args);
-          if( options.localLoading ){
+          if (options.localLoading) {
             const loadingAfter = stateModule.state.get().loading;
             if (loadingAfter !== false) {
               update(stateModule.state, (state) => {

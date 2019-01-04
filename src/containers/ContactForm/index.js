@@ -89,7 +89,7 @@ class CreateOrEditContactPage extends Component {
         >
           <p>Are you sure you want leave? Your changes will be lost.</p>
         </Alert>
-        <Subscribe to={state} on={selectors.contactList}>
+        <Subscribe to={state} on={selectors.contactForm}>
           {(contacts) => (
             <Form
               onSubmit={actions.saveContact}

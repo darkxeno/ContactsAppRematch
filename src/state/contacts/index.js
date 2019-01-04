@@ -107,15 +107,23 @@ async function deleteContact(id) {
   history.goBack();
 }
 
-function contactList(state) {
+function contactForm(state) {
   return { current: state.current, groups: state.groups };
+}
+
+function contactList(state) {
+  return { current: state.current, list: state.list, groups: state.groups };
+}
+
+function contactListGlobal(state) {
+  return { mode: state.mode };
 }
 
 const exported = {
   name: 'contacts',
   state: contacts,
   actions: { loadData, saveContact, deleteContact },
-  selectors: { contactList },
+  selectors: { contactForm, contactList, contactListGlobal },
 };
 
 export const { actions, state, selectors } = exported;
