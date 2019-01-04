@@ -33,7 +33,7 @@ export function useMultipleStates(...stateModules) {
 }
 
 
-function updateStateDeferred(setStateFunction, oldState, newPartialState, moduleName, futureState) {
+function updateStateDeferred(setStateFunction, oldState, newPartialState, moduleName, futureState, componentName) {
   futureState.changes.push({ oldState, newPartialState, moduleName });
   setTimeout(() => {
     if (futureState.changes.length > 0) {
@@ -43,23 +43,23 @@ function updateStateDeferred(setStateFunction, oldState, newPartialState, module
         moduleNameStr += change.moduleName + ((i !== futureState.changes.length - 1) ? ' + ' : '');
         newState = { ...newState, [change.moduleName]: change.newPartialState };
       });
-      executeUpdateState(setStateFunction, oldState, newState, moduleNameStr, futureState.changes.length);
+      executeUpdateState(setStateFunction, oldState, newState, moduleNameStr, futureState.changes.length, componentName);
       futureState.oldState = newState;
       futureState.changes = [];
     }
   }, 0);
 }
 
-function executeUpdateState(setStateFunction, oldState, newState, moduleName, totalChanges) {
+function executeUpdateState(setStateFunction, oldState, newState, moduleName, totalChanges, componentName) {
   /* eslint-disable no-console */
-  console.groupCollapsed(`[${moduleName}] rendering [${totalChanges}] changes`);
+  console.groupCollapsed(`[${moduleName}] rendering [${totalChanges}] changes from ${componentName}`);
   console.log('NEW STATE: ', newState);
   console.log(diffString(oldState, newState));
   console.groupEnd();
   return setStateFunction(newState);
 }
 
-export function useMultiple(stateModulesObject, selectorsObject) {
+export function useMultiple(stateModulesObject, selectorsObject = {}, componentName) {
   let mergedState = {};
 
   if (stateModulesObject && typeof stateModulesObject === 'object' && Object.keys(stateModulesObject).length > 0) {
@@ -83,7 +83,7 @@ export function useMultiple(stateModulesObject, selectorsObject) {
         const currentState = module.state.get();
         const newState = (selector) ? selector(currentState) : currentState;
         if (!shallowEqual(newState, state[module.name])) {
-          updateStateDeferred(setState, state, newState, module.name, futureState);
+          updateStateDeferred(setState, state, newState, module.name, futureState, componentName);
         }
       };
 

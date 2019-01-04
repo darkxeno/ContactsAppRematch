@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Subscribe } from 'bey';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import Sidebar from 'react-sidebar';
 import { Menu, MenuItem } from '@blueprintjs/core';
 import { actions } from '../../state/history';
-import { state as GlobalState, actions as GlobalActions } from '../../state/global';
+import Global, { actions as GlobalActions } from '../../state/global';
 import { ROUTES } from '../../router/routes';
+import { useMultiple } from '../../state/helpers/useStateProvider';
 
 const styles = {
   sidebar: {
@@ -26,51 +26,41 @@ function selectMenuOption(e) {
   actions.transitionToMenuOption(e.target.textContent);
 }
 
+
+
 function InnerMenu({
   route, smallScreen, classes,
 }) {
+
+  function handleClick(e) {
+    selectMenuOption(e);
+    if (smallScreen) {
+      GlobalActions.toggleLeftMenu();
+    }
+  }
+
   return (
     <Menu className={classes.leftMenuRoot}>
       <MenuItem
         active={route.name === ROUTES.HOME}
-        onClick={(e) => {
-          selectMenuOption(e);
-          if (smallScreen) {
-            GlobalActions.toggleLeftMenu();
-          }
-        }}
+        onClick={handleClick}
         text="About"
       />
       <MenuItem
         active={
           [ROUTES.LIST_CONTACTS, ROUTES.CONTACT_DETAILS, ROUTES.EDIT_CONTACT].indexOf(route.name) !== -1
         }
-        onClick={(e) => {
-          selectMenuOption(e);
-          if (smallScreen) {
-            GlobalActions.toggleLeftMenu();
-          }
-        }}
+        onClick={handleClick}
         text="List"
       />
       <MenuItem
         active={route.name === ROUTES.ADD_CONTACT}
-        onClick={(e) => {
-          selectMenuOption(e);
-          if (smallScreen) {
-            GlobalActions.toggleLeftMenu();
-          }
-        }}
+        onClick={handleClick}
         text="Add Contact"
       />
       <MenuItem
         active={route.name === ROUTES.ADD_GROUP}
-        onClick={(e) => {
-          selectMenuOption(e);
-          if (smallScreen) {
-            GlobalActions.toggleLeftMenu();
-          }
-        }}
+        onClick={handleClick}
         text="Add Group"
       />
     </Menu>
@@ -95,9 +85,10 @@ function LeftMenu(props) {
     };
   });
 
+  const { global: visible } = useMultiple({ global: Global }, { global: (state) => state.menu.left}, 'LeftMenu');
+
   return (
-    <Subscribe to={GlobalState} on={(state) => state.menu.left}>
-      {(visible) => {
+      () => {
         if (visible) {
           if (!smallScreen) {
             return <StyledInnerMenu smallScreen={smallScreen} {...props} />;
@@ -112,11 +103,10 @@ function LeftMenu(props) {
               {false}
             </Sidebar>
           );
-        }
-        return null;
-      }}
-    </Subscribe>
-  );
+      }
+      return false;
+    }
+  )();
 }
 
 InnerMenu.propTypes = {

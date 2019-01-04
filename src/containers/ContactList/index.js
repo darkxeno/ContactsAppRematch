@@ -152,7 +152,7 @@ const ContactList = React.memo((props) => {
     // Load the contact list
     ContactsActions.loadData();
   }, []);
-  
+
   // const [contacts, global] = ContactsState.useMultipleStates(Contacts, Global);
   const { contacts, global } = useMultiple({
     contacts: Contacts,
@@ -160,7 +160,7 @@ const ContactList = React.memo((props) => {
   }, {
     contacts: ContactsSelectors.contactList,
     global: ContactsSelectors.contactListGlobal,
-  });
+  }, 'ContactList');
 
   return (
     <div className={props.classes.contactListRoot}>

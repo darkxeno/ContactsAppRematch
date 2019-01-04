@@ -111,6 +111,10 @@ function contactForm(state) {
   return { current: state.current, groups: state.groups };
 }
 
+function contactDetail(state) {
+  return { current: state.current, loading: state.loading };
+}
+
 function contactList(state) {
   return { current: state.current, list: state.list, groups: state.groups };
 }
@@ -123,8 +127,8 @@ const exported = {
   name: 'contacts',
   state: contacts,
   actions: { loadData, saveContact, deleteContact },
-  selectors: { contactForm, contactList, contactListGlobal },
+  selectors: { contactForm, contactList, contactListGlobal, contactDetail },
 };
 
 export const { actions, state, selectors } = exported;
-export default useStateProvider(changelog(modified(loading(exported))));
+export default useStateProvider(changelog(modified(loading(exported, { localLoading: true }))));

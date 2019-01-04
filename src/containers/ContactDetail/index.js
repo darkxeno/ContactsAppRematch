@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import { Subscribe } from 'bey';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import ContactCard from '../../components/ContactCard';
-import { state as ContactsState, actions as ContactsActions } from '../../state/contacts';
+import Contacts, { actions as ContactsActions, selectors as ContactsSelectors } from '../../state/contacts';
 import { actions as HistoryActions } from '../../state/history';
+import { useMultiple } from '../../state/helpers/useStateProvider';
 
 const styles = {
   contactDetailRoot: {
@@ -13,48 +13,26 @@ const styles = {
   },
 };
 
-class ContactPage extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.onEditClick = this.onEditClick.bind(this);
-    this.onDeleteClick = this.onDeleteClick.bind(this);
-    this.transitionToEditContact = HistoryActions.transitionToEditContact;
-  }
+function ContactPage(props){
 
-  componentDidMount() {
-    ContactsActions.loadData(this.props.route.params.id);
-  }
+  useEffect(() => {
+    // Load the current contact
+    ContactsActions.loadData(props.route.params.id);
+  }, props.route.params.id);
 
-  componentDidUpdate() {
-    ContactsActions.loadData(this.props.route.params.id);
-  }
+  const { contacts } = useMultiple({ contacts: Contacts }, { contacts: ContactsSelectors.contactDetail }, 'ContactDetail');
 
-  onEditClick() {
-    this.transitionToEditContact(this.props.route.params.id);
-  }
-
-  onDeleteClick() {
-    ContactsActions.deleteContact(this.props.route.params.id);
-  }
-
-  render() {
-    return (
-      <Subscribe to={ContactsState}>
-        {(contacts) => (
-          <div className={this.props.classes.contactDetailRoot}>
-            <ContactCard
-              big
-              contact={contacts.current}
-              loading={contacts.loading}
-              onEditClick={this.onEditClick}
-              onDeleteClick={this.onDeleteClick}
-            />
-          </div>
-        )
-        }
-      </Subscribe>
-    );
-  }
+  return (
+    <div className={props.classes.contactDetailRoot}>
+      <ContactCard
+        big
+        contact={contacts.current}
+        loading={contacts.loading}
+        onEditClick={()=>HistoryActions.transitionToEditContact(props.route.params.id)}
+        onDeleteClick={()=>ContactsActions.deleteContact(props.route.params.id)}
+      />
+    </div>
+  );
 }
 
 ContactPage.propTypes = {

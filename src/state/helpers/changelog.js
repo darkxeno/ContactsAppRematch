@@ -1,5 +1,5 @@
 import { original } from 'immer';
-import jsonDiff from 'json-diff';
+import { diffString } from 'json-diff';
 import { state as stateCreate, update } from 'bey';
 
 const changelogs = stateCreate({});
@@ -20,11 +20,11 @@ export default function changelog(stateModule) {
         const previousValue = previousSnap ? original(previousSnap).snapshot : undefined;
         state[key].changes.push({ snapshot: newState, updatedAt: Date.now() });
         /* eslint-disable no-console */
-        console.groupCollapsed(`[${key}] state changed`);
+        console.groupCollapsed(`[${key}] state changed`); // at ${new Date().getMilliseconds()}
         console.log('FROM:', previousValue);
         console.log('TO:', newState);
         console.log('DIFF:');
-        console.log(jsonDiff.diffString(previousValue, newState));
+        console.log(diffString(previousValue, newState));
         console.groupEnd();
       });
     });
