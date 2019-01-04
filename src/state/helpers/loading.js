@@ -6,7 +6,7 @@ function isAsync(fn) {
   // return fn.constructor.name === 'AsyncFunction';
 }
 
-export default function loading(stateModule) {
+export default function loading(stateModule, options = { localLoading: false }) {
   if (stateModule.actions && Object.values(stateModule.actions).length > 0) {
     Object.keys(stateModule.actions).forEach((actionName) => {
       if (
@@ -22,18 +22,22 @@ export default function loading(stateModule) {
           console.log(`Using arguments: ${args}`);
           console.groupEnd();
           GlobalActions.setLoading(true, stateModule.name);
-          const loadingBefore = stateModule.state.get().loading;
-          if (loadingBefore !== true) {
-            update(stateModule.state, (state) => {
-              state.loading = true;
-            });
+          if( options.localLoading ){
+            const loadingBefore = stateModule.state.get().loading;
+            if (loadingBefore !== true) {
+              update(stateModule.state, (state) => {
+                state.loading = true;
+              });
+            }
           }
           const result = await originalAction(...args);
-          const loadingAfter = stateModule.state.get().loading;
-          if (loadingAfter !== false) {
-            update(stateModule.state, (state) => {
-              state.loading = false;
-            });
+          if( options.localLoading ){
+            const loadingAfter = stateModule.state.get().loading;
+            if (loadingAfter !== false) {
+              update(stateModule.state, (state) => {
+                state.loading = false;
+              });
+            }
           }
           GlobalActions.setLoading(false, stateModule.name);
           return result;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Button } from '@blueprintjs/core';
 import ContactCard from '../../components/ContactCard';
-import { useMultipleStates } from '../../state/helpers/useStateProvider';
+import { useMultiple } from '../../state/helpers/useStateProvider';
 import Contacts, { actions as ContactsActions } from '../../state/contacts';
 import Global from '../../state/global';
 import { actions as HistoryActions } from '../../state/history';
@@ -98,7 +98,7 @@ function ContactListCards(props) {
 }
 
 function ContactListItems({
-  classes, route, list,
+  classes, list, current,
 }) {
   return (
     <PoseGroup>
@@ -109,7 +109,7 @@ function ContactListItems({
             onKeyPress={(e) => (e.key === 'Enter') ? HistoryActions.transitionToContactDetail(contact.id) : false}
             onClick={() => HistoryActions.transitionToContactDetail(contact.id)}
             className={`bp3-tag bp3-interactive ${classes.contactListItem} ${
-              route.params.id === contact.id ? 'selected' : ''
+              current.id === contact.id ? 'selected' : ''
             }`}
           >
             <div style={{ display: 'flex' }}>
@@ -147,30 +147,31 @@ function ContactListItems({
   );
 }
 
-function ContactList(props) {
+const ContactList = React.memo(function ContactList(props) {
   useEffect(() => {
     // Load the contact list
     ContactsActions.loadData();
   }, []);
 
-  // const [contacts, global] = ContactsState.useState(Contacts, Global);
-  const [contacts, global] = useMultipleStates(Contacts, Global);
-  const contactList = contacts.list;
+  // const [contacts, global] = ContactsState.useMultipleStates(Contacts, Global);
+  const {contacts, global} = useMultiple({contacts: Contacts, global: Global});
+  //const [contacts, global] = useMultipleStates(Contacts, Global);
+  console.log('render list');
 
   return (
     <div className={props.classes.contactListRoot}>
       {global.mode === 'list' ? (
         <div className={props.classes.contactListItemsContainer}>
-          <ContactListItems {...props} list={Object.values(contactList)} />
+          <ContactListItems {...props} current={contacts.current} list={Object.values(contacts.list)} />
         </div>
       ) : (
         <div className={props.classes.contactListCardsContainer}>
-          <ContactListCards {...props} list={Object.values(contactList)} />
+          <ContactListCards {...props} current={contacts.current} list={Object.values(contacts.list)} />
         </div>
       )}
     </div>
   );
-}
+});
 
 ContactListCards.propTypes = {
   list: PropTypes.array.isRequired,
@@ -179,7 +180,7 @@ ContactListCards.propTypes = {
 
 ContactListItems.propTypes = {
   list: PropTypes.array.isRequired,
-  route: PropTypes.object.isRequired,
+  current: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
