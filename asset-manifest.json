@@ -1,13 +1,13 @@
 {
-  "main.css": "/ContactsAppRematch/static/css/main.9c5ddfc0.chunk.css",
-  "main.js": "/ContactsAppRematch/static/js/main.e5f96305.chunk.js",
-  "main.js.map": "/ContactsAppRematch/static/js/main.e5f96305.chunk.js.map",
-  "static/js/1.98465e19.chunk.js": "/ContactsAppRematch/static/js/1.98465e19.chunk.js",
-  "static/js/1.98465e19.chunk.js.map": "/ContactsAppRematch/static/js/1.98465e19.chunk.js.map",
+  "main.css": "/ContactsAppRematch/static/css/main.83aae686.chunk.css",
+  "main.js": "/ContactsAppRematch/static/js/main.1d2e6ef6.chunk.js",
+  "main.js.map": "/ContactsAppRematch/static/js/main.1d2e6ef6.chunk.js.map",
+  "static/js/1.a07660cd.chunk.js": "/ContactsAppRematch/static/js/1.a07660cd.chunk.js",
+  "static/js/1.a07660cd.chunk.js.map": "/ContactsAppRematch/static/js/1.a07660cd.chunk.js.map",
   "runtime~main.js": "/ContactsAppRematch/static/js/runtime~main.32a1743a.js",
   "runtime~main.js.map": "/ContactsAppRematch/static/js/runtime~main.32a1743a.js.map",
-  "static/css/main.9c5ddfc0.chunk.css.map": "/ContactsAppRematch/static/css/main.9c5ddfc0.chunk.css.map",
+  "static/css/main.83aae686.chunk.css.map": "/ContactsAppRematch/static/css/main.83aae686.chunk.css.map",
   "index.html": "/ContactsAppRematch/index.html",
-  "precache-manifest.e5e2f25bd92bb645c0b992fae1bd16d3.js": "/ContactsAppRematch/precache-manifest.e5e2f25bd92bb645c0b992fae1bd16d3.js",
+  "precache-manifest.49f96517a8d6dbac6900d949def660da.js": "/ContactsAppRematch/precache-manifest.49f96517a8d6dbac6900d949def660da.js",
   "service-worker.js": "/ContactsAppRematch/service-worker.js"
 }
