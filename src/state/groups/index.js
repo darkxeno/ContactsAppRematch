@@ -6,7 +6,7 @@ import {
   postGroupService,
   updateGroupService,
 } from '../../services/groups';
-import { history } from '../history';
+import { actions as HistoryActions } from '../history';
 import loading from '../helpers/loading';
 
 const groups = stateCreate({
@@ -46,7 +46,7 @@ async function saveGroup(group) {
     SnackbarActions.displayError(error);
   }
 
-  history.goBack();
+  HistoryActions.goBack();
 }
 
 const exported = {

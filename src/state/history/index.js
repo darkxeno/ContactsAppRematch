@@ -1,6 +1,8 @@
-import { navigate } from '../../router/router-config';
+import { state as stateCreate, update } from 'bey';
+import router, { navigate } from '../../router/router-config';
 import { ROUTES } from '../../router/routes';
 import { actions as GlobalActions } from '../global';
+
 
 const textToRouter = {
   List: ROUTES.LIST_CONTACTS,
@@ -9,7 +11,7 @@ const textToRouter = {
   'Add Group': ROUTES.ADD_GROUP,
 };
 
-export const actions = {
+const actionsObject = {
   transitionToEditContact: (id) => {
     GlobalActions.setRightMenuVisibility(true);
     navigate(ROUTES.EDIT_CONTACT, { id });
@@ -19,14 +21,30 @@ export const actions = {
     navigate(ROUTES.CONTACT_DETAILS, { id });
   },
   transitionToMenuOption: (text) => navigate(textToRouter[text]),
+  goBack: () => window.history.back(),
+  router: {
+    canDeactivate: router.canDeactivate,
+  },
 };
+
+const history = stateCreate({
+  route: {},
+  previousRoute: {},
+});
 
 const exported = {
   name: 'history',
-  history: {
-    goBack: () => window.history.back(),
-  },
-  actions,
+  state: history,
+  actions: actionsObject,
 };
-export const { history } = exported;
+
+router.subscribe((change) => {
+  update(history, (state) => {
+    // console.log('History route changed:', change);
+    state.route = change.route;
+    state.previousRoute = change.previousRoute;
+  });
+});
+
+export const { state, actions } = exported;
 export default exported;

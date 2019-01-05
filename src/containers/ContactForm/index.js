@@ -11,6 +11,7 @@ import FormMultiSelectField from '../../components/FormMultiSelectField';
 import validate from './form-validations';
 import { actions, selectors, state } from '../../state/contacts';
 import { ROUTES } from '../../router/routes';
+import { actions as HistoryActions } from '../../state/history';
 
 const styles = {
   formCard: {
@@ -36,11 +37,11 @@ class CreateOrEditContactPage extends Component {
   }
 
   componentDidMount() {
-    const { route: { params: { id } }, router } = this.props;
+    const { route: { params: { id } } } = this.props;
     if (id) {
       actions.loadData(id);
     }
-    if (router) {
+    if (HistoryActions.router) {
       // eslint-disable-next-line no-unused-vars
       const canDeactivate = (routerProvided) => (toState, fromState) => {
         const isContactModified = state.get().modified;
@@ -51,8 +52,8 @@ class CreateOrEditContactPage extends Component {
         }
         return true;
       };
-      router.canDeactivate(ROUTES.ADD_CONTACT, canDeactivate);
-      router.canDeactivate(ROUTES.EDIT_CONTACT, canDeactivate);
+      HistoryActions.router.canDeactivate(ROUTES.ADD_CONTACT, canDeactivate);
+      HistoryActions.router.canDeactivate(ROUTES.EDIT_CONTACT, canDeactivate);
     }
   }
 
@@ -171,7 +172,6 @@ class CreateOrEditContactPage extends Component {
 
 CreateOrEditContactPage.propTypes = {
   route: PropTypes.object.isRequired,
-  router: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 

@@ -8,7 +8,7 @@ import {
   postContactService,
   deleteContactService,
 } from '../../services/contacts';
-import { history } from '../history';
+import { actions as HistoryActions } from '../history';
 import {
   loading, modified, changelog, useStateProvider,
 } from '../helpers';
@@ -88,7 +88,7 @@ async function saveContact(contact) {
   } catch (error) {
     SnackbarActions.displayError(error);
   }
-  history.goBack();
+  HistoryActions.goBack();
 }
 
 async function deleteContact(id) {
@@ -105,7 +105,7 @@ async function deleteContact(id) {
   } catch (error) {
     SnackbarActions.displayError(error);
   }
-  history.goBack();
+  HistoryActions.goBack();
 }
 
 function contactForm(state) {

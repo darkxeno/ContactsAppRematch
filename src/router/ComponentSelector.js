@@ -20,7 +20,7 @@ const styles = {
   },
 };
 
-function ComponentSelector({ route, router, classes }) {
+function ComponentSelector({ route, classes }) {
   if (!route) {
     return <About route={route} />;
   }
@@ -40,13 +40,13 @@ function ComponentSelector({ route, router, classes }) {
     case ROUTES.LIST_CONTACTS:
       return <ContactList route={route} />;
     case ROUTES.ADD_CONTACT:
-      return <ContactForm route={route} router={router} />;
+      return <ContactForm route={route} />;
     case ROUTES.EDIT_CONTACT:
       return (
         <div className={classes.editContactLayout}>
           <ContactList />
           <DrawerMenu>
-            <ContactForm route={route} router={router} />
+            <ContactForm route={route} />
           </DrawerMenu>
         </div>
       );
@@ -57,7 +57,6 @@ function ComponentSelector({ route, router, classes }) {
 }
 
 ComponentSelector.propTypes = {
-  router: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };

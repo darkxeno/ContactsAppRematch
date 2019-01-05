@@ -36,7 +36,7 @@ export function useMultipleStates(...stateModules) {
 }
 
 
-function updateStateDeferred(setStateFunction, oldState, newPartialState, moduleName, futureState, componentName) {
+function updateStateDeferred(setStateFunction, oldState, newPartialState, moduleName, futureState, componentName, listeners) {
   /* eslint-disable no-param-reassign */
   futureState.changes.push({ oldState, newPartialState, moduleName });
   let timeouts = [];
@@ -48,7 +48,7 @@ function updateStateDeferred(setStateFunction, oldState, newPartialState, module
         moduleNameStr += change.moduleName + ((i !== futureState.changes.length - 1) ? ' + ' : '');
         newState = { ...newState, [change.moduleName]: change.newPartialState };
       });
-      executeUpdateState(setStateFunction, oldState, newState, moduleNameStr, futureState.changes.length, componentName);
+      executeUpdateState(setStateFunction, oldState, newState, moduleNameStr, futureState.changes.length, componentName, listeners);
       futureState.oldState = newState;
       futureState.changes = [];
       timeouts.forEach((t) => clearTimeout(t));
@@ -57,13 +57,16 @@ function updateStateDeferred(setStateFunction, oldState, newPartialState, module
   }, 0));
 }
 
-function executeUpdateState(setStateFunction, oldState, newState, moduleName, totalChanges, componentName) {
+function executeUpdateState(setStateFunction, oldState, newState, moduleName, totalChanges, componentName, listeners) {
   /* eslint-disable no-console */
   console.groupCollapsed(`[${moduleName}] rendering [${totalChanges}] changes from ${componentName} at: ${new Date().getMilliseconds()}`);
   console.log('NEW STATE: ', newState);
   console.log(diffString(oldState, newState));
   console.groupEnd();
-  return setStateFunction(newState);
+  if (listeners > 0) {
+    return setStateFunction(newState);
+  }
+  return false;
 }
 
 export function useMultiple(stateModulesObject, selectorsObject = {}, componentName) {
@@ -81,7 +84,7 @@ export function useMultiple(stateModulesObject, selectorsObject = {}, componentN
     const [state, setState] = useState(mergedState, componentName);
 
     const futureState = { oldState: state, newState: {}, changes: [] };
-
+    let listeners = 0;
     moduleKeys.forEach((key) => {
       const module = stateModulesObject[key];
       const selector = selectorsObject[key];
@@ -92,13 +95,15 @@ export function useMultiple(stateModulesObject, selectorsObject = {}, componentN
         // console.log('updateStateDeferred', module.name ,new Date().getMilliseconds());
         if (!shallowEqual(newState, state[module.name])) {
           // console.log('updateStateDeferred changed',new Date().getMilliseconds());
-          updateStateDeferred(setState, state, newState, module.name, futureState, componentName);
+          updateStateDeferred(setState, state, newState, module.name, futureState, componentName, listeners);
         }
       };
 
       useEffect(() => {
+        listeners += 1;
         module.state.on(handler);
         return function cleanup() {
+          listeners -= 1;
           module.state.off(handler);
         };
       });
