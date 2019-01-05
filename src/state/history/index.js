@@ -28,7 +28,7 @@ const actionsObject = {
 };
 
 const history = stateCreate({
-  route: {},
+  route: router.getState(),
   previousRoute: {},
 });
 

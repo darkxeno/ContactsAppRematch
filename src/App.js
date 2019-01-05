@@ -10,7 +10,7 @@ import { useMultiple } from './state/helpers/useStateProvider';
 function App({
   ...rest
 }) {
-  const { history: { route } } = useMultiple({ history: History }, undefined, 'ComponentSelector');
+  const { history: { route } } = useMultiple({ history: History }, undefined, 'App');
   return (
     <div className="bp3-fill" style={{ backgroundColor: '#30404d', minHeight: '100vh' }}>
       <Navbar route={route} />
