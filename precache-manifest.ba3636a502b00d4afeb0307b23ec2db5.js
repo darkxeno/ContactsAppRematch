@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/ContactsAppRematch/static/css/main.83aae686.chunk.css"
   },
   {
-    "revision": "95bc056675cd961950b81bededef1cca",
+    "revision": "3b265419ea43acb14cc9e5a1d5db5c80",
     "url": "/ContactsAppRematch/index.html"
   }
 ];
