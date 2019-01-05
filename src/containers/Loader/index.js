@@ -2,27 +2,25 @@ import React from 'react';
 import {
   Toaster, Toast, Position, ProgressBar,
 } from '@blueprintjs/core';
-import { Subscribe } from 'bey';
-import { state as GlobalState } from '../../state/global';
+import Global, { selectors as GlobalSelectors } from '../../state/global';
+import { useMultiple } from '../../state/helpers/useStateProvider';
 
 function Loader() {
+  const { global } = useMultiple({ global: Global }, { global: GlobalSelectors.loader }, 'Loader');
+
   return (
-    <Subscribe to={GlobalState}>
-      {(state) => (
-        <Toaster position={Position.TOP}>
-          {state.loading.state ? (
-            <Toast
-              message={(
-                <div>
-                  <span>{`Loading ${state.loading.message}...`}</span>
-                  <ProgressBar />
-                </div>
-              )}
-            />
-          ) : null}
-        </Toaster>
-      )}
-    </Subscribe>
+    <Toaster position={Position.TOP}>
+      {global.loading.state ? (
+        <Toast
+          message={(
+            <div>
+              <span>{`Loading ${global.loading.message}...`}</span>
+              <ProgressBar />
+            </div>
+          )}
+        />
+      ) : null}
+    </Toaster>
   );
 }
 

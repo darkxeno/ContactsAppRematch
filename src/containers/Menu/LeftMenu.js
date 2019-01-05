@@ -26,12 +26,9 @@ function selectMenuOption(e) {
   actions.transitionToMenuOption(e.target.textContent);
 }
 
-
-
 function InnerMenu({
   route, smallScreen, classes,
 }) {
-
   function handleClick(e) {
     selectMenuOption(e);
     if (smallScreen) {
@@ -85,24 +82,24 @@ function LeftMenu(props) {
     };
   });
 
-  const { global: visible } = useMultiple({ global: Global }, { global: (state) => state.menu.left}, 'LeftMenu');
+  const { global: visible } = useMultiple({ global: Global }, { global: (state) => state.menu.left }, 'LeftMenu');
 
   return (
-      () => {
-        if (visible) {
-          if (!smallScreen) {
-            return <StyledInnerMenu smallScreen={smallScreen} {...props} />;
-          }
-          return (
-            <Sidebar
-              open={visible}
-              styles={styles.sidebar}
-              onSetOpen={GlobalActions.toggleLeftMenu}
-              sidebar={<StyledInnerMenu smallScreen={smallScreen} {...props} />}
-            >
-              {false}
-            </Sidebar>
-          );
+    () => {
+      if (visible) {
+        if (!smallScreen) {
+          return <StyledInnerMenu smallScreen={smallScreen} {...props} />;
+        }
+        return (
+          <Sidebar
+            open={visible}
+            styles={styles.sidebar}
+            onSetOpen={GlobalActions.toggleLeftMenu}
+            sidebar={<StyledInnerMenu smallScreen={smallScreen} {...props} />}
+          >
+            {false}
+          </Sidebar>
+        );
       }
       return false;
     }

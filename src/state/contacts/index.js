@@ -39,6 +39,7 @@ async function loadData(id) {
   contactsResponse.forEach((contact) => {
     if (contact) {
       if (contact.groups && contact.groups.length > 0) {
+        /* eslint-disable-next-line no-param-reassign */
         contact.groupNames = contact.groups
           .map((groupId) => {
             if (newGroups[groupId]) {
@@ -127,7 +128,9 @@ const exported = {
   name: 'contacts',
   state: contacts,
   actions: { loadData, saveContact, deleteContact },
-  selectors: { contactForm, contactList, contactListGlobal, contactDetail },
+  selectors: {
+    contactForm, contactList, contactListGlobal, contactDetail,
+  },
 };
 
 export const { actions, state, selectors } = exported;

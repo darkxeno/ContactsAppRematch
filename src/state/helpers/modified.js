@@ -1,6 +1,7 @@
 import { update } from 'bey';
 
 export default function modified(stateModule) {
+  /* eslint-disable no-param-reassign */
   if (stateModule.actions && typeof stateModule.actions === 'object') {
     const initState = stateModule.state.get();
     stateModule.state.set({ ...initState, modified: false });

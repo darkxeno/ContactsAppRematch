@@ -27,7 +27,7 @@
     "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
     "no-param-reassign":[
       2,
-      {"ignorePropertyModificationsFor": ["state"]}
+      {"props":true, "ignorePropertyModificationsFor": ["state"]}
     ],    
     "arrow-parens": [
       "error",

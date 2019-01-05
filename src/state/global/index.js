@@ -48,12 +48,19 @@ function setRightMenuVisibility(visible) {
   });
 }
 
+function loader(state) {
+  return { loading: state.loading };
+}
+
 const exported = {
   name: 'global',
   state: global,
   actions: {
     setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility,
   },
+  selectors: {
+    loader,
+  },
 };
-export const { state, actions } = exported;
+export const { state, actions, selectors } = exported;
 export default changelog(exported);

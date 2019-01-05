@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function context(stateModule) {
   if (stateModule && typeof stateModule === 'object' && stateModule.state && typeof stateModule.state === 'object') {
+    /* eslint-disable no-param-reassign */
     stateModule.context = {};
     const defaultState = stateModule.state.get();
     const Context = React.createContext(defaultState);

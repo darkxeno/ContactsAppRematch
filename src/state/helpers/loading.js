@@ -15,7 +15,7 @@ export default function loading(stateModule, options = { localLoading: false }) 
         && isAsync(stateModule.actions[actionName])
       ) {
         const originalAction = stateModule.actions[actionName];
-
+        /* eslint-disable no-param-reassign */
         stateModule.actions[actionName] = async function plusLoading(...args) {
           /* eslint-disable no-console */
           console.groupCollapsed(`[${stateModule.name}] executing action: ${actionName}()`);
