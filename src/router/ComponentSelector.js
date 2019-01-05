@@ -31,7 +31,7 @@ function ComponentSelector({ route, classes }) {
     case ROUTES.CONTACT_DETAILS:
       return (
         <div className={classes.contactDetailsLayout}>
-          <ContactList />
+          <ContactList route={route} />
           <DrawerMenu>
             <ContactDetail route={route} />
           </DrawerMenu>
@@ -44,7 +44,7 @@ function ComponentSelector({ route, classes }) {
     case ROUTES.EDIT_CONTACT:
       return (
         <div className={classes.editContactLayout}>
-          <ContactList />
+          <ContactList route={route} />
           <DrawerMenu>
             <ContactForm route={route} />
           </DrawerMenu>

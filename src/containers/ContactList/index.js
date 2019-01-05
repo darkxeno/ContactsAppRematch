@@ -98,7 +98,7 @@ function ContactListCards(props) {
 }
 
 function ContactListItems({
-  classes, list, current,
+  classes, list, route,
 }) {
   return (
     <PoseGroup>
@@ -109,7 +109,7 @@ function ContactListItems({
             onKeyPress={(e) => (e.key === 'Enter') ? HistoryActions.transitionToContactDetail({ id: contact.id }) : false}
             onClick={() => HistoryActions.transitionToContactDetail({ id: contact.id })}
             className={`bp3-tag bp3-interactive ${classes.contactListItem} ${
-              current.id === contact.id ? 'selected' : ''
+              route.params.id === contact.id ? 'selected' : ''
             }`}
           >
             <div style={{ display: 'flex' }}>
@@ -160,11 +160,11 @@ const ContactList = React.memo((props) => {
     <div className={props.classes.contactListRoot}>
       {global.mode === 'list' ? (
         <div className={props.classes.contactListItemsContainer}>
-          <ContactListItems {...props} current={contacts.current} list={Object.values(contacts.list)} />
+          <ContactListItems {...props} list={Object.values(contacts.list)} />
         </div>
       ) : (
         <div className={props.classes.contactListCardsContainer}>
-          <ContactListCards {...props} current={contacts.current} list={Object.values(contacts.list)} />
+          <ContactListCards {...props} list={Object.values(contacts.list)} />
         </div>
       )}
     </div>
@@ -178,12 +178,13 @@ ContactListCards.propTypes = {
 
 ContactListItems.propTypes = {
   list: PropTypes.array.isRequired,
-  current: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
 };
 
 ContactList.propTypes = {
   classes: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
 };
 
 export default injectSheet(styles)(ContactList);
