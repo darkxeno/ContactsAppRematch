@@ -8,7 +8,7 @@ import {
   postContactService,
   deleteContactService,
 } from '../../services/contacts';
-import { actions as HistoryActions } from '../history';
+import HistoryActions from '../history/actions';
 import {
   loading, modified, changelog, useStateProvider,
 } from '../helpers';
@@ -18,6 +18,13 @@ const contacts = stateCreate({
   groups: {},
   current: {},
 });
+
+async function loadContactsIfEmpty() {
+  const contactsArray = Object.values(contacts.get().list);
+  if (contactsArray.length === 0) {
+    loadData();
+  }
+}
 
 async function loadData(id) {
   const groupsResponse = await getGroupsService();
@@ -127,7 +134,9 @@ function contactListGlobal(state) {
 const exported = {
   name: 'contacts',
   state: contacts,
-  actions: { loadData, saveContact, deleteContact },
+  actions: {
+    loadData, loadContactsIfEmpty, saveContact, deleteContact,
+  },
   selectors: {
     contactForm, contactList, contactListGlobal, contactDetail,
   },

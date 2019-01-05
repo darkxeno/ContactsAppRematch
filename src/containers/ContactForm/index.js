@@ -9,7 +9,7 @@ import {
 import FormTextField from '../../components/FormTextField';
 import FormMultiSelectField from '../../components/FormMultiSelectField';
 import validate from './form-validations';
-import { actions, selectors, state } from '../../state/contacts';
+import { actions as ContactsActions, selectors, state as ContactsState } from '../../state/contacts';
 import { ROUTES } from '../../router/routes';
 import { actions as HistoryActions } from '../../state/history';
 
@@ -37,14 +37,10 @@ class CreateOrEditContactPage extends Component {
   }
 
   componentDidMount() {
-    const { route: { params: { id } } } = this.props;
-    if (id) {
-      actions.loadData(id);
-    }
     if (HistoryActions.router) {
       // eslint-disable-next-line no-unused-vars
       const canDeactivate = (routerProvided) => (toState, fromState) => {
-        const isContactModified = state.get().modified;
+        const isContactModified = ContactsState.get().modified;
         if (isContactModified) {
           return new Promise((resolve, reject) => {
             this.setState({ alertIsOpen: true, continue: reject, cancel: resolve });
@@ -54,13 +50,6 @@ class CreateOrEditContactPage extends Component {
       };
       HistoryActions.router.canDeactivate(ROUTES.ADD_CONTACT, canDeactivate);
       HistoryActions.router.canDeactivate(ROUTES.EDIT_CONTACT, canDeactivate);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { route: { params: { id } } } = this.props;
-    if (id !== nextProps.route.params.id) {
-      actions.loadData(nextProps.route.params.id);
     }
   }
 
@@ -90,10 +79,10 @@ class CreateOrEditContactPage extends Component {
         >
           <p>Are you sure you want leave? Your changes will be lost.</p>
         </Alert>
-        <Subscribe to={state} on={selectors.contactForm}>
+        <Subscribe to={ContactsState} on={selectors.contactForm}>
           {(contacts) => (
             <Form
-              onSubmit={actions.saveContact}
+              onSubmit={ContactsActions.saveContact}
               validate={validate}
               initialValues={this.props.route.params.id ? contacts.current : {}}
               render={({
@@ -107,7 +96,7 @@ class CreateOrEditContactPage extends Component {
                   <form className={classes.formContainer} onSubmit={handleSubmit}>
                     <FormSpy
                       onChange={({ dirty }) => {
-                        actions.setModified(dirty && !submitting);
+                        ContactsActions.setModified(dirty && !submitting);
                       }}
                     />
                     <Field

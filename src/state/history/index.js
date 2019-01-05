@@ -1,34 +1,16 @@
 import { state as stateCreate, update } from 'bey';
-import router, { navigate } from '../../router/router-config';
-import { ROUTES } from '../../router/routes';
-import { actions as GlobalActions } from '../global';
+import router from '../../router/router-config';
+import actionsObject from './actions';
 
+const initialRoute = router.getState();
+const { name, params } = initialRoute;
 
-const textToRouter = {
-  List: ROUTES.LIST_CONTACTS,
-  About: ROUTES.HOME,
-  'Add Contact': ROUTES.ADD_CONTACT,
-  'Add Group': ROUTES.ADD_GROUP,
-};
-
-const actionsObject = {
-  transitionToEditContact: (id) => {
-    GlobalActions.setRightMenuVisibility(true);
-    navigate(ROUTES.EDIT_CONTACT, { id });
-  },
-  transitionToContactDetail: (id) => {
-    GlobalActions.setRightMenuVisibility(true);
-    navigate(ROUTES.CONTACT_DETAILS, { id });
-  },
-  transitionToMenuOption: (text) => navigate(textToRouter[text]),
-  goBack: () => window.history.back(),
-  router: {
-    canDeactivate: router.canDeactivate,
-  },
-};
+if (actionsObject[name]) {
+  actionsObject[name](params);
+}
 
 const history = stateCreate({
-  route: router.getState(),
+  route: initialRoute,
   previousRoute: {},
 });
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import ContactCard from '../../components/ContactCard';
@@ -16,18 +16,13 @@ const styles = {
 function ContactPage(props) {
   const { contacts } = useMultiple({ contacts: Contacts }, { contacts: ContactsSelectors.contactDetail }, 'ContactDetail');
 
-  useEffect(() => {
-    // Load the current contact
-    ContactsActions.loadData(props.route.params.id);
-  }, props.route.params.id);
-
   return (
     <div className={props.classes.contactDetailRoot}>
       <ContactCard
         big
         contact={contacts.current}
         loading={contacts.loading}
-        onEditClick={() => HistoryActions.transitionToEditContact(props.route.params.id)}
+        onEditClick={() => HistoryActions.transitionToEditContact(props.route.params)}
         onDeleteClick={() => ContactsActions.deleteContact(props.route.params.id)}
       />
     </div>

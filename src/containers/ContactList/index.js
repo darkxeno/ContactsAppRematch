@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import posed, { PoseGroup } from 'react-pose';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -91,7 +91,7 @@ function ContactListCards(props) {
     <ContactCard
       key={`contact-${contact.id}`}
       contact={contact}
-      onEditClick={() => HistoryActions.transitionToEditContact(contact.id)}
+      onEditClick={() => HistoryActions.transitionToEditContact({ id: contact.id })}
       onDeleteClick={() => ContactsActions.deleteContact(contact.id)}
     />
   ));
@@ -106,8 +106,8 @@ function ContactListItems({
         <Item key={`contact-${contact.id}`} id={contact.id} i={i}>
           <div
             role="presentation"
-            onKeyPress={(e) => (e.key === 'Enter') ? HistoryActions.transitionToContactDetail(contact.id) : false}
-            onClick={() => HistoryActions.transitionToContactDetail(contact.id)}
+            onKeyPress={(e) => (e.key === 'Enter') ? HistoryActions.transitionToContactDetail({ id: contact.id }) : false}
+            onClick={() => HistoryActions.transitionToContactDetail({ id: contact.id })}
             className={`bp3-tag bp3-interactive ${classes.contactListItem} ${
               current.id === contact.id ? 'selected' : ''
             }`}
@@ -148,7 +148,6 @@ function ContactListItems({
 }
 
 const ContactList = React.memo((props) => {
-  // const [contacts, global] = ContactsState.useMultipleStates(Contacts, Global);
   const { contacts, global } = useMultiple({
     contacts: Contacts,
     global: Global,
@@ -156,11 +155,6 @@ const ContactList = React.memo((props) => {
     contacts: ContactsSelectors.contactList,
     global: ContactsSelectors.contactListGlobal,
   }, 'ContactList');
-
-  useEffect(() => {
-    // Load the contact list
-    ContactsActions.loadData();
-  }, []);
 
   return (
     <div className={props.classes.contactListRoot}>
