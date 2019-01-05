@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/ContactsAppRematch/static/js/runtime~main.32a1743a.js"
   },
   {
-    "revision": "1d2e6ef6f75bb1d021eb",
-    "url": "/ContactsAppRematch/static/js/main.1d2e6ef6.chunk.js"
+    "revision": "9c4ac2acb7a54dfcd238",
+    "url": "/ContactsAppRematch/static/js/main.9c4ac2ac.chunk.js"
   },
   {
     "revision": "a07660cdabd562b5a624",
     "url": "/ContactsAppRematch/static/js/1.a07660cd.chunk.js"
   },
   {
-    "revision": "1d2e6ef6f75bb1d021eb",
+    "revision": "9c4ac2acb7a54dfcd238",
     "url": "/ContactsAppRematch/static/css/main.83aae686.chunk.css"
   },
   {
-    "revision": "3b265419ea43acb14cc9e5a1d5db5c80",
+    "revision": "7d9f7dbc178aa3beee927a1d36156a6b",
     "url": "/ContactsAppRematch/index.html"
   }
 ];
