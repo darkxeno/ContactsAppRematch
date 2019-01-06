@@ -22,6 +22,9 @@ const actions = {
   },
   transitionToContactDetail: async ({ id }) => {
     await [ContactsActions.loadData(id), ContactsActions.loadContactsIfEmpty()];
+    // async rendering example
+    // ContactsActions.loadData(id);
+    // setTimeout(() => ContactsActions.loadContactsIfEmpty(), 2000);
     GlobalActions.setRightMenuVisibility(true);
     navigate(ROUTES.CONTACT_DETAILS, { id });
   },

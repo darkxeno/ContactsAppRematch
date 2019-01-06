@@ -5,6 +5,8 @@ import { changelog } from '../helpers';
 const LIST_MODE = 'list';
 const CARD_MODE = 'card';
 
+const mql = window.matchMedia('(min-width: 800px)');
+
 const global = stateCreate({
   loading: { state: false, total: 0, message: null },
   mode: LIST_MODE,
@@ -12,6 +14,13 @@ const global = stateCreate({
     left: true,
     right: true,
   },
+  isSmallScreen: !mql.matches,
+});
+
+mql.addListener(() => {
+  update(global, (state) => {
+    state.isSmallScreen = !mql.matches;
+  });
 });
 
 function setLoading(loading, message) {
@@ -52,6 +61,10 @@ function loader(state) {
   return { loading: state.loading };
 }
 
+function drawerMenu(state) {
+  return { isOpen: state.menu.right, isSmallScreen: state.isSmallScreen };
+}
+
 const exported = {
   name: 'global',
   state: global,
@@ -59,7 +72,7 @@ const exported = {
     setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility,
   },
   selectors: {
-    loader,
+    loader, drawerMenu,
   },
 };
 export const { state, actions, selectors } = exported;

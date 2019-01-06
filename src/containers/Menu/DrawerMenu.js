@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Sidebar from 'react-sidebar';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Button } from '@blueprintjs/core';
-import { state as GlobalState, actions as GlobalActions } from '../../state/global';
+import Global, { actions as GlobalActions, selectors as GlobalSelectors } from '../../state/global';
+import { useMultiple } from '../../state/helpers/useStateProvider';
 
 const styles = {
   sidebar: {
@@ -14,34 +15,14 @@ const styles = {
   },
 };
 
-const mql = window.matchMedia('(min-width: 800px)');
-
 function DrawerMenu(props) {
-  const [state, setState] = useState({ isSmallScreen: !mql.matches, isOpen: true });
+  const { global: { isOpen, isSmallScreen } } = useMultiple({
+    global: Global,
+  }, {
+    global: GlobalSelectors.drawerMenu,
+  }, 'DrawerMenu');
 
-  function mediaQueryChanged() {
-    setState({ ...state, isSmallScreen: !mql.matches });
-  }
-
-  function isOpenChanged() {
-    const isOpen = GlobalState.get().menu.right;
-    if (isOpen !== state.isOpen) {
-      setState({ ...state, isOpen });
-    }
-  }
-
-  useEffect(() => {
-    mql.addListener(mediaQueryChanged);
-    GlobalState.on(isOpenChanged);
-    return function cleanup() {
-      mql.removeListener(mediaQueryChanged);
-      GlobalState.off(isOpenChanged);
-    };
-  });
-
-  const { isOpen } = state;
-
-  if (!state.isSmallScreen) {
+  if (!isSmallScreen) {
     return props.children;
   }
   return (
