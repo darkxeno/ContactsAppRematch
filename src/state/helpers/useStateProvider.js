@@ -6,7 +6,7 @@ import { diffString } from 'json-diff';
 
 React.createElement(StateInspector);
 
-export function useMultipleStates(...stateModules) {
+export function useMultiple(...stateModules) {
   const finalState = [];
 
   if (stateModules && stateModules.length > 0) {
@@ -32,7 +32,7 @@ export function useMultipleStates(...stateModules) {
 
     return finalState;
   }
-  throw new Error('useMultipleStates requires at least one argument.');
+  throw new Error('useMultiple requires at least one argument.');
 }
 
 
@@ -69,7 +69,7 @@ function executeUpdateState(setStateFunction, oldState, newState, moduleName, to
   return false;
 }
 
-export function useMultiple(stateModulesObject, selectorsObject = {}, componentName) {
+export function useMultipleStates(componentName, stateModulesObject, selectorsObject = {}) {
   let mergedState = {};
 
   if (stateModulesObject && typeof stateModulesObject === 'object' && Object.keys(stateModulesObject).length > 0) {
@@ -111,7 +111,7 @@ export function useMultiple(stateModulesObject, selectorsObject = {}, componentN
 
     return state;
   }
-  throw new Error('useMultiple requires at least one object argument with one moduleState key.');
+  throw new Error('useMultipleStates requires at least 2 arguments: componentName (string), stateModules (object) indexed by key.');
 }
 
 export default function useStateProvider(stateModule) {

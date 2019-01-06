@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Button } from '@blueprintjs/core';
 import Global, { actions as GlobalActions, selectors as GlobalSelectors } from '../../state/global';
-import { useMultiple } from '../../state/helpers/useStateProvider';
+import { useMultipleStates } from '../../state/helpers/useStateProvider';
 
 const styles = {
   sidebar: {
@@ -16,11 +16,11 @@ const styles = {
 };
 
 function DrawerMenu(props) {
-  const { global: { isOpen, isSmallScreen } } = useMultiple({
+  const { global: { isOpen, isSmallScreen } } = useMultipleStates('DrawerMenu', {
     global: Global,
   }, {
     global: GlobalSelectors.drawerMenu,
-  }, 'DrawerMenu');
+  });
 
   if (!isSmallScreen) {
     return props.children;

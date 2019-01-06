@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Button } from '@blueprintjs/core';
 import ContactCard from '../../components/ContactCard';
-import { useMultiple } from '../../state/helpers/useStateProvider';
+import { useMultipleStates } from '../../state/helpers/useStateProvider';
 import Contacts, { actions as ContactsActions, selectors as ContactsSelectors } from '../../state/contacts';
 import Global from '../../state/global';
 import { actions as HistoryActions } from '../../state/history';
@@ -148,13 +148,13 @@ function ContactListItems({
 }
 
 const ContactList = React.memo((props) => {
-  const { contacts, global } = useMultiple({
+  const { contacts, global } = useMultipleStates('ContactList', {
     contacts: Contacts,
     global: Global,
   }, {
     contacts: ContactsSelectors.contactList,
     global: ContactsSelectors.contactListGlobal,
-  }, 'ContactList');
+  });
 
   return (
     <div className={props.classes.contactListRoot}>

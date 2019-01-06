@@ -27,6 +27,8 @@ async function loadContactsIfEmpty() {
 }
 
 async function loadData(id) {
+  // TODO: move this to a service layer
+
   const groupsResponse = await getGroupsService();
   const newGroups = {};
 
@@ -60,6 +62,8 @@ async function loadData(id) {
       newContacts[contact.id] = contact;
     }
   });
+
+  // TODO: move until here to a service layer
 
   update(contacts, (state) => {
     if (id) {

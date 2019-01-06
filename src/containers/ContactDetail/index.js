@@ -4,7 +4,7 @@ import injectSheet from 'react-jss';
 import ContactCard from '../../components/ContactCard';
 import Contacts, { actions as ContactsActions, selectors as ContactsSelectors } from '../../state/contacts';
 import { actions as HistoryActions } from '../../state/history';
-import { useMultiple } from '../../state/helpers/useStateProvider';
+import { useMultipleStates } from '../../state/helpers/useStateProvider';
 
 const styles = {
   contactDetailRoot: {
@@ -14,7 +14,7 @@ const styles = {
 };
 
 function ContactPage(props) {
-  const { contacts } = useMultiple({ contacts: Contacts }, { contacts: ContactsSelectors.contactDetail }, 'ContactDetail');
+  const { contacts } = useMultipleStates('ContactDetail', { contacts: Contacts }, { contacts: ContactsSelectors.contactDetail });
 
   return (
     <div className={props.classes.contactDetailRoot}>

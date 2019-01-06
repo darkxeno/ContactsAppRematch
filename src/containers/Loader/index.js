@@ -3,10 +3,10 @@ import {
   Toaster, Toast, Position, ProgressBar,
 } from '@blueprintjs/core';
 import Global, { selectors as GlobalSelectors } from '../../state/global';
-import { useMultiple } from '../../state/helpers/useStateProvider';
+import { useMultipleStates } from '../../state/helpers/useStateProvider';
 
 function Loader() {
-  const { global } = useMultiple({ global: Global }, { global: GlobalSelectors.loader }, 'Loader');
+  const { global } = useMultipleStates('Loader', { global: Global }, { global: GlobalSelectors.loader });
 
   return (
     <Toaster position={Position.TOP}>

@@ -6,7 +6,7 @@ import { Menu, MenuItem } from '@blueprintjs/core';
 import { actions as HistoryActions } from '../../state/history';
 import Global, { actions as GlobalActions, selectors as GlobalSelectors } from '../../state/global';
 import { ROUTES } from '../../router/routes';
-import { useMultiple } from '../../state/helpers/useStateProvider';
+import { useMultipleStates } from '../../state/helpers/useStateProvider';
 
 const styles = {
   sidebar: {
@@ -67,11 +67,11 @@ function InnerMenu({
 const StyledInnerMenu = injectSheet(styles)(InnerMenu);
 
 function LeftMenu(props) {
-  const { global: { isOpen, isSmallScreen } } = useMultiple({
+  const { global: { isOpen, isSmallScreen } } = useMultipleStates('LeftMenu', {
     global: Global,
   }, {
     global: GlobalSelectors.leftMenu,
-  }, 'LeftMenu');
+  });
 
   return (
     () => {
