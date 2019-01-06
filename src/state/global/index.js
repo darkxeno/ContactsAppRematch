@@ -65,6 +65,10 @@ function drawerMenu(state) {
   return { isOpen: state.menu.right, isSmallScreen: state.isSmallScreen };
 }
 
+function leftMenu(state) {
+  return { isOpen: state.menu.left, isSmallScreen: state.isSmallScreen };
+}
+
 const exported = {
   name: 'global',
   state: global,
@@ -72,7 +76,7 @@ const exported = {
     setLoading, changeMode, toggleLeftMenu, setRightMenuVisibility,
   },
   selectors: {
-    loader, drawerMenu,
+    loader, drawerMenu, leftMenu,
   },
 };
 export const { state, actions, selectors } = exported;

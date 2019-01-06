@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import Sidebar from 'react-sidebar';
 import { Menu, MenuItem } from '@blueprintjs/core';
 import { actions } from '../../state/history';
-import Global, { actions as GlobalActions } from '../../state/global';
+import Global, { actions as GlobalActions, selectors as GlobalSelectors } from '../../state/global';
 import { ROUTES } from '../../router/routes';
 import { useMultiple } from '../../state/helpers/useStateProvider';
 
@@ -64,38 +64,27 @@ function InnerMenu({
   );
 }
 
-const mql = window.matchMedia('(min-width: 800px)');
-
 const StyledInnerMenu = injectSheet(styles)(InnerMenu);
 
 function LeftMenu(props) {
-  const [smallScreen, setSmallScreen] = useState(!mql.matches);
-
-  function mediaQueryChanged() {
-    setSmallScreen(!mql.matches);
-  }
-
-  useEffect(() => {
-    mql.addListener(mediaQueryChanged);
-    return function cleanup() {
-      mql.removeListener(mediaQueryChanged);
-    };
-  });
-
-  const { global: visible } = useMultiple({ global: Global }, { global: (state) => state.menu.left }, 'LeftMenu');
+  const { global: { isOpen, isSmallScreen } } = useMultiple({
+    global: Global,
+  }, {
+    global: GlobalSelectors.leftMenu,
+  }, 'LeftMenu');
 
   return (
     () => {
-      if (visible) {
-        if (!smallScreen) {
-          return <StyledInnerMenu smallScreen={smallScreen} {...props} />;
+      if (isOpen) {
+        if (!isSmallScreen) {
+          return <StyledInnerMenu smallScreen={isSmallScreen} {...props} />;
         }
         return (
           <Sidebar
-            open={visible}
+            open={isOpen}
             styles={styles.sidebar}
             onSetOpen={GlobalActions.toggleLeftMenu}
-            sidebar={<StyledInnerMenu smallScreen={smallScreen} {...props} />}
+            sidebar={<StyledInnerMenu smallScreen={isSmallScreen} {...props} />}
           >
             {false}
           </Sidebar>
