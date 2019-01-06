@@ -3,7 +3,7 @@ import { Toaster, Toast, Position } from '@blueprintjs/core';
 import { Subscribe } from 'bey';
 import { state as SnackbarState, actions as SnackbarActions } from '../../state/snackbar';
 
-function SB() {
+function Snackbar() {
   return (
     <Subscribe to={SnackbarState}>
       {(message) => (
@@ -21,4 +21,4 @@ function SB() {
   );
 }
 
-export default SB;
+export default Snackbar;
