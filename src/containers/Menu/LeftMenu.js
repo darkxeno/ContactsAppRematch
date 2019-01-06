@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import Sidebar from 'react-sidebar';
 import { Menu, MenuItem } from '@blueprintjs/core';
-import { actions } from '../../state/history';
+import { actions as HistoryActions } from '../../state/history';
 import Global, { actions as GlobalActions, selectors as GlobalSelectors } from '../../state/global';
 import { ROUTES } from '../../router/routes';
 import { useMultiple } from '../../state/helpers/useStateProvider';
@@ -23,7 +23,7 @@ const styles = {
 };
 
 function selectMenuOption(e) {
-  actions.transitionToMenuOption(e.target.textContent);
+  HistoryActions.transitionToMenuOption(e.target.textContent);
 }
 
 function InnerMenu({
