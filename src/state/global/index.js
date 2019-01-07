@@ -58,7 +58,7 @@ function setRightMenuVisibility(visible) {
 }
 
 function loader(state) {
-  return { loading: state.loading };
+  return { loading: { state :state.loading.state, message: state.loading.message }};
 }
 
 function drawerMenu(state) {

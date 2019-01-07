@@ -74,7 +74,7 @@ const ContactCard = ({
         </h1>
         <img
           alt="contact"
-          src={imgUrl || 'http://i.imgur.com/mbZIBzc.png'}
+          src={ (name) ? imgUrl || 'http://i.imgur.com/mbZIBzc.png' : 'http://cdn.osxdaily.com/wp-content/uploads/2013/09/deleted-contacts.jpg' }
           className={classes.cardImage}
         />
       </div>

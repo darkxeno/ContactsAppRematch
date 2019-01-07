@@ -116,7 +116,6 @@ async function deleteContact(id) {
   } catch (error) {
     SnackbarActions.displayError(error);
   }
-  HistoryActions.goBack();
 }
 
 function contactForm(state) {
