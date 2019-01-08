@@ -99,7 +99,7 @@ async function saveContact(contact) {
   } catch (error) {
     SnackbarActions.displayError(error);
   }
-  HistoryActions.goBack();
+  HistoryActions.transitionToContactList();
 }
 
 async function deleteContact(id) {
