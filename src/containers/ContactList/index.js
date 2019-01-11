@@ -199,7 +199,6 @@ ContactListItems.propTypes = {
 
 ContactList.propTypes = {
   classes: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
 };
 
 export default injectSheet(styles)(ContactList);

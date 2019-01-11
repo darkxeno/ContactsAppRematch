@@ -59,7 +59,7 @@ function setRightMenuVisibility(visible) {
 }
 
 function loader(state) {
-  return { loading: { state :state.loading.state, message: state.loading.message }};
+  return { loading: { state: state.loading.state, message: state.loading.message } };
 }
 
 function drawerMenu(state) {

@@ -157,7 +157,7 @@ Pagination.propTypes = {
   pages: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   showPageSizeOptions: PropTypes.bool,
-  pageSizeOptions: PropTypes.object,
+  pageSizeOptions: PropTypes.array,
   pageSize: PropTypes.number,
   showPageJump: PropTypes.bool,
   canPrevious: PropTypes.bool,
