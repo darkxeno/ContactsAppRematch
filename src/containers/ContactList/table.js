@@ -4,6 +4,19 @@ import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import { Icon, Tag, Classes } from '@blueprintjs/core';
 
+// console.log('ReactTableDefaults', ReactTableDefaults);
+
+function PaginationButton(props) {
+  return (
+    <button type="button" {...props} className={Classes.BUTTON}>
+      {props.children}
+    </button>
+  );
+}
+
+PaginationButton.propTypes = {
+  children: PropTypes.array.isRequired,
+};
 
 function FilterComponent({
   filter,
@@ -32,6 +45,8 @@ FilterComponent.propTypes = {
 
 Object.assign(ReactTableDefaults, {
   FilterComponent,
+  PreviousComponent: PaginationButton,
+  NextComponent: PaginationButton,
 });
 
 const columns = [{
@@ -86,6 +101,10 @@ const styles = {
       display: 'flex',
       justifyContent: 'space-evenly',
     },
+    '& .select-wrap select': {
+      backgroundColor: 'rgba(16, 22, 26, 0.3)',
+      color: 'white',
+    },
   },
 
 
@@ -99,6 +118,7 @@ function Table({
     <ReactTable
       data={list}
       filterable
+      showPageJump={false}
       defaultFilterMethod={(filter, row) => String(row[filter.id]).toLowerCase().indexOf(filter.value.toLowerCase()) !== -1}
       columns={columns}
       className={`-striped -highlight ${classes.contactsTable}`}
