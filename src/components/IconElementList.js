@@ -10,6 +10,7 @@ const IconElementList = ({ changeListMode }) => (
       <Menu>
         <MenuItem text="List" onClick={() => changeListMode('list')} />
         <MenuItem text="Card" onClick={() => changeListMode('card')} />
+        <MenuItem text="Table" onClick={() => changeListMode('table')} />
       </Menu>
     )}
     position={Position.RIGHT_TOP}

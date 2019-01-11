@@ -4,12 +4,13 @@ import { changelog } from '../helpers';
 
 const LIST_MODE = 'list';
 const CARD_MODE = 'card';
+const TABLE_MODE = 'table';
 
 const mql = window.matchMedia('(min-width: 800px)');
 
 const global = stateCreate({
   loading: { state: false, total: 0, message: null },
-  mode: LIST_MODE,
+  mode: TABLE_MODE,
   menu: {
     left: true,
     right: true,
@@ -37,7 +38,7 @@ function setLoading(loading, message) {
 }
 
 function changeMode(mode) {
-  if (mode === LIST_MODE || mode === CARD_MODE) {
+  if (mode === LIST_MODE || mode === CARD_MODE || mode === TABLE_MODE) {
     update(global, (state) => {
       state.mode = mode;
     });

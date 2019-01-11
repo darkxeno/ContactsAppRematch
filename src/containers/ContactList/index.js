@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import posed, { PoseGroup } from 'react-pose';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -8,6 +8,7 @@ import { useMultipleStates } from '../../state/helpers/useStateProvider';
 import Contacts, { actions as ContactsActions, selectors as ContactsSelectors } from '../../state/contacts';
 import Global from '../../state/global';
 import { actions as HistoryActions } from '../../state/history';
+import Table from './table';
 
 const styles = {
   contactListItem: {
@@ -56,7 +57,6 @@ const styles = {
     borderRadius: '50px',
   },
   contactListRoot: {
-    margin: '0.2em 0 0 0',
     display: 'flex',
     flex: '1 0 auto',
     flexDirection: 'row',
@@ -156,17 +156,32 @@ const ContactList = React.memo((props) => {
     global: ContactsSelectors.contactListGlobal,
   });
 
+  const renderListType = useCallback(() => {
+    switch (global.mode) {
+      case 'list':
+        return (
+          <div className={props.classes.contactListItemsContainer}>
+            <ContactListItems {...props} list={Object.values(contacts.list)} />
+          </div>
+        );
+      case 'card':
+        return (
+          <div className={props.classes.contactListCardsContainer}>
+            <ContactListCards {...props} list={Object.values(contacts.list)} />
+          </div>
+        );
+      default:
+        return (
+          <div className={props.classes.contactListItemsContainer}>
+            <Table {...props} list={Object.values(contacts.list)} />
+          </div>
+        );
+    }
+  });
+
   return (
     <div className={props.classes.contactListRoot}>
-      {global.mode === 'list' ? (
-        <div className={props.classes.contactListItemsContainer}>
-          <ContactListItems {...props} list={Object.values(contacts.list)} />
-        </div>
-      ) : (
-        <div className={props.classes.contactListCardsContainer}>
-          <ContactListCards {...props} list={Object.values(contacts.list)} />
-        </div>
-      )}
+      {renderListType()}
     </div>
   );
 });
