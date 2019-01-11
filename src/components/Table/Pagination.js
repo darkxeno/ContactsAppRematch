@@ -1,7 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 import PaginationButton from './PaginationButton';
 
+const styles = {
+  pagination: {
+    '&.-pagination': {
+      justifyContent: 'flex-end',
+    },
+  },
+};
 
 function Pagination({
   onPageChange,
@@ -25,6 +33,7 @@ function Pagination({
   rowsSelectorText,
   rowsText,
   ofText,
+  classes,
 }) {
   const [state, setState] = useState({ page });
 
@@ -52,9 +61,65 @@ function Pagination({
   });
 
   return (
-    <div className={`${className} -pagination`} style={style}>
-      <div className="-previous">
+    <div className={`${className || ''} -pagination ${classes.pagination}`} style={style}>
+      <span className="-pageInfo">
+        {pageText}
+        {' '}
+        {showPageJump ? (
+          <div className="-pageJump">
+            <input
+              aria-label={pageJumpText}
+              type={state.page === '' ? 'text' : 'number'}
+              onChange={(e) => {
+                const val = e.target.value;
+                const finalPage = val - 1;
+                if (val === '') {
+                  return setState({ page: val });
+                }
+                return setState({ page: getSafePage(finalPage) });
+              }}
+              value={state.page === '' ? '' : state.page + 1}
+              onBlur={applyPage}
+              onKeyPress={(e) => {
+                if (e.which === 13 || e.keyCode === 13) {
+                  applyPage();
+                }
+              }}
+            />
+          </div>
+        ) : (
+          <span className="-currentPage">{page + 1}</span>
+        )}
+        {` ${ofText} `}
+        <span className="-totalPages">{pages || 1}</span>
+      </span>
+      {showPageSizeOptions && (
+        <span className="select-wrap -pageSizeOptions">
+          <select
+            aria-label={rowsSelectorText}
+            onChange={(e) => onPageSizeChange(Number(e.target.value))}
+            value={pageSize}
+          >
+            {pageSizeOptions.map((option, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <option key={i} value={option}>
+                {`${option} ${rowsText}`}
+              </option>
+            ))}
+          </select>
+        </span>
+      )}
+      <div className="pagination-buttons">
         <PaginationButton
+          icon="double-chevron-left"
+          onClick={() => {
+            if (!canPrevious) return;
+            changePage(0);
+          }}
+          disabled={!canPrevious}
+        />
+        <PaginationButton
+          icon="chevron-left"
           onClick={() => {
             if (!canPrevious) return;
             changePage(page - 1);
@@ -63,61 +128,19 @@ function Pagination({
         >
           {previousText}
         </PaginationButton>
-      </div>
-      <div className="-center">
-        <span className="-pageInfo">
-          {pageText}
-          {' '}
-          {showPageJump ? (
-            <div className="-pageJump">
-              <input
-                aria-label={pageJumpText}
-                type={state.page === '' ? 'text' : 'number'}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  const finalPage = val - 1;
-                  if (val === '') {
-                    return setState({ page: val });
-                  }
-                  return setState({ page: getSafePage(finalPage) });
-                }}
-                value={state.page === '' ? '' : state.page + 1}
-                onBlur={applyPage}
-                onKeyPress={(e) => {
-                  if (e.which === 13 || e.keyCode === 13) {
-                    applyPage();
-                  }
-                }}
-              />
-            </div>
-          ) : (
-            <span className="-currentPage">{page + 1}</span>
-          )}
-          {` ${ofText} `}
-          <span className="-totalPages">{pages || 1}</span>
-        </span>
-        {showPageSizeOptions && (
-          <span className="select-wrap -pageSizeOptions">
-            <select
-              aria-label={rowsSelectorText}
-              onChange={(e) => onPageSizeChange(Number(e.target.value))}
-              value={pageSize}
-            >
-              {pageSizeOptions.map((option, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <option key={i} value={option}>
-                  {`${option} ${rowsText}`}
-                </option>
-              ))}
-            </select>
-          </span>
-        )}
-      </div>
-      <div className="-next">
         <PaginationButton
+          icon="chevron-right"
           onClick={() => {
             if (!canNext) return;
             changePage(page + 1);
+          }}
+          disabled={!canNext}
+        />
+        <PaginationButton
+          icon="double-chevron-right"
+          onClick={() => {
+            if (!canNext) return;
+            changePage(pages - 1);
           }}
           disabled={!canNext}
         >
@@ -149,6 +172,7 @@ Pagination.propTypes = {
   rowsSelectorText: PropTypes.string,
   rowsText: PropTypes.string,
   ofText: PropTypes.string,
+  classes: PropTypes.object.isRequired,
 };
 
-export default Pagination;
+export default injectSheet(styles)(Pagination);

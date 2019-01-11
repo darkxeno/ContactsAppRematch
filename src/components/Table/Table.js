@@ -3,14 +3,11 @@ import ReactTable, { ReactTableDefaults } from 'react-table';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import FilterComponent from './Filter';
-import PaginationButton from './PaginationButton';
 import PaginationComponent from './Pagination';
 
 Object.assign(ReactTableDefaults, {
   FilterComponent,
   PaginationComponent,
-  //PreviousComponent: PaginationButton,
-  //NextComponent: PaginationButton,
 });
 
 const styles = {
