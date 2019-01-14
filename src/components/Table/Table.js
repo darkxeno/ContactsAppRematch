@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactTable, { ReactTableDefaults } from 'react-table';
+import selectTableHOC from 'react-table/lib/hoc/selectTable';
+import _find from 'lodash/find';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import FilterComponent from './Filter';
 import PaginationComponent from './Pagination';
 
+
 Object.assign(ReactTableDefaults, {
   FilterComponent,
   PaginationComponent,
 });
+
+const SelectTable = selectTableHOC(ReactTable);
 
 const styles = {
   table: {
@@ -43,11 +48,22 @@ const styles = {
 function Table({
   classes, data, columns, getTdProps, getTrProps, getTableProps, resolveData,
 }) {
+  const [state, setState] = useState({ selected: {} });
+
+  const oneNotSelected = Object.keys(state.selected).length > 0 ? _find(state.selected, (e) => !e) === false : true;
+
   return (
-    <ReactTable
+    <SelectTable
       data={data}
       filterable
       resolveData={resolveData}
+      keyField="id"
+      selectAll={!oneNotSelected}
+      toggleSelection={(i) => { setState({ ...state, selected: { ...state.selected, [i]: !state.selected[i] } }); }}
+      isSelected={(i) => state.selected[i]}
+      // eslint-disable-next-line no-param-reassign
+      toggleAll={() => { setState({ ...state, selected: data.reduce((acc, v) => { acc[v.id] = !acc[v.id]; return acc; }, state.selected) }); }}
+      selectType="checkbox"
       getTrProps={getTrProps}
       getTdProps={getTdProps}
       getTableProps={getTableProps}
