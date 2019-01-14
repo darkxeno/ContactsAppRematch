@@ -62,7 +62,7 @@ function Table({
       toggleSelection={(i) => { setState({ ...state, selected: { ...state.selected, [i]: !state.selected[i] } }); }}
       isSelected={(i) => state.selected[i]}
       // eslint-disable-next-line no-param-reassign
-      toggleAll={() => { setState({ ...state, selected: data.reduce((acc, v) => { acc[v.id] = !acc[v.id]; return acc; }, state.selected) }); }}
+      toggleAll={() => { setState({ ...state, selected: data.reduce((acc, v) => { acc[v.id] = oneNotSelected; return acc; }, state.selected) }); }}
       selectType="checkbox"
       getTrProps={getTrProps}
       getTdProps={getTdProps}
