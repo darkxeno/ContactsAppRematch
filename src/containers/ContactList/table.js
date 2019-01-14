@@ -1,7 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Tag } from '@blueprintjs/core';
+import posed from 'react-pose';
 import Table from '../../components/Table/Table';
+import { actions as ContactsActions } from '../../state/contacts';
+import { actions as HistoryActions } from '../../state/history';
+
+
+const Pop = posed.div({
+  hoverable: true,
+  init: { scale: 1 },
+  hover: { scale: 1.2 },
+});
 
 const columns = [{
   Header: 'Name',
@@ -17,6 +27,7 @@ const columns = [{
       {`  ${cellProps.value}`}
     </span>
   ),
+  Filter: () => null,
 }, {
   Header: 'Phone Number',
   accessor: 'phoneNumber',
@@ -43,14 +54,77 @@ const columns = [{
       )) : false}
     </span>
   ),
+}, {
+  Header: 'Edit',
+  sortable: false,
+  resizable: false,
+  filterable: false,
+  width: 50,
+  className: 'edit-item',
+  Cell: () => (
+    <Pop><Icon icon="edit" /></Pop>
+  ),
+}, {
+  Header: 'Delete',
+  sortable: false,
+  resizable: false,
+  filterable: false,
+  width: 50,
+  className: 'delete-item',
+  Cell: () => (
+    <Pop><Icon icon="delete" /></Pop>
+  ),
 }];
+
+const wrapWithOriginal = (func, handleOriginal) => {
+  func();
+
+  if (handleOriginal) {
+    handleOriginal();
+  }
+};
+
+const getTdProps = (state, rowInfo, column) => {
+  switch (column.Header) {
+    case 'Edit':
+      return {
+        onClick: (e, handleOriginal) => {
+          wrapWithOriginal(() => {
+            HistoryActions.transitionToEditContact({ id: rowInfo.original.id });
+          }, handleOriginal);
+        },
+      };
+    case 'Delete':
+      return {
+        onClick: (e, handleOriginal) => {
+          wrapWithOriginal(() => {
+            ContactsActions.deleteContact(rowInfo.original.id);
+          }, handleOriginal);
+        },
+      };
+    default:
+      return {};
+  }
+};
+
+const getTrProps = (state, rowInfo) => ({
+  className: (rowInfo && rowInfo.original && rowInfo.original.selected) ? 'selected' : '',
+  onClick: (e, handleOriginal) => {
+    wrapWithOriginal(() => {
+      HistoryActions.transitionToEditContact({ id: rowInfo.original.id });
+    }, handleOriginal);
+  },
+});
 
 
 function ContactsTable({
-  list,
+  list, route,
 }) {
   return (
     <Table
+      resolveData={(data) => data.map((r) => ({ ...r, selected: route.params.id === r.id }))}
+      getTrProps={getTrProps}
+      getTdProps={getTdProps}
       data={list}
       filterable
       columns={columns}
@@ -60,6 +134,7 @@ function ContactsTable({
 
 ContactsTable.propTypes = {
   list: PropTypes.array.isRequired,
+  route: PropTypes.object.isRequired,
 };
 
 export default ContactsTable;

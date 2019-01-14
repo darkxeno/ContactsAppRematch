@@ -60,6 +60,8 @@ const styles = {
     display: 'flex',
     flex: '1 0 auto',
     flexDirection: 'row',
+    height: 'calc(100vh - 3.7em)',
+    overflowY: 'scroll',
   },
   contactListItemsContainer: {
     display: 'flex',
