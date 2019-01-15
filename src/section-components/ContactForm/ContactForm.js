@@ -6,9 +6,9 @@ import { Form, Field, FormSpy } from 'react-final-form';
 import {
   Button, Card, Elevation,
 } from '@blueprintjs/core';
-import FormTextField from '../../components/FormTextField';
-import FormMultiSelectField from '../../components/FormMultiSelectField';
-import ModifiedCheckAlert from '../../components/ModifiedCheckAlert';
+import FormTextField from '../../reusable-components/FormTextField';
+import FormMultiSelectField from '../../reusable-components/FormMultiSelectField';
+import ModifiedCheckAlert from '../../reusable-components/ModifiedCheckAlert';
 import validate from './form-validations';
 import { actions as ContactsActions, selectors, state as ContactsState } from '../../state/contacts';
 import { ROUTES } from '../../router/routes';

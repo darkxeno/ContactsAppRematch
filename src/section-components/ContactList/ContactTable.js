@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Tag } from '@blueprintjs/core';
 import posed from 'react-pose';
-import Table from '../../components/Table/Table';
+import Table from '../../reusable-components/Table/Table';
 import { actions as ContactsActions } from '../../state/contacts';
 import { actions as HistoryActions } from '../../state/history';
 

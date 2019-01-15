@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, Button, Alignment } from '@blueprintjs/core';
-import IconElementList from '../../components/IconElementList';
+import IconElementList from '../../reusable-components/IconElementList';
 import { actions as GlobalActions } from '../../state/global';
 import { ROUTES } from '../../router/routes';
 

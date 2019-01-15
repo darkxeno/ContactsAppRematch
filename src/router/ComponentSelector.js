@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import About from '../containers/About';
-import ContactForm from '../containers/ContactForm';
-import ContactList from '../containers/ContactList';
-import ContactDetail from '../containers/ContactDetail';
-import GroupForm from '../containers/GroupForm';
-import DrawerMenu from '../containers/Menu/DrawerMenu';
+import About from '../section-components/About/About';
+import ContactForm from '../section-components/ContactForm/ContactForm';
+import ContactList from '../section-components/ContactList/ContactList';
+import ContactDetail from '../section-components/ContactDetail/ContactDetail';
+import GroupForm from '../section-components/GroupForm/GroupForm';
+import DrawerMenu from '../section-components/Menu/DrawerMenu';
 import { ROUTES } from './routes';
 
 const styles = {

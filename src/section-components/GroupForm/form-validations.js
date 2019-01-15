@@ -1,4 +1,4 @@
-import { requiredValidation, maxLength } from '../../globals/validators';
+import { requiredValidation, maxLength } from '../../helpers/validators';
 
 export default function validate(values) {
   const errors = {};

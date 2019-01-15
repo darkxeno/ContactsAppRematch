@@ -1,4 +1,4 @@
-import { requiredValidation, isEmail, isUrl } from '../../globals/validators';
+import { requiredValidation, isEmail, isUrl } from '../../helpers/validators';
 
 export default function validate(values) {
   const errors = {};

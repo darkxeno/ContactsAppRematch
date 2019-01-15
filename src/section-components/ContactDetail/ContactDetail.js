@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import ContactCard from '../../components/ContactCard';
+import ContactCard from '../../reusable-components/ContactCard';
 import Contacts, { actions as ContactsActions, selectors as ContactsSelectors } from '../../state/contacts';
 import { actions as HistoryActions } from '../../state/history';
 import { useMultipleStates } from '../../state/helpers/useStateProvider';

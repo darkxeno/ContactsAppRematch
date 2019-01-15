@@ -1,9 +1,9 @@
 import React from 'react';
 import ComponentSelector from './router/ComponentSelector';
-import Navbar from './containers/Navbar';
-import Loader from './containers/Loader';
-import Snackbar from './containers/Snackbar';
-import LeftMenu from './containers/Menu/LeftMenu';
+import Navbar from './section-components/Navbar/Navbar';
+import Loader from './section-components/Loader/Loader';
+import Snackbar from './section-components/Snackbar/Snackbar';
+import LeftMenu from './section-components/Menu/LeftMenu';
 import History from './state/history';
 import { useMultipleStates } from './state/helpers/useStateProvider';
 

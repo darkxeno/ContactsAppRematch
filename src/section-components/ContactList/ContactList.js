@@ -3,12 +3,12 @@ import posed, { PoseGroup } from 'react-pose';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Button } from '@blueprintjs/core';
-import ContactCard from '../../components/ContactCard';
+import ContactCard from '../../reusable-components/ContactCard';
 import { useMultipleStates } from '../../state/helpers/useStateProvider';
 import Contacts, { actions as ContactsActions, selectors as ContactsSelectors } from '../../state/contacts';
 import Global from '../../state/global';
 import { actions as HistoryActions } from '../../state/history';
-import Table from './table';
+import ContactTable from './ContactTable';
 
 const styles = {
   contactListItem: {
@@ -175,7 +175,7 @@ const ContactList = React.memo((props) => {
       default:
         return (
           <div className={props.classes.contactListItemsContainer}>
-            <Table {...props} list={Object.values(contacts.list)} />
+            <ContactTable {...props} list={Object.values(contacts.list)} />
           </div>
         );
     }

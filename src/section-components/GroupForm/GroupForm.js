@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Form, Field } from 'react-final-form';
 import { Button, Card, Elevation } from '@blueprintjs/core';
-import FormTextField from '../../components/FormTextField';
+import FormTextField from '../../reusable-components/FormTextField';
 import validate from './form-validations';
 import { actions as GroupActions, state as GroupState } from '../../state/groups';
 
