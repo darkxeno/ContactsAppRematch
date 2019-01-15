@@ -1,109 +1,149 @@
-import { state, update } from 'bey';
-import { actions as SnackbarActions } from "../snackbar/";
-import { getGroupsService } from "../../services/groups";
-import { 
-  getContactsService, 
-  getContactService, 
-  updateContactService, 
+import { state as stateCreate, update } from 'bey';
+import { actions as SnackbarActions } from '../snackbar';
+import { getGroupsService } from '../../services/groups';
+import {
+  getContactsService,
+  getContactService,
+  updateContactService,
   postContactService,
-  deleteContactService
-} from "../../services/contacts";
-import { history } from "../history/";
-import loading from "../helpers/loading";
+  deleteContactService,
+} from '../../services/contacts';
+import HistoryActions from '../history/actions';
+import {
+  loading, modified, changelog, useStateProvider,
+} from '../helpers';
 
-let contacts = state({
+const contacts = stateCreate({
   list: {},
   groups: {},
-  current: {}
+  current: {},
 });
 
+async function loadContactsIfEmpty() {
+  const contactsArray = Object.values(contacts.get().list);
+  if (contactsArray.length === 0) {
+    loadData();
+  }
+}
+
 async function loadData(id) {
+  // TODO: move this to a service layer
 
   const groupsResponse = await getGroupsService();
-  let newGroups = {};
+  const newGroups = {};
 
-  groupsResponse.forEach(group => {
-    newGroups[ group.id ] = group;
-  })
+  groupsResponse.forEach((group) => {
+    newGroups[group.id] = group;
+  });
 
   let contactsResponse;
-  if(id){
-    contactsResponse = [ await getContactService(id) ];  
+  if (id) {
+    contactsResponse = [await getContactService(id)];
   } else {
     contactsResponse = await getContactsService();
   }
-	
-  let newContacts = {};
 
-  contactsResponse.forEach(contact => {
-    if(contact){
-      if(contact.groups && contact.groups.length > 0){
-        contact.groupNames = contact.groups.map( groupId => {
-          if(newGroups[groupId]){
-            return newGroups[groupId].name;
-          } else {
+  const newContacts = {};
+
+  contactsResponse.forEach((contact) => {
+    if (contact) {
+      if (contact.groups && contact.groups.length > 0) {
+        /* eslint-disable-next-line no-param-reassign */
+        contact.groupNames = contact.groups
+          .map((groupId) => {
+            if (newGroups[groupId]) {
+              return newGroups[groupId].name;
+            }
             return '';
-          }
-        }).join(', ');      
+          })
+          .join(', ');
       }
 
-      newContacts[ contact.id ] = contact;
+      newContacts[contact.id] = contact;
     }
   });
 
-  update(contacts, state => { 
-    if( id ){
+  // TODO: move until here to a service layer
+
+  update(contacts, (state) => {
+    if (id) {
       state.current = newContacts[id] || {};
+      // state.modified = false;
     } else {
-      state.list = newContacts;  
+      state.list = newContacts;
     }
-    
+
     state.groups = newGroups;
   });
 }
 
-async function saveContact(contact) {  
+async function saveContact(contact) {
   try {
     let response;
 
     if (contact.id) {
-      response = await updateContactService(contact);      
+      response = await updateContactService(contact);
     } else {
       response = await postContactService(contact);
     }
 
-    console.log('current contact updated:',response);
-    update(contacts, state => { state.current = contact; });
-    
-    SnackbarActions.setMessage(`Contact ${contact.id?"updated":"created"} successfully`);
+    // eslint-disable-next-line no-console
+    console.log('current contact updated:', response);
+
+    update(contacts, (state) => {
+      state.current = contact;
+      state.modified = false;
+    });
+
+    SnackbarActions.setMessage(`Contact ${contact.id ? 'updated' : 'created'} successfully`);
   } catch (error) {
     SnackbarActions.displayError(error);
-  }  
-  history.goBack();
+  }
+  HistoryActions.transitionToContactList();
 }
 
-async function deleteContact(id) {  
+async function deleteContact(id) {
   try {
     if (id) {
-      let response = await deleteContactService(id); 
-      console.log('contact deleted:', response);
-      update(contacts, state => { state.current = {}; });
-    
-      SnackbarActions.setMessage("Contact deleted successfully"); 
-      loadData();          
+      await deleteContactService(id);
+      update(contacts, (state) => {
+        state.current = {};
+      });
+
+      SnackbarActions.setMessage('Contact deleted successfully');
+      loadData();
     }
   } catch (error) {
     SnackbarActions.displayError(error);
-  }  
-  history.goBack();
+  }
 }
 
-export default loading({ 
+function contactForm(state) {
+  return { current: state.current, groups: state.groups };
+}
+
+function contactDetail(state) {
+  return { current: state.current, loading: state.loading };
+}
+
+function contactList(state) {
+  return { current: state.current, list: state.list, groups: state.groups };
+}
+
+function contactListGlobal(state) {
+  return { mode: state.mode };
+}
+
+const exported = {
   name: 'contacts',
-  state: contacts, 
-  actions: { loadData, saveContact, deleteContact } 
-});
+  state: contacts,
+  actions: {
+    loadData, loadContactsIfEmpty, saveContact, deleteContact,
+  },
+  selectors: {
+    contactForm, contactList, contactListGlobal, contactDetail,
+  },
+};
 
-
-
- 
+export const { actions, state, selectors } = exported;
+export default useStateProvider(changelog(modified(loading(exported, { localLoading: true }))));

@@ -1,24 +1,22 @@
 import firebase from './index';
 
-const BASE_URL = "/jony";
+const BASE_URL = '/jony';
 
 export function getContactsService() {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.once(
-      "value",
-      contactsDB => {
+      'value',
+      (contactsDB) => {
         const contactsDBValue = contactsDB.val();
         const contacts = [];
-        Object.keys(contactsDBValue).map((id) =>
-          contacts.push({
-            id,
-            ...contactsDBValue[id]
-          })
-        );
+        Object.keys(contactsDBValue).map((id) => contacts.push({
+          id,
+          ...contactsDBValue[id],
+        }));
         return resolve(contacts);
       },
-      err => reject(err)
+      (err) => reject(err),
     );
   });
 }
@@ -27,15 +25,15 @@ export function getContactService(id) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}/${id}`);
   return new Promise((resolve, reject) => {
     firebaseConnection.once(
-      "value",
-      contactDB => {
+      'value',
+      (contactDB) => {
         const contactDBValue = contactDB.val();
-        if(contactDBValue){
+        if (contactDBValue) {
           contactDBValue.id = id;
         }
         return resolve(contactDBValue);
       },
-      err => reject(err)
+      (err) => reject(err),
     );
   });
 }
@@ -44,7 +42,7 @@ export function postContactService(contact) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}`);
   return new Promise((resolve, reject) => {
     const post = firebaseConnection.push();
-    post.set(contact, err => {
+    post.set(contact, (err) => {
       if (err) {
         return reject(err);
       }
@@ -59,13 +57,13 @@ export function postContactService(contact) {
 export function updateContactService({ id, ...others }) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}/${id}`);
   return new Promise((resolve, reject) => {
-    firebaseConnection.set({ ...others }, err => {
+    firebaseConnection.set({ ...others }, (err) => {
       if (err) {
         return reject(err);
       }
       return resolve({
         id,
-        ...others
+        ...others,
       });
     });
   });
@@ -74,7 +72,7 @@ export function updateContactService({ id, ...others }) {
 export function deleteContactService(id) {
   const firebaseConnection = firebase.database().ref(`${BASE_URL}/${id}`);
   return new Promise((resolve, reject) => {
-    firebaseConnection.set(null, err => {
+    firebaseConnection.set(null, (err) => {
       if (err) {
         return reject(err);
       }

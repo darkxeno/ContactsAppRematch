@@ -1,15 +1,25 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import registerServiceWorker from "./registerServiceWorker";
-import { Location } from "@reach/router";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { StateInspector } from 'reinspect';
+import './index.css';
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
 
-const Root = () => (
-  <Location>
-    {props => <App location={props.location} />}
-  </Location>
-);
+let Root;
 
-ReactDOM.render(<Root />, document.getElementById("root"));
+// enabling redux-tools
+// eslint-disable-next-line no-underscore-dangle
+if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+  Root = () => (
+    <StateInspector>
+      <App />
+    </StateInspector>
+  );
+} else {
+  Root = () => (
+    <App />
+  );
+}
+
+ReactDOM.render(<Root />, document.getElementById('root'));
 registerServiceWorker();

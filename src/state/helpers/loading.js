@@ -1,27 +1,50 @@
-import GlobalState from "../global/";
 import { update } from 'bey';
+import { actions as GlobalActions } from '../global';
 
-export default function loading(stateModule){
+function isAsync(fn) {
+  return fn.isSync !== true;
+  // return fn.constructor.name === 'AsyncFunction';
+}
 
-	if(stateModule.actions && Object.values(stateModule.actions).length > 0){
-  	Object.keys(stateModule.actions).forEach(actionName => {
-      if(stateModule.actions[actionName] && typeof stateModule.actions[actionName] === 'function' ){
-        //const oldName = action.name;
+export default function loading(stateModule, options = { localLoading: false }) {
+  if (stateModule.actions && Object.values(stateModule.actions).length > 0) {
+    Object.keys(stateModule.actions).forEach((actionName) => {
+      if (
+        stateModule.actions[actionName]
+        && typeof stateModule.actions[actionName] === 'function'
+        && isAsync(stateModule.actions[actionName])
+      ) {
         const originalAction = stateModule.actions[actionName];
-        stateModule.actions[actionName] = async function(...args){
-          //console.log('loading true');          
-          GlobalState.actions.setLoading(true, stateModule.name);          
-          update(stateModule.state, state => { state.loading = true; });
+        /* eslint-disable no-param-reassign */
+        stateModule.actions[actionName] = async function plusLoading(...args) {
+          /* eslint-disable no-console */
+          console.groupCollapsed(`[${stateModule.name}] executing action: ${actionName}()`);
+          console.log(`Using arguments: ${args}`);
+          console.groupEnd();
+          GlobalActions.setLoading(true, stateModule.name);
+          if (options.localLoading) {
+            const loadingBefore = stateModule.state.get().loading;
+            if (loadingBefore !== true) {
+              update(stateModule.state, (state) => {
+                state.loading = true;
+              });
+            }
+          }
           const result = await originalAction(...args);
-          update(stateModule.state, state => { state.loading = false; });
-          GlobalState.actions.setLoading(false, stateModule.name);
-          //console.log('loading false');
+          if (options.localLoading) {
+            const loadingAfter = stateModule.state.get().loading;
+            if (loadingAfter !== false) {
+              update(stateModule.state, (state) => {
+                state.loading = false;
+              });
+            }
+          }
+          GlobalActions.setLoading(false, stateModule.name);
           return result;
-        }
-        //action.name = oldName + "Loading";     
-      }  		
-  	});
-	}
+        };
+      }
+    });
+  }
 
   return stateModule;
 }

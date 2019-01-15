@@ -5,7 +5,10 @@ var BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 const path = require('path');
 const { NormalModuleReplacementPlugin } = require('webpack');  
 
-const webpackConfigProd = require("react-scripts/config/webpack.config.prod")
+const webpackConfig = require("react-scripts/config/webpack.config")
+const webpackConfigProd = webpackConfig('production');
+
+console.log('Using webpack config:',webpackConfigProd);
 
 webpackConfigProd.plugins.push(
   new NormalModuleReplacementPlugin(
