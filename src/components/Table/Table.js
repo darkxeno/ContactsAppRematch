@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import ReactTable, { ReactTableDefaults } from 'react-table';
 import selectTableHOC from 'react-table/lib/hoc/selectTable';
 import _find from 'lodash/find';
@@ -6,6 +6,7 @@ import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import FilterComponent from './Filter';
 import PaginationComponent from './Pagination';
+import SelectInputComponent from './SelectInput';
 
 
 Object.assign(ReactTableDefaults, {
@@ -44,6 +45,30 @@ const styles = {
   },
 };
 
+const wrapWithOriginal = (func, handleOriginal) => {
+  func();
+
+  if (handleOriginal) {
+    handleOriginal();
+  }
+};
+
+const getAugmentedTxProps = (getTxProps, toggleSelection) => (state, rowInfo, column, instance) => {
+  if (column.id === '_selector') {
+    return {
+      className: 'selector',
+      onClick: (e, handleOriginal) => {
+        wrapWithOriginal(() => {
+          toggleSelection((rowInfo) ? rowInfo.original.id : undefined);
+        }, handleOriginal);
+      },
+    };
+  }
+  if (getTxProps) {
+    return getTxProps(state, rowInfo, column, instance);
+  }
+  return {};
+};
 
 function Table({
   classes, data, columns, getTdProps, getTrProps, getTableProps, resolveData,
@@ -52,6 +77,21 @@ function Table({
 
   const oneNotSelected = Object.keys(state.selected).length > 0 ? _find(state.selected, (e) => !e) === false : true;
 
+  const toggleSelection = useCallback((i) => {
+    setState({ ...state, selected: { ...state.selected, [i]: !state.selected[i] } });
+  });
+
+  const toggleAll = useCallback(() => {
+    setState({
+      ...state,
+      selected: data.reduce((acc, v) => {
+        // eslint-disable-next-line no-param-reassign
+        acc[v.id] = oneNotSelected;
+        return acc;
+      }, state.selected),
+    });
+  });
+
   return (
     <SelectTable
       data={data}
@@ -59,13 +99,15 @@ function Table({
       resolveData={resolveData}
       keyField="id"
       selectAll={!oneNotSelected}
-      toggleSelection={(i) => { setState({ ...state, selected: { ...state.selected, [i]: !state.selected[i] } }); }}
+      toggleSelection={toggleSelection}
       isSelected={(i) => state.selected[i]}
-      // eslint-disable-next-line no-param-reassign
-      toggleAll={() => { setState({ ...state, selected: data.reduce((acc, v) => { acc[v.id] = oneNotSelected; return acc; }, state.selected) }); }}
+      SelectInputComponent={SelectInputComponent}
+      SelectAllInputComponent={SelectInputComponent}
+      toggleAll={toggleAll}
       selectType="checkbox"
+      getTheadThProps={getAugmentedTxProps(null, toggleAll)}
       getTrProps={getTrProps}
-      getTdProps={getTdProps}
+      getTdProps={getAugmentedTxProps(getTdProps, toggleSelection)}
       getTableProps={getTableProps}
       showPageJump={false}
       defaultFilterMethod={(filter, row) => String(row[filter.id]).toLowerCase().indexOf(filter.value.toLowerCase()) !== -1}

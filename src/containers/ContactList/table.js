@@ -122,7 +122,7 @@ function ContactsTable({
 }) {
   return (
     <Table
-      resolveData={(data) => data.map((r) => ({ ...r, selected: route.params.id === r.id }))}
+      resolveData={(data) => data.map((row) => ({ ...row, selected: route.params.id === row.id }))}
       getTrProps={getTrProps}
       getTdProps={getTdProps}
       data={list}
